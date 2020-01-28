@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.ContextMenu?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox id="CustomerPostingGroup" spacing="10" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.saburi.common.controllers.CustomerPostingGroupController">
+<children>
+
+<GridPane hgap="10" vgap="4">
+<padding>
+<Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+</padding>
+ <Label id="CustomerPostingGroup" fx:id="lblCustomerPostingGroupID" minWidth="100" text="Customer Posting Group ID" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+<TextField id="CustomerPostingGroup" fx:id="txtCustomerPostingGroupID" minWidth="100" GridPane.columnIndex="1" GridPane.rowIndex="0">
+<contextMenu>
+  <ContextMenu id="CustomerPostingGroup" fx:id="cmuSelectCustomerPostingGroupID">
+ <items>
+<MenuItem id="CustomerPostingGroup" fx:id="cmiLoad" mnemonicParsing="false" text="Load" />   </items>
+</ContextMenu>
+ </contextMenu>
+</TextField>  <Label id="CustomerPostingGroup" fx:id="lblCustomerGroup" minWidth="100" text="Customer Group" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+<ComboBox id="CustomerPostingGroup" fx:id="cboCustomerGroup" minWidth="185.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+<contextMenu>
+  <ContextMenu id="CustomerPostingGroup" fx:id="cmuSelectCustomerGroup">
+ <items>
+<MenuItem id="CustomerPostingGroup" fx:id="cmiSelectCustomerGroup" mnemonicParsing="false" text="Select CustomerGroup" />
+   </items>
+</ContextMenu>
+ </contextMenu>
+</ComboBox>  <Label id="CustomerPostingGroup" fx:id="lblReceivableAccount" minWidth="100" text="Receivable Account" GridPane.columnIndex="0" GridPane.rowIndex="2" />
+<ComboBox id="CustomerPostingGroup" fx:id="cboReceivableAccount" minWidth="185.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
+<contextMenu>
+  <ContextMenu id="CustomerPostingGroup" fx:id="cmuSelectReceivableAccount">
+ <items>
+<MenuItem id="CustomerPostingGroup" fx:id="cmiSelectReceivableAccount" mnemonicParsing="false" text="Select ReceivableAccount" />
+   </items>
+</ContextMenu>
+ </contextMenu>
+</ComboBox>  <Label id="CustomerPostingGroup" fx:id="lblServiceChargeAccount" minWidth="100" text="Service Charge Account" GridPane.columnIndex="0" GridPane.rowIndex="3" />
+<ComboBox id="CustomerPostingGroup" fx:id="cboServiceChargeAccount" minWidth="185.0" GridPane.columnIndex="1" GridPane.rowIndex="3">
+<contextMenu>
+  <ContextMenu id="CustomerPostingGroup" fx:id="cmuSelectServiceChargeAccount">
+ <items>
+<MenuItem id="CustomerPostingGroup" fx:id="cmiSelectServiceChargeAccount" mnemonicParsing="false" text="Select ServiceChargeAccount" />
+   </items>
+</ContextMenu>
+ </contextMenu>
+</ComboBox>  <Label id="CustomerPostingGroup" fx:id="lblPaymentDiscountAccount" minWidth="100" text="Payment Discount Account" GridPane.columnIndex="0" GridPane.rowIndex="4" />
+<ComboBox id="CustomerPostingGroup" fx:id="cboPaymentDiscountAccount" minWidth="185.0" GridPane.columnIndex="1" GridPane.rowIndex="4">
+<contextMenu>
+  <ContextMenu id="CustomerPostingGroup" fx:id="cmuSelectPaymentDiscountAccount">
+ <items>
+<MenuItem id="CustomerPostingGroup" fx:id="cmiSelectPaymentDiscountAccount" mnemonicParsing="false" text="Select PaymentDiscountAccount" />
+   </items>
+</ContextMenu>
+ </contextMenu>
+</ComboBox>
+         <columnConstraints>
+            <ColumnConstraints />
+            <ColumnConstraints />
+         </columnConstraints>
+         <rowConstraints>
+            <RowConstraints />
+            <RowConstraints />
+            <RowConstraints />
+            <RowConstraints />
+            <RowConstraints />
+         </rowConstraints> </GridPane>
+<AnchorPane>
+<VBox spacing="2" AnchorPane.bottomAnchor="27.0" AnchorPane.leftAnchor="7.0">
+<Button id="CustomerPostingGroup" fx:id="btnSearch" prefWidth="80.0" text="Search" visible="false" />
+<Button id="CustomerPostingGroup" fx:id="btnSave" prefHeight="25.0" prefWidth="80.0" text="Save" />
+</VBox>
+<VBox spacing="2" AnchorPane.bottomAnchor="27.0" AnchorPane.rightAnchor="7.0">
+<Button id="CustomerPostingGroup" fx:id="btnDelete" prefWidth="80.0" text="Delete" visible="false" />
+<Button id="CustomerPostingGroup" fx:id="btnClose" prefHeight="25.0" prefWidth="80.0" text="Close" />
+</VBox>
+</AnchorPane></children>
+
+</VBox>

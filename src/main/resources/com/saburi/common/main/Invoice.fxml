@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.ContextMenu?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.cell.PropertyValueFactory?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.Tab?>
+<VBox id="Invoice"  spacing="10"  xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.saburi.common.controllers.InvoiceController">
+    <children>
+        <GridPane vgap ="4" hgap="10">
+            <padding>
+                <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+            </padding>
+            <Label id="Invoice" fx:id="lblInvoiceID" minWidth="100" text="Invoice ID" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+            <TextField fx:id = "txtInvoiceID" id = "Invoice"  GridPane.rowIndex = "0" GridPane.columnIndex = "1"  minWidth="100" promptText = "Enter Invoice ID">
+                <contextMenu>
+                    <ContextMenu fx:id ="cmuSelectInvoiceID" id = "Invoice">
+                        <items>
+                            <MenuItem mnemonicParsing="false" fx:id ="cmiLoad" id = "Invoice" text="Load" />   
+                        </items>
+                    </ContextMenu>
+                </contextMenu>
+            </TextField>  
+            <Label id="Invoice" fx:id="lblInvoiceDate" minWidth="100" text="Invoice Date" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+            <DatePicker fx:id = "dtpInvoiceDate" id = "Invoice"  GridPane.rowIndex = "1" GridPane.columnIndex = "1" minWidth="185.0"/> 
+            <Label id="Invoice" fx:id="lblInvoiceType" minWidth="100" text="Invoice Type" GridPane.columnIndex="0" GridPane.rowIndex="2" />
+            <ComboBox fx:id = "cboInvoiceType" id = "Invoice"  GridPane.rowIndex = "2" GridPane.columnIndex = "1" promptText = "Select Invoice Type" minWidth="185.0"/> 
+            <Label id="Invoice" fx:id="lblBillTo" minWidth="100" text="Bill To" GridPane.columnIndex="2" GridPane.rowIndex="0" />
+            <ComboBox fx:id = "cboBillTo" id = "Invoice"  GridPane.rowIndex = "0" GridPane.columnIndex = "3" promptText = "Select Bill To" minWidth="185.0">
+                <contextMenu>
+                    <ContextMenu fx:id ="cmuSelectBillTo" id = "Invoice">
+                        <items>
+                            <MenuItem mnemonicParsing="false" fx:id ="cmiSelectBillTo" id = "Invoice" text="Select BillTo" />
+                        </items>
+                    </ContextMenu>
+                </contextMenu>
+            </ComboBox>  
+            <Label id="Invoice" fx:id="lblAmount" minWidth="100" text="Amount" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+            <TextField fx:id = "txtAmount" id = "Invoice"  GridPane.rowIndex = "1" GridPane.columnIndex = "3" minWidth="100" editable ="false" /> 
+            <Label id="Invoice" fx:id="lblAmountWords" minWidth="100" text="Amount Words" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+            <TextArea fx:id = "txaAmountWords" id = "Invoice"  GridPane.rowIndex = "2" GridPane.columnIndex = "3" prefWidth="100" editable ="false" />
+        </GridPane>
+
+        <TableView fx:id="tblInvoiceDetails" id = "InvoiceDetails" VBox.vgrow="ALWAYS" minHeight="300" minWidth="450">
+            <padding>
+                <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+            </padding>
+            <columns>
+                <TableColumn id="Invoice" fx:id="tbcInvoiceDetailsItemID" text="Item ID" editable="true">
+                    <cellValueFactory>
+                        <PropertyValueFactory property="ItemID" />
+                    </cellValueFactory>
+                </TableColumn>
+                <TableColumn id="Invoice" fx:id="tbcInvoiceDetailsItemDisplay" text="Item" editable="true">
+                    <cellValueFactory>
+                        <PropertyValueFactory property="ItemDisplay" />
+                    </cellValueFactory>
+                </TableColumn>
+                <TableColumn id="Invoice" fx:id="tbcInvoiceDetailsBaseQuantity" text="Base Quantity" editable="true">
+                    <cellValueFactory>
+                        <PropertyValueFactory property="BaseQuantity" />
+                    </cellValueFactory>
+                </TableColumn>
+                <TableColumn id="Invoice" fx:id="tbcInvoiceDetailsUnitMeasure" text="Unit Measure" editable="true">
+                    <cellValueFactory>
+                        <PropertyValueFactory property="UnitMeasure" />
+                    </cellValueFactory>
+                </TableColumn>
+                <TableColumn id="Invoice" fx:id="tbcInvoiceDetailsMeasureSize" text="Measure Size" editable="true">
+                    <cellValueFactory>
+                        <PropertyValueFactory property="MeasureSize" />
+                    </cellValueFactory>
+                </TableColumn>
+                <TableColumn id="Invoice" fx:id="tbcInvoiceDetailsQuantity" text="Quantity" editable="true">
+                    <cellValueFactory>
+                        <PropertyValueFactory property="Quantity" />
+                    </cellValueFactory>
+                </TableColumn>
+                <TableColumn id="Invoice" fx:id="tbcInvoiceDetailsUnitPrice" text="Unit Price" editable="true">
+                    <cellValueFactory>
+                        <PropertyValueFactory property="UnitPriceDisplay" />
+                    </cellValueFactory>
+                </TableColumn>
+                <TableColumn id="Invoice" fx:id="tbcInvoiceDetailsDiscount" text="Discount" editable="true">
+                    <cellValueFactory>
+                        <PropertyValueFactory property="DiscountDisplay" />
+                    </cellValueFactory>
+                </TableColumn>
+                <TableColumn id="Invoice" fx:id="tbcInvoiceDetailsAmount" text="Amount" editable="true">
+                    <cellValueFactory>
+                        <PropertyValueFactory property="AmountDisplay" />
+                    </cellValueFactory>
+                </TableColumn>
+                <TableColumn id="Invoice" fx:id="tbcInvoiceDetailsLocation" text="Location" editable="true">
+                    <cellValueFactory>
+                        <PropertyValueFactory property="LocationDisplay" />
+                    </cellValueFactory>
+                </TableColumn>
+            </columns>
+            <contextMenu>
+                <ContextMenu fx:id ="cmuInvoiceDetails" id = "Invoice">
+                    <items>
+                        <MenuItem mnemonicParsing="false" fx:id ="cmiSelectItem" id = "Invoice" text="Select Item" />
+                    </items>
+                </ContextMenu>
+            </contextMenu>
+        </TableView>
+
+
+        <AnchorPane>
+            <VBox spacing="2" AnchorPane.bottomAnchor="27.0" AnchorPane.leftAnchor="7.0">
+                <Button id="Invoice" fx:id="btnSearch"  prefWidth="80.0" text="Search" visible="false" />
+                <Button id="Invoice" fx:id="btnSave"  prefHeight="25.0" prefWidth="80.0" text="Save" />
+            </VBox>
+            <VBox spacing="2" AnchorPane.bottomAnchor="27.0" AnchorPane.rightAnchor="7.0">
+                <Button id="Invoice" fx:id="btnDelete"  prefWidth="80.0" text="Delete" visible="false" />
+                <Button id="Invoice" fx:id="btnClose"  prefHeight="25.0" prefWidth="80.0" text="Close" />
+            </VBox>
+        </AnchorPane>
+    </children>
+
+</VBox>
+

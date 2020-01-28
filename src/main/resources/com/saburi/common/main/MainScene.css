@@ -1,0 +1,16 @@
+/*
+    Created on : Dec 19, 2019, 12:41:44 AM
+    Author     : Sam Buriima
+*/
+
+.root{
+  
+    -fx-base: black;
+    -fx-background: rgb(225, 228, 203);
+}
+.glyph-icon{
+    -fx-fill:orange;
+}
+.button:hover.glyph-icon{
+     -fx-fill:blue;
+}

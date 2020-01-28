@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.ContextMenu?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.cell.PropertyValueFactory?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<VBox id="JournalEntry" spacing="10" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.saburi.common.controllers.JournalEntryController">
+    <children>
+
+        <GridPane vgap ="4" hgap="10">
+            <padding>
+                <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+            </padding>
+            <Label id="JournalEntry" fx:id="lblFinancialPeriod" minWidth="100" text="Financial Period" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+            <ComboBox fx:id = "cboFinancialPeriod" id = "JournalEntry"  GridPane.rowIndex = "0" GridPane.columnIndex = "1" promptText = "Select Financial Period" minWidth="185.0">
+                <contextMenu>
+                    <ContextMenu fx:id ="cmuSelectFinancialPeriod" id = "JournalEntry">
+                        <items>
+                            <MenuItem mnemonicParsing="false" fx:id ="cmiSelectFinancialPeriod" id = "JournalEntry" text="Select FinancialPeriod" />
+                        </items>
+                    </ContextMenu>
+                </contextMenu>
+            </ComboBox>  
+            <Label id="JournalEntry" fx:id="lblJournalID" minWidth="100" text="Journal ID" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+            <TextField fx:id = "txtJournalID" id = "JournalEntry"  GridPane.rowIndex = "1" GridPane.columnIndex = "1"  minWidth="100" promptText = "Enter Journal ID">
+                <contextMenu>
+                    <ContextMenu fx:id ="cmuSelectJournalID" id = "JournalEntry">
+                        <items>
+                            <MenuItem mnemonicParsing="false" fx:id ="cmiLoad" id = "JournalEntry" text="Load" />   
+                        </items>
+                    </ContextMenu>
+                </contextMenu>
+            </TextField>  
+            <Label id="JournalEntry" fx:id="lblEntryDate" minWidth="100" text="Entry Date" GridPane.columnIndex="0" GridPane.rowIndex="2" />
+            <DatePicker fx:id = "dtpEntryDate" id = "JournalEntry"  GridPane.rowIndex = "2" GridPane.columnIndex = "1" minWidth="185.0"/> 
+            <Label id="JournalEntry" fx:id="lblNarration" minWidth="100" text="Narration" GridPane.columnIndex="0" GridPane.rowIndex="3" />
+            <TextArea fx:id = "txaNarration" id = "JournalEntry"  GridPane.rowIndex = "3" GridPane.columnIndex = "1" prefWidth="100" promptText = "Enter Narration"/> 
+            <Label id="JournalEntry" fx:id="lblDocumentType" minWidth="100" text="Document Type" GridPane.columnIndex="0" GridPane.rowIndex="4" />
+            <ComboBox fx:id = "cboDocumentType" id = "JournalEntry"  GridPane.rowIndex = "4" GridPane.columnIndex = "1" promptText = "Select Document Type" minWidth="185.0"/> 
+            <Label id="JournalEntry" fx:id="lblDocumentNo" minWidth="100" text="Document No" GridPane.columnIndex="2" GridPane.rowIndex="0" />
+            <TextField fx:id = "txtDocumentNo" id = "JournalEntry"  GridPane.rowIndex = "0" GridPane.columnIndex = "3" minWidth="100" promptText = "Enter Document No"/> 
+            <Label id="JournalEntry" fx:id="lblReferenceNo" minWidth="100" text="Reference No" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+            <TextField fx:id = "txtReferenceNo" id = "JournalEntry"  GridPane.rowIndex = "1" GridPane.columnIndex = "3" minWidth="100" promptText = "Enter Reference No"/> 
+            <Label id="JournalEntry" fx:id="lblCurrency" minWidth="100" text="Currency" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+            <ComboBox fx:id = "cboCurrency" id = "JournalEntry"  GridPane.rowIndex = "2" GridPane.columnIndex = "3" promptText = "Select Currency" minWidth="185.0">
+                <contextMenu>
+                    <ContextMenu fx:id ="cmuSelectCurrency" id = "JournalEntry">
+                        <items>
+                            <MenuItem mnemonicParsing="false" fx:id ="cmiSelectCurrency" id = "JournalEntry" text="Select Currency" />
+                        </items>
+                    </ContextMenu>
+                </contextMenu>
+            </ComboBox>  
+            <Label id="JournalEntry" fx:id="lblBaseAmount" minWidth="100" text="Base Amount" GridPane.columnIndex="2" GridPane.rowIndex="3" />
+            <TextField fx:id = "txtBaseAmount" id = "JournalEntry"  GridPane.rowIndex = "3" GridPane.columnIndex = "3" minWidth="100" promptText = "Enter Base Amount"/> 
+            <Label id="JournalEntry" fx:id="lblExchangeRate" minWidth="100" text="Exchange Rate" GridPane.columnIndex="2" GridPane.rowIndex="4" />
+            <TextField fx:id = "txtExchangeRate" id = "JournalEntry"  GridPane.rowIndex = "4" GridPane.columnIndex = "3" minWidth="100" editable = "false"/> 
+            <Label id="JournalEntry" fx:id="lblAmount" minWidth="100" text="Amount" GridPane.columnIndex="4" GridPane.rowIndex="0" />
+            <TextField fx:id = "txtAmount" id = "JournalEntry"  GridPane.rowIndex = "0" GridPane.columnIndex = "5" minWidth="100" editable = "false"/> 
+            <Label id="JournalEntry" fx:id="lblAmountWords" minWidth="100" text="Amount Words" GridPane.columnIndex="4" GridPane.rowIndex="1" />
+            <TextArea fx:id = "txaAmountWords" id = "JournalEntry"  GridPane.rowIndex = "1" GridPane.columnIndex = "5" prefWidth="100" editable = "false"/> 
+            <Label id="JournalEntry" fx:id="lblPostStatus" minWidth="100" text="Post Status" GridPane.columnIndex="4" GridPane.rowIndex="2" />
+            <ComboBox fx:id = "cboPostStatus" id = "JournalEntry"  GridPane.rowIndex = "2" GridPane.columnIndex = "5" promptText = "Select Post Status" minWidth="185.0"/> 
+            
+        </GridPane>
+
+
+
+        <TableView fx:id="tblJournalEntryDetails" id = "JournalEntryDetails" VBox.vgrow="ALWAYS" minHeight="300" minWidth="450">
+            <padding>
+                <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+            </padding>
+            <columns>
+                <TableColumn id="JournalEntry" fx:id="tbcJournalEntryDetailAccountGroup" text="Account Group" editable="true">
+                    <cellValueFactory>
+                        <PropertyValueFactory property="AccountGroup" />
+                    </cellValueFactory>
+                </TableColumn>
+                <TableColumn id="JournalEntry" fx:id="tbcJournalEntryDetailAccountID" text="Account ID" editable="true">
+                    <cellValueFactory>
+                        <PropertyValueFactory property="AccountID" />
+                    </cellValueFactory>
+                </TableColumn>
+                <TableColumn id="JournalEntry" fx:id="tbcJournalEntryDetailAccountName" text="Account Name" editable="true">
+                    <cellValueFactory>
+                        <PropertyValueFactory property="AccountName" />
+                    </cellValueFactory>
+                </TableColumn>
+                <TableColumn id="JournalEntry" fx:id="tbcJournalEntryDetailAccountType" text="Account Type" editable="true">
+                    <cellValueFactory>
+                        <PropertyValueFactory property="AccountType" />
+                    </cellValueFactory>
+                </TableColumn>
+               
+                <TableColumn id="JournalEntry" fx:id="tbcJournalEntryDetailAccountAction" text="Account Action" editable="true">
+                    <cellValueFactory>
+                        <PropertyValueFactory property="AccountAction" />
+                    </cellValueFactory>
+                </TableColumn>
+                
+                <TableColumn id="JournalEntry" fx:id="tbcJournalEntryDetailAmount" text="Amount" editable="true">
+                    <cellValueFactory>
+                        <PropertyValueFactory property="AmountDisplay" />
+                    </cellValueFactory>
+                </TableColumn>
+                <TableColumn id="JournalEntry" fx:id="tbcJournalEntryDetailNotes" text="Notes" editable="true">
+                    <cellValueFactory>
+                        <PropertyValueFactory property="Notes" />
+                    </cellValueFactory>
+                </TableColumn>
+            </columns>
+            <contextMenu>
+                <ContextMenu fx:id ="cmuJournalEntryDetails" id = "JournalEntry">
+                    <items>
+                        <MenuItem mnemonicParsing="false" fx:id ="cmiSelectJournalAccount" id = "JournalEntry" text="Select Account" />
+                    </items>
+                </ContextMenu>
+            </contextMenu>
+        </TableView>
+
+        <AnchorPane>
+            <VBox spacing="2" AnchorPane.bottomAnchor="27.0" AnchorPane.leftAnchor="7.0">
+                <Button id="JournalEntry" fx:id="btnSearch" prefWidth="80.0" text="Search" visible="false" />
+                <Button id="JournalEntry" fx:id="btnSave" prefHeight="25.0" prefWidth="80.0" text="Save" />
+            </VBox>
+            <HBox layoutX="137.0" layoutY="18.0" spacing="5">
+                <padding>
+                    <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                </padding>
+                <Label id="JournalEntry" fx:id="lblBalance" minWidth="100" text="Balance" />
+                <TextField id="JournalEntry" fx:id="txtBalance" editable="false" minWidth="50" prefHeight="6.0" text="0" />
+         
+                <Label fx:id="lblBalanceStatus" text="(Balanced)" textFill="#e25d5d">
+                    <font>
+                        <Font name="Serif Regular" size="12.0" />
+                    </font>
+                </Label>
+            </HBox>
+       
+
+            <VBox id="JournalEntry" spacing="2" AnchorPane.bottomAnchor="27.0" AnchorPane.rightAnchor="7.0">
+                <Button id="JournalEntry" fx:id="btnDelete" prefWidth="80.0" text="Delete" visible="false" />
+                <Button id="JournalEntry" fx:id="btnClose" prefHeight="25.0" prefWidth="80.0" text="Close" />
+            </VBox>
+        </AnchorPane>
+    </children>
+
+</VBox>

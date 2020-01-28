@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.ContextMenu?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ComboBox?>
+<VBox id="County"  spacing="10"  xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.saburi.common.controllers.CountyController">
+    <children>
+
+        <GridPane vgap ="8" hgap="40">
+            <padding>
+                <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+            </padding>
+            <Label id="County" fx:id="lblDistrict" minWidth="100" text="District" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+            <ComboBox fx:id = "cboDistrict" id = "County"  GridPane.rowIndex = "0" GridPane.columnIndex = "1" minWidth="100" promptText = "Select District" prefWidth="185.0">
+                <contextMenu>
+                    <ContextMenu fx:id ="cmuSelectDistrict" id = "County">
+                        <items>
+                            <MenuItem mnemonicParsing="false" fx:id ="cmiSelectDistrict" id = "County" text="Select District" />
+                        </items>
+                    </ContextMenu>
+                </contextMenu>
+            </ComboBox>  
+            <Label id="County" fx:id="lblCountyID" minWidth="100" text="County ID" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+            <TextField fx:id = "txtCountyID" id = "County"  GridPane.rowIndex = "1" GridPane.columnIndex = "1" minWidth="100" promptText = "Enter County ID"> 
+                <contextMenu>
+                    <ContextMenu fx:id ="cmuLoad" id = "SubCounty">
+                        <items>
+                            <MenuItem mnemonicParsing="false" fx:id ="cmiLoad" id = "SubCounty" text="Load" />
+                        </items>
+                    </ContextMenu>
+                </contextMenu>
+            </TextField>
+            <Label id="County" fx:id="lblCountyName" minWidth="100" text="County Name" GridPane.columnIndex="0" GridPane.rowIndex="2" />
+            <TextField fx:id = "txtCountyName" id = "County"  GridPane.rowIndex = "2" GridPane.columnIndex = "1" minWidth="100" promptText = "Enter County Name"/>
+        </GridPane>
+        <AnchorPane>
+            <VBox spacing="2" AnchorPane.bottomAnchor="27.0" AnchorPane.leftAnchor="7.0">
+                <Button id="County" fx:id="btnSearch"  prefWidth="80.0" text="Search" visible="false" />
+                <Button id="County" fx:id="btnSave"  prefHeight="25.0" prefWidth="80.0" text="Save" />
+            </VBox>
+            <VBox spacing="2" AnchorPane.bottomAnchor="27.0" AnchorPane.rightAnchor="7.0">
+                <Button id="County" fx:id="btnDelete"  prefWidth="80.0" text="Delete" visible="false" />
+                <Button id="County" fx:id="btnClose"  prefHeight="25.0" prefWidth="80.0" text="Close" />
+            </VBox>
+        </AnchorPane>
+    </children>
+
+</VBox>
+

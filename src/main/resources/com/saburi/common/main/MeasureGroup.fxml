@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.ContextMenu?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.cell.PropertyValueFactory?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.Tab?>
+<VBox id="MeasureGroup"  spacing="10"  xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.saburi.common.controllers.MeasureGroupController">
+    <children>
+
+        <GridPane vgap ="4" hgap="10">
+            <padding>
+                <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+            </padding>
+            <Label id="MeasureGroup" fx:id="lblMeasureGroupID" minWidth="100" text="Measure Group ID" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+            <TextField fx:id = "txtMeasureGroupID" id = "MeasureGroup"  GridPane.rowIndex = "0" GridPane.columnIndex = "1"  minWidth="100" promptText = "Enter Measure Group ID">
+                <contextMenu>
+                    <ContextMenu fx:id ="cmuSelectMeasureGroupID" id = "MeasureGroup">
+                        <items>
+                            <MenuItem mnemonicParsing="false" fx:id ="cmiLoad" id = "MeasureGroup" text="Load" />   
+                        </items>
+                    </ContextMenu>
+                </contextMenu>
+            </TextField>  
+            <Label id="MeasureGroup" fx:id="lblMeasureGroupName" minWidth="100" text="Measure Group Name" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+            <TextField fx:id = "txtMeasureGroupName" id = "MeasureGroup"  GridPane.rowIndex = "1" GridPane.columnIndex = "1" minWidth="100" promptText = "Enter Measure Group Name"/> 
+            <Label id="MeasureGroup" fx:id="lblBaseUnitMeasure" minWidth="100" text="Base Unit Measure" GridPane.columnIndex="0" GridPane.rowIndex="2" />
+            <ComboBox fx:id = "cboBaseUnitMeasure" id = "MeasureGroup"  GridPane.rowIndex = "2" GridPane.columnIndex = "1" promptText = "Select Base Unit Measure" minWidth="185.0">
+                <contextMenu>
+                    <ContextMenu fx:id ="cmuSelectBaseUnitMeasure" id = "MeasureGroup">
+                        <items>
+                            <MenuItem mnemonicParsing="false" fx:id ="cmiSelectBaseUnitMeasure" id = "MeasureGroup" text="Select BaseUnitMeasure" />
+                        </items>
+                    </ContextMenu>
+                </contextMenu>
+            </ComboBox> 
+        </GridPane>
+        <TableView fx:id="tblMeasureRelations" id = "MeasureRelations" VBox.vgrow="ALWAYS" minHeight="250" minWidth="450">
+            <padding>
+                <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+            </padding>
+            <columns>
+                <TableColumn id="MeasureGroup" fx:id="tbcMeasureRelationUnitMeasureID" text="Unit Measure ID" editable="true">
+                    <cellValueFactory>
+                        <PropertyValueFactory property="UnitMeasureID" />
+                    </cellValueFactory>
+                </TableColumn>
+                <TableColumn id="MeasureGroup" fx:id="tbcMeasureRelationUnitMeasureDisplay" text="Unit Measure" editable="true">
+                    <cellValueFactory>
+                        <PropertyValueFactory property="UnitMeasureDisplay" />
+                    </cellValueFactory>
+                </TableColumn>
+                <TableColumn id="MeasureGroup" fx:id="tbcMeasureRelationBaseSize" text="Base Size" editable="true">
+                    <cellValueFactory>
+                        <PropertyValueFactory property="BaseSize" />
+                    </cellValueFactory>
+                </TableColumn>
+                <TableColumn id="MeasureGroup" fx:id="tbcMeasureRelationDefaultUsage" text="Default Usage" editable="true">
+                    <cellValueFactory>
+                        <PropertyValueFactory property="DefaultUsage" />
+                    </cellValueFactory>
+                </TableColumn>
+                
+            </columns>
+            <contextMenu>
+                <ContextMenu fx:id ="cmuMeasureRelations" id = "MeasureGroup">
+                    <items>
+                        <MenuItem mnemonicParsing="false" fx:id ="cmiSelectUnitMeasure" id = "MeasureGroup" text="Select Unit Measure" />
+                    </items>
+                </ContextMenu>
+            </contextMenu>
+        </TableView>
+        <AnchorPane>
+            <VBox spacing="2" AnchorPane.bottomAnchor="27.0" AnchorPane.leftAnchor="7.0">
+                <Button id="MeasureGroup" fx:id="btnSearch"  prefWidth="80.0" text="Search" visible="false" />
+                <Button id="MeasureGroup" fx:id="btnSave"  prefHeight="25.0" prefWidth="80.0" text="Save" />
+            </VBox>
+            <VBox spacing="2" AnchorPane.bottomAnchor="27.0" AnchorPane.rightAnchor="7.0">
+                <Button id="MeasureGroup" fx:id="btnDelete"  prefWidth="80.0" text="Delete" visible="false" />
+                <Button id="MeasureGroup" fx:id="btnClose"  prefHeight="25.0" prefWidth="80.0" text="Close" />
+            </VBox>
+        </AnchorPane>
+    </children>
+
+</VBox>
+

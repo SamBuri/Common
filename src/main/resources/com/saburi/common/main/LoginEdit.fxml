@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Accordion?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.ContextMenu?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ProgressIndicator?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TitledPane?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox id="controllers.LoginController" fx:id="vbLoginController" VBox.vgrow="ALWAYS" spacing="10" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.saburi.common.controllers.LoginController">
+    <children>
+        <GridPane hgap="40" vgap="8">
+            <padding>
+                <Insets top="10.0" left="10.0" right="10.0"/>
+            </padding>
+            <Label id="Login" fx:id="lblLoginID" minWidth="100" text="Login ID" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+            <TextField id="Login" fx:id="txtLoginID" minWidth="100" promptText="Enter Login ID" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+            <Label id="Login" fx:id="lblPassword" minWidth="100" text="Password" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+            <PasswordField id="Login" fx:id="txtPassword" minWidth="100" promptText="Enter Password" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                     
+        </GridPane>
+                           
+        <HBox fx:id="hpnStatus" alignment="center">
+            <Label id="Login" fx:id="lblStatus" minWidth="100" text="Loading..." visible="false" />
+            <ProgressIndicator id="Login" fx:id="pgIndicator" layoutX="128.0" layoutY="9.0" prefHeight="42.0" prefWidth="33.0" progress="0.0" visible="false" />
+        </HBox>
+        <AnchorPane prefHeight="44.0" prefWidth="310.0">
+            <VBox spacing="2" AnchorPane.bottomAnchor="27.0" AnchorPane.leftAnchor="7.0">
+                <Button id="Login" fx:id="btnLogin" prefHeight="25.0" prefWidth="80.0" text="Login">
+                     <contextMenu>
+                <ContextMenu fx:id ="cmuLogin" id = "Login">
+                    <items>
+                        <MenuItem mnemonicParsing="false" fx:id ="cmiUser" id = "Login" text="User" visible="false"  />
+                        <MenuItem mnemonicParsing="false" fx:id ="cmiLicence" id = "Login" text="Licence" />
+                        
+                    </items>
+                </ContextMenu>
+            </contextMenu>
+                </Button>
+            </VBox>
+            <VBox spacing="2" AnchorPane.bottomAnchor="27.0" AnchorPane.rightAnchor="7.0">
+                <Button id="Login" fx:id="btnClose" prefHeight="25.0" prefWidth="80.0" text="Close" />
+            </VBox>
+        </AnchorPane>
+                        
+        
+        
+        <TitledPane  fx:id="tpnConnection" text="More" expanded="false" VBox.vgrow="ALWAYS" prefHeight="200" >
+            <content>
+                <GridPane fx:id="gpnConnectionCreditential" hgap="40" vgap="8" VBox.vgrow="ALWAYS">
+                    <padding>
+                        <Insets top="10.0" bottom="10.0" left="10.0" right="10.0" />
+                    </padding>
+
+                    <Label id="ConnectionCreditential" fx:id="lblServerName" minWidth="100" text="Server Name" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+                    <TextField id="ConnectionCreditential" fx:id="txtServerName" minWidth="100" promptText="Enter Server Name" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+                    <Label id="ConnectionCreditential" fx:id="lblDatabase" minWidth="100" text="Database" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+                    <TextField id="ConnectionCreditential" fx:id="txtDatabase" minWidth="100" promptText="Enter Database" GridPane.columnIndex="1" GridPane.rowIndex="1" text="LoanSoft"/>
+                    <Label id="ConnectionCreditential" fx:id="lblUsername" minWidth="100" text="Username" GridPane.columnIndex="0" GridPane.rowIndex="2" />
+                    <TextField id="ConnectionCreditential" fx:id="txtUsername" minWidth="100" promptText="Enter Username" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                    <Label id="ConnectionCreditential" fx:id="lblServerPassword" minWidth="100" text="Password" GridPane.columnIndex="0" GridPane.rowIndex="3" />
+                    <PasswordField id="ConnectionCreditential" fx:id="txtServerPassword" minWidth="100" promptText="Enter Password" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                    <Label id="ConnectionCreditential" fx:id="lblSaveConnection" minWidth="100" text="Save Connection" GridPane.columnIndex="0" GridPane.rowIndex="4" />
+                    <CheckBox id="ConnectionCreditential" fx:id="chkSaveConnection" minWidth="100"  GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                
+                </GridPane>
+             
+            </content>
+        </TitledPane>
+               
+    </children>
+
+</VBox>

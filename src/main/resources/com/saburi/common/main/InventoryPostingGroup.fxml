@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.ContextMenu?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox id="InventoryPostingGroup" spacing="10" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.saburi.common.controllers.InventoryPostingGroupController">
+<children>
+
+<GridPane hgap="10" vgap="4">
+<padding>
+<Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+</padding>
+ <Label id="InventoryPostingGroup" fx:id="lblInventoryPostingGroupID" minWidth="100" text="Inventory Posting Group ID" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+<TextField id="InventoryPostingGroup" fx:id="txtInventoryPostingGroupID" minWidth="100" GridPane.columnIndex="1" GridPane.rowIndex="0">
+<contextMenu>
+  <ContextMenu id="InventoryPostingGroup" fx:id="cmuSelectInventoryPostingGroupID">
+ <items>
+<MenuItem id="InventoryPostingGroup" fx:id="cmiLoad" mnemonicParsing="false" text="Load" />   </items>
+</ContextMenu>
+ </contextMenu>
+</TextField>  <Label id="InventoryPostingGroup" fx:id="lblLocation" minWidth="100" text="Location" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+<ComboBox id="InventoryPostingGroup" fx:id="cboLocation" minWidth="185.0" promptText="Select Location" GridPane.columnIndex="1" GridPane.rowIndex="1">
+<contextMenu>
+  <ContextMenu id="InventoryPostingGroup" fx:id="cmuSelectLocation">
+ <items>
+<MenuItem id="InventoryPostingGroup" fx:id="cmiSelectLocation" mnemonicParsing="false" text="Select Location" />
+   </items>
+</ContextMenu>
+ </contextMenu>
+</ComboBox>  <Label id="InventoryPostingGroup" fx:id="lblInventoryGroup" minWidth="100" text="Inventory Group" GridPane.columnIndex="0" GridPane.rowIndex="2" />
+<ComboBox id="InventoryPostingGroup" fx:id="cboInventoryGroup" minWidth="185.0" promptText="Select Inventory Group" GridPane.columnIndex="1" GridPane.rowIndex="2">
+<contextMenu>
+  <ContextMenu id="InventoryPostingGroup" fx:id="cmuSelectInventoryGroup">
+ <items>
+<MenuItem id="InventoryPostingGroup" fx:id="cmiSelectInventoryGroup" mnemonicParsing="false" text="Select InventoryGroup" />
+   </items>
+</ContextMenu>
+ </contextMenu>
+</ComboBox>  <Label id="InventoryPostingGroup" fx:id="lblAccount" minWidth="100" text="Account" GridPane.columnIndex="0" GridPane.rowIndex="3" />
+<ComboBox id="InventoryPostingGroup" fx:id="cboAccount" minWidth="185.0" promptText="Select Account" GridPane.columnIndex="1" GridPane.rowIndex="3">
+<contextMenu>
+  <ContextMenu id="InventoryPostingGroup" fx:id="cmuSelectAccount">
+ <items>
+<MenuItem id="InventoryPostingGroup" fx:id="cmiSelectAccount" mnemonicParsing="false" text="Select Account" />
+   </items>
+</ContextMenu>
+ </contextMenu>
+</ComboBox>
+         <columnConstraints>
+            <ColumnConstraints />
+            <ColumnConstraints />
+         </columnConstraints>
+         <rowConstraints>
+            <RowConstraints />
+            <RowConstraints />
+            <RowConstraints />
+            <RowConstraints />
+         </rowConstraints> </GridPane>
+<AnchorPane>
+<VBox spacing="2" AnchorPane.bottomAnchor="27.0" AnchorPane.leftAnchor="7.0">
+<Button id="InventoryPostingGroup" fx:id="btnSearch" prefWidth="80.0" text="Search" visible="false" />
+<Button id="InventoryPostingGroup" fx:id="btnSave" prefHeight="25.0" prefWidth="80.0" text="Save" />
+</VBox>
+<VBox spacing="2" AnchorPane.bottomAnchor="27.0" AnchorPane.rightAnchor="7.0">
+<Button id="InventoryPostingGroup" fx:id="btnDelete" prefWidth="80.0" text="Delete" visible="false" />
+<Button id="InventoryPostingGroup" fx:id="btnClose" prefHeight="25.0" prefWidth="80.0" text="Close" />
+</VBox>
+</AnchorPane></children>
+
+</VBox>

@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.ContextMenu?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.CheckBox?>
+<VBox id="Staff"  spacing="10"  xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.saburi.common.controllers.StaffController">
+    <children>
+
+        <GridPane vgap ="4" hgap="10">
+            <padding>
+                <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+            </padding>
+            <Label id="Staff" fx:id="lblStaffID" minWidth="100" text="Staff ID" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+            <TextField fx:id = "txtStaffID" id = "Staff"  GridPane.rowIndex = "0" GridPane.columnIndex = "1"  minWidth="100" promptText = "Enter Staff ID">
+                <contextMenu>
+                    <ContextMenu fx:id ="cmuSelectStaffID" id = "Staff">
+                        <items>
+                            <MenuItem mnemonicParsing="false" fx:id ="cmiLoad" id = "Staff" text="Load" />   
+                        </items>
+                    </ContextMenu>
+                </contextMenu>
+            </TextField>  
+            <Label id="Staff" fx:id="lblPhoto" minWidth="100" text="Photo" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+            <HBox alignment="center" spacing="4" GridPane.columnIndex="1" GridPane.rowIndex="1" fx:id="hbxPhoto" id="Staff">
+               
+                <VBox alignment="center" prefHeight="150.0" prefWidth="150.0" styleClass="image-pane" fx:id="vbxPhoto" id="Staff">
+                    <ImageView id="Staff" fx:id="imvPhoto" fitHeight="100" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" style="-fx-opacity: 45;" />
+                
+                </VBox>
+                <VBox alignment="center" spacing="10" styleClass="image-buttons">
+                    <Button fx:id="btnBrowsePhoto" id="Staff" minWidth="60" text="Browse" /> 
+                    <Button fx:id="btnCapturePhoto" id="Staff" minWidth="60" text="Capture" />
+                    <Button fx:id="btnClearPhoto" id="Staff" minWidth="60" text="Clear" /> 
+                </VBox>
+            </HBox> 
+            <Label id="Staff" fx:id="lblFirstName" minWidth="100" text="First Name" GridPane.columnIndex="0" GridPane.rowIndex="2" />
+            <TextField fx:id = "txtFirstName" id = "Staff"  GridPane.rowIndex = "2" GridPane.columnIndex = "1" minWidth="100" promptText = "Enter First Name"/> 
+            <Label id="Staff" fx:id="lblLastName" minWidth="100" text="Last Name" GridPane.columnIndex="0" GridPane.rowIndex="3" />
+            <TextField fx:id = "txtLastName" id = "Staff"  GridPane.rowIndex = "3" GridPane.columnIndex = "1" minWidth="100" promptText = "Enter Last Name"/> 
+            <Label id="Staff" fx:id="lblOtherNames" minWidth="100" text="Other Names" GridPane.columnIndex="0" GridPane.rowIndex="4" />
+            <TextField fx:id = "txtOtherNames" id = "Staff"  GridPane.rowIndex = "4" GridPane.columnIndex = "1" minWidth="100" promptText = "Enter Other Names"/> 
+            <Label id="Staff" fx:id="lblInitials" minWidth="100" text="Initials" GridPane.columnIndex="0" GridPane.rowIndex="5" />
+            <TextField fx:id = "txtInitials" id = "Staff"  GridPane.rowIndex = "5" GridPane.columnIndex = "1" minWidth="100" promptText = "Enter Initials"/> 
+            <Label id="Staff" fx:id="lblGender" minWidth="100" text="Gender" GridPane.columnIndex="0" GridPane.rowIndex="6" />
+            <ComboBox fx:id = "cboGender" id = "Staff"  GridPane.rowIndex = "6" GridPane.columnIndex = "1" promptText = "Select Gender" minWidth="185.0"/> 
+            <Label id="Staff" fx:id="lblBirthDate" minWidth="100" text="Birth Date" GridPane.columnIndex="0" GridPane.rowIndex="7" />
+            <DatePicker fx:id = "dtpBirthDate" id = "Staff"  GridPane.rowIndex = "7" GridPane.columnIndex = "1" minWidth="185.0"/> 
+            <Label id="Staff" fx:id="lblJoinDate" minWidth="100" text="Join Date" GridPane.columnIndex="0" GridPane.rowIndex="8" />
+            <DatePicker fx:id = "dtpJoinDate" id = "Staff"  GridPane.rowIndex = "8" GridPane.columnIndex = "1" minWidth="185.0"/> 
+            <Label id="Staff" fx:id="lblNationalID" minWidth="100" text="National ID" GridPane.columnIndex="0" GridPane.rowIndex="9" />
+            <TextField fx:id = "txtNationalID" id = "Staff"  GridPane.rowIndex = "9" GridPane.columnIndex = "1" minWidth="100" promptText = "Enter National ID"/> 
+            <Label id="Staff" fx:id="lblCountry" minWidth="100" text="Country" GridPane.columnIndex="2" GridPane.rowIndex="0" />
+            <ComboBox fx:id = "cboCountry" id = "Staff"  GridPane.rowIndex = "0" GridPane.columnIndex = "3" promptText = "Select Country" minWidth="185.0">
+                <contextMenu>
+                    <ContextMenu fx:id ="cmuSelectCountry" id = "Staff">
+                        <items>
+                            <MenuItem mnemonicParsing="false" fx:id ="cmiSelectCountry" id = "Staff" text="Select Country" />
+                        </items>
+                    </ContextMenu>
+                </contextMenu>
+            </ComboBox>  
+            <Label id="Staff" fx:id="lblVillage" minWidth="100" text="Village" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+            <ComboBox fx:id = "cboVillage" id = "Staff"  GridPane.rowIndex = "1" GridPane.columnIndex = "3" promptText = "Select Village" minWidth="185.0">
+                <contextMenu>
+                    <ContextMenu fx:id ="cmuSelectVillage" id = "Staff">
+                        <items>
+                            <MenuItem mnemonicParsing="false" fx:id ="cmiSelectVillage" id = "Staff" text="Select Village" />
+                        </items>
+                    </ContextMenu>
+                </contextMenu>
+            </ComboBox>  
+            <Label id="Staff" fx:id="lblStaffTitle" minWidth="100" text="Staff Title" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+            <ComboBox fx:id = "cboStaffTitle" id = "Staff"  GridPane.rowIndex = "2" GridPane.columnIndex = "3" promptText = "Select Staff Title" minWidth="185.0">
+                <contextMenu>
+                    <ContextMenu fx:id ="cmuSelectStaffTitle" id = "Staff">
+                        <items>
+                            <MenuItem mnemonicParsing="false" fx:id ="cmiSelectStaffTitle" id = "Staff" text="Select StaffTitle" />
+                        </items>
+                    </ContextMenu>
+                </contextMenu>
+            </ComboBox>  
+            <Label id="Staff" fx:id="lblQualification" minWidth="100" text="Qualification" GridPane.columnIndex="2" GridPane.rowIndex="3" />
+            <ComboBox fx:id = "cboQualification" id = "Staff"  GridPane.rowIndex = "3" GridPane.columnIndex = "3" promptText = "Select Qualification" minWidth="185.0">
+                <contextMenu>
+                    <ContextMenu fx:id ="cmuSelectQualification" id = "Staff">
+                        <items>
+                            <MenuItem mnemonicParsing="false" fx:id ="cmiSelectQualification" id = "Staff" text="Select Qualification" />
+                        </items>
+                    </ContextMenu>
+                </contextMenu>
+            </ComboBox>  
+            <Label id="Staff" fx:id="lblDepartment" minWidth="100" text="Department" GridPane.columnIndex="2" GridPane.rowIndex="4" />
+            <ComboBox fx:id = "cboDepartment" id = "Staff"  GridPane.rowIndex = "4" GridPane.columnIndex = "3" promptText = "Select Department" minWidth="185.0">
+                <contextMenu>
+                    <ContextMenu fx:id ="cmuSelectDepartment" id = "Staff">
+                        <items>
+                            <MenuItem mnemonicParsing="false" fx:id ="cmiSelectDepartment" id = "Staff" text="Select Department" />
+                        </items>
+                    </ContextMenu>
+                </contextMenu>
+            </ComboBox>  
+            <Label id="Staff" fx:id="lblPhoneNo" minWidth="100" text="Phone No" GridPane.columnIndex="2" GridPane.rowIndex="5" />
+            <TextField fx:id = "txtPhoneNo" id = "Staff"  GridPane.rowIndex = "5" GridPane.columnIndex = "3" minWidth="100" promptText = "Enter Phone No"/> 
+            <Label id="Staff" fx:id="lblEmailAddress" minWidth="100" text="Email Address" GridPane.columnIndex="2" GridPane.rowIndex="6" />
+            <TextField fx:id = "txtEmailAddress" id = "Staff"  GridPane.rowIndex = "6" GridPane.columnIndex = "3" minWidth="100" promptText = "Enter Email Address"/> 
+            <Label id="Staff" fx:id="lblPhysicalAddress" minWidth="100" text="Physical Address" GridPane.columnIndex="2" GridPane.rowIndex="7" />
+            <TextArea fx:id = "txaPhysicalAddress" id = "Staff"  GridPane.rowIndex = "7" GridPane.columnIndex = "3" prefWidth="100" prefHeight="50" promptText = "Enter Physical Address"/> 
+            <Label id="Staff" fx:id="lblSpecialSkills" minWidth="100" text="Special Skills" GridPane.columnIndex="2" GridPane.rowIndex="8" />
+            <TextArea fx:id = "txaSpecialSkills" id = "Staff"  GridPane.rowIndex = "8" GridPane.columnIndex = "3" prefWidth="100" prefHeight="50" promptText = "Enter Special Skills"/> 
+            <Label id="Staff" fx:id="lblActive" minWidth="100" text="Active" GridPane.columnIndex="2" GridPane.rowIndex="9" />
+            <CheckBox fx:id = "chkActive" id = "Staff"  GridPane.rowIndex = "9" GridPane.columnIndex = "3" />
+        </GridPane>
+        <AnchorPane>
+            <VBox spacing="2" AnchorPane.bottomAnchor="27.0" AnchorPane.leftAnchor="7.0">
+                <Button id="Staff" fx:id="btnSearch"  prefWidth="80.0" text="Search" visible="false" />
+                <Button id="Staff" fx:id="btnSave"  prefHeight="25.0" prefWidth="80.0" text="Save" />
+            </VBox>
+            <VBox spacing="2" AnchorPane.bottomAnchor="27.0" AnchorPane.rightAnchor="7.0">
+                <Button id="Staff" fx:id="btnDelete"  prefWidth="80.0" text="Delete" visible="false" />
+                <Button id="Staff" fx:id="btnClose"  prefHeight="25.0" prefWidth="80.0" text="Close" />
+            </VBox>
+        </AnchorPane>
+    </children>
+
+</VBox>
+

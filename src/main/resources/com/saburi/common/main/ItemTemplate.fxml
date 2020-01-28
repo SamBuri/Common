@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.ContextMenu?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox id="ItemTemplate" spacing="10" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.saburi.common.controllers.ItemTemplateController">
+    <children>
+
+        <GridPane hgap="10" vgap="4">
+            <padding>
+                <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+            </padding>
+            <Label id="ItemTemplate" fx:id="lblTemplateName" minWidth="100" text="Template Name" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+            <TextField id="ItemTemplate" fx:id="txtTemplateName" minWidth="100" promptText="Enter Template Name" GridPane.columnIndex="1" GridPane.rowIndex="0">
+                <contextMenu>
+                    <ContextMenu id="ItemTemplate" fx:id="cmuSelectTemplateName">
+                        <items>
+                            <MenuItem id="ItemTemplate" fx:id="cmiLoad" mnemonicParsing="false" text="Load" />   
+                        </items>
+                    </ContextMenu>
+                </contextMenu>
+            </TextField>  
+            <Label id="ItemTemplate" fx:id="lblItemCategory" minWidth="100" text="Item Category" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+            <ComboBox id="ItemTemplate" fx:id="cboItemCategory" minWidth="185.0" promptText="Select Item Category" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                <contextMenu>
+                    <ContextMenu id="ItemTemplate" fx:id="cmuSelectItemCategory">
+                        <items>
+                            <MenuItem id="ItemTemplate" fx:id="cmiSelectItemCategory" mnemonicParsing="false" text="Select ItemCategory" />
+                        </items>
+                    </ContextMenu>
+                </contextMenu>
+            </ComboBox>  
+            <Label id="ItemTemplate" fx:id="lblItemCategoryGroup" minWidth="100" text="Category Group" GridPane.columnIndex="0" GridPane.rowIndex="2" />
+            <TextField id="ItemTemplate" fx:id="txtItemCategoryGroup" editable="false" minWidth="100" GridPane.columnIndex="1" GridPane.rowIndex="2" /> 
+            <Label id="ItemTemplate" fx:id="lblItemGroup" minWidth="100" text="Item Group" GridPane.columnIndex="0" GridPane.rowIndex="3" />
+            <ComboBox id="ItemTemplate" fx:id="cboItemGroup" minWidth="185.0" promptText="Select Item Group" GridPane.columnIndex="1" GridPane.rowIndex="3">
+                <contextMenu>
+                    <ContextMenu id="ItemTemplate" fx:id="cmuSelectItemGroup">
+                        <items>
+                            <MenuItem id="ItemTemplate" fx:id="cmiSelectItemGroup" mnemonicParsing="false" text="Select ItemGroup" />
+                        </items>
+                    </ContextMenu>
+                </contextMenu>
+            </ComboBox>  
+            <Label id="ItemTemplate" fx:id="lblVATItemGroup" minWidth="100" text="VAT Item Group" GridPane.columnIndex="0" GridPane.rowIndex="4" />
+            <ComboBox id="ItemTemplate" fx:id="cboVATItemGroup" minWidth="185.0" promptText="Select VAT Item Group" GridPane.columnIndex="1" GridPane.rowIndex="4">
+                <contextMenu>
+                    <ContextMenu id="ItemTemplate" fx:id="cmuSelectVATItemGroup">
+                        <items>
+                            <MenuItem id="ItemTemplate" fx:id="cmiSelectVATItemGroup" mnemonicParsing="false" text="Select VATItemGroup" />
+                        </items>
+                    </ContextMenu>
+                </contextMenu>
+            </ComboBox>  
+            <Label id="ItemTemplate" fx:id="lblInventoryGroup" minWidth="100" text="Inventory Group" GridPane.columnIndex="0" GridPane.rowIndex="5" />
+            <ComboBox id="ItemTemplate" fx:id="cboInventoryGroup" minWidth="185.0" promptText="Select Inventory Group" GridPane.columnIndex="1" GridPane.rowIndex="5">
+                <contextMenu>
+                    <ContextMenu id="ItemTemplate" fx:id="cmuSelectInventoryGroup">
+                        <items>
+                            <MenuItem id="ItemTemplate" fx:id="cmiSelectInventoryGroup" mnemonicParsing="false" text="Select InventoryGroup" />
+                        </items>
+                    </ContextMenu>
+                </contextMenu>
+            </ComboBox>  
+            <Label id="ItemTemplate" fx:id="lblMeasureGroup" minWidth="100" text="Measure Group" GridPane.columnIndex="0" GridPane.rowIndex="6" />
+            <ComboBox id="ItemTemplate" fx:id="cboMeasureGroup" minWidth="185.0" promptText="Select Measure Group" GridPane.columnIndex="1" GridPane.rowIndex="6">
+                <contextMenu>
+                    <ContextMenu id="ItemTemplate" fx:id="cmuSelectMeasureGroup">
+                        <items>
+                            <MenuItem id="ItemTemplate" fx:id="cmiSelectMeasureGroup" mnemonicParsing="false" text="Select MeasureGroup" />
+                        </items>
+                    </ContextMenu>
+                </contextMenu>
+            </ComboBox>
+         <columnConstraints>
+            <ColumnConstraints />
+            <ColumnConstraints />
+         </columnConstraints>
+         <rowConstraints>
+            <RowConstraints />
+            <RowConstraints />
+            <RowConstraints />
+            <RowConstraints />
+            <RowConstraints />
+            <RowConstraints />
+            <RowConstraints />
+         </rowConstraints> 
+        </GridPane>
+        <AnchorPane>
+            <VBox spacing="2" AnchorPane.bottomAnchor="27.0" AnchorPane.leftAnchor="7.0">
+                <Button id="ItemTemplate" fx:id="btnSearch" prefWidth="80.0" text="Search" visible="false" />
+                <Button id="ItemTemplate" fx:id="btnSave" prefHeight="25.0" prefWidth="80.0" text="Save" />
+            </VBox>
+            <VBox spacing="2" AnchorPane.bottomAnchor="27.0" AnchorPane.rightAnchor="7.0">
+                <Button id="ItemTemplate" fx:id="btnDelete" prefWidth="80.0" text="Delete" visible="false" />
+                <Button id="ItemTemplate" fx:id="btnClose" prefHeight="25.0" prefWidth="80.0" text="Close" />
+            </VBox>
+        </AnchorPane>
+    </children>
+
+</VBox>

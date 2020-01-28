@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.ContextMenu?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.cell.PropertyValueFactory?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.Tab?>
+<VBox id="UserRole"  spacing="10"  xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.saburi.common.controllers.UserRoleController">
+    <children>
+
+        <GridPane vgap ="4" hgap="10">
+            <padding>
+                <Insets bottom="4.0" left="10.0" right="10.0" top="10.0" />
+            </padding>
+            <Label id="UserRole" fx:id="lblRoleName" minWidth="100" text="Role Name" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+            <TextField fx:id = "txtRoleName" id = "UserRole"  GridPane.rowIndex = "0" GridPane.columnIndex = "1"  minWidth="400" promptText = "Enter Role Name">
+                <contextMenu>
+                    <ContextMenu fx:id ="cmuSelectRoleName" id = "UserRole">
+                        <items>
+                            <MenuItem mnemonicParsing="false" fx:id ="cmiLoad" id = "UserRole" text="Load" />   
+                        </items>
+                    </ContextMenu>
+                </contextMenu>
+            </TextField>  
+            <Label id="UserRole" fx:id="lblDescription" minWidth="100" text="Description" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+            <TextArea fx:id = "txaDescription" id = "UserRole"  GridPane.rowIndex = "1" GridPane.columnIndex = "1" prefWidth="400" prefHeight="60" promptText = "Enter Description"/>
+        </GridPane>
+        <TableView fx:id="tblUserRoleDetails" id = "UserRoleDetails" VBox.vgrow="ALWAYS" minHeight="300" minWidth="450">
+            <padding>
+                <Insets bottom="0.0" left="10.0" right="10.0" top="0.0" />
+            </padding>
+            <columns>
+                <TableColumn id="UserRole" fx:id="tbcUserRoleDetailObjectName" text="Object Name" editable="true" minWidth="100">
+                    <cellValueFactory>
+                        <PropertyValueFactory property="accessObjectDisplay" />
+                    </cellValueFactory>
+                </TableColumn>
+                <TableColumn id="UserRole" fx:id="tbcUserRoleDetailCanCreate" text="Create" editable="true">
+                    <cellValueFactory>
+                        <PropertyValueFactory property="CanCreate" />
+                    </cellValueFactory>
+                </TableColumn>
+                <TableColumn id="UserRole" fx:id="tbcUserRoleDetailCanUpdate" text="Update" editable="true">
+                    <cellValueFactory>
+                        <PropertyValueFactory property="CanUpdate" />
+                    </cellValueFactory>
+                </TableColumn>
+                <TableColumn id="UserRole" fx:id="tbcUserRoleDetailCanRead" text="Read" editable="true">
+                    <cellValueFactory>
+                        <PropertyValueFactory property="CanRead" />
+                    </cellValueFactory>
+                </TableColumn>
+                <TableColumn id="UserRole" fx:id="tbcUserRoleDetailCanDelete" text="Delete" editable="true">
+                    <cellValueFactory>
+                        <PropertyValueFactory property="CanDelete" />
+                    </cellValueFactory>
+                </TableColumn>
+            </columns>
+            <contextMenu>
+                <ContextMenu fx:id ="cmuUserRoleDetails" id = "UserRole">
+                    <items>
+                        <MenuItem mnemonicParsing="false" fx:id ="cmiSelectAccessObjects" id = "UserRole" text="Select Access Object" />
+                    </items>
+                </ContextMenu>
+            </contextMenu>
+        </TableView>
+        <AnchorPane>
+            <VBox spacing="2" AnchorPane.bottomAnchor="27.0" AnchorPane.leftAnchor="7.0">
+                <Button id="UserRole" fx:id="btnSearch"  prefWidth="80.0" text="Search" visible="false" />
+                <Button id="UserRole" fx:id="btnSave"  prefHeight="25.0" prefWidth="80.0" text="Save" />
+            </VBox>
+            <VBox spacing="2" AnchorPane.bottomAnchor="27.0" AnchorPane.rightAnchor="7.0">
+                <Button id="UserRole" fx:id="btnDelete"  prefWidth="80.0" text="Delete" visible="false" />
+                <Button id="UserRole" fx:id="btnClose"  prefHeight="25.0" prefWidth="80.0" text="Close" />
+            </VBox>
+        </AnchorPane>
+    </children>
+
+</VBox>
+

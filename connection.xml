@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<java version="13.0.1" class="java.beans.XMLDecoder">
+ <object class="com.saburi.common.utils.DBConnection">
+  <void property="dbName">
+   <string>Schoolsoft</string>
+  </void>
+  <void property="password">
+   <string>QH08AniStuZZSXLUDnJMVSaAVMNCBC@3NDAcxK14</string>
+  </void>
+  <void property="url">
+   <string>localhost:3308</string>
+  </void>
+  <void property="username">
+   <string>root</string>
+  </void>
+ </object>
+</java>

@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.ContextMenu?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.TextArea?>
+<VBox id="Customer"  spacing="10"  xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.saburi.common.controllers.CustomerController">
+    <children>
+
+        <GridPane vgap ="4" hgap="10">
+            <padding>
+                <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+            </padding>
+            <Label id="Customer" fx:id="lblCustomerID" minWidth="100" text="Customer ID" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+            <TextField fx:id = "txtCustomerID" id = "Customer"  GridPane.rowIndex = "0" GridPane.columnIndex = "1"  minWidth="100" promptText = "Enter Customer ID">
+                <contextMenu>
+                    <ContextMenu fx:id ="cmuSelectCustomerID" id = "Customer">
+                        <items>
+                            <MenuItem mnemonicParsing="false" fx:id ="cmiLoad" id = "Customer" text="Load" />   
+                        </items>
+                    </ContextMenu>
+                </contextMenu>
+            </TextField>  
+            <Label id="Customer" fx:id="lblCustomerName" minWidth="100" text="Customer Name" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+            <TextField fx:id = "txtCustomerName" id = "Customer"  GridPane.rowIndex = "1" GridPane.columnIndex = "1" minWidth="100" promptText = "Enter Customer Name"/> 
+            <Label id="Customer" fx:id="lblCustomerCategory" minWidth="100" text="Customer Category" GridPane.columnIndex="0" GridPane.rowIndex="2" />
+            <ComboBox fx:id = "cboCustomerCategory" id = "Customer"  GridPane.rowIndex = "2" GridPane.columnIndex = "1" promptText = "Select Customer Category" minWidth="185.0">
+                <contextMenu>
+                    <ContextMenu fx:id ="cmuSelectCustomerCategory" id = "Customer">
+                        <items>
+                            <MenuItem mnemonicParsing="false" fx:id ="cmiSelectCustomerCategory" id = "Customer" text="Select CustomerCategory" />
+                        </items>
+                    </ContextMenu>
+                </contextMenu>
+            </ComboBox>  
+            <Label id="Customer" fx:id="lblPhoneNo" minWidth="100" text="PhoneNo" GridPane.columnIndex="0" GridPane.rowIndex="3" />
+            <TextField fx:id = "txtPhoneNo" id = "Customer"  GridPane.rowIndex = "3" GridPane.columnIndex = "1" minWidth="100" promptText = "Enter PhoneNo"/> 
+            <Label id="Customer" fx:id="lblEmail" minWidth="100" text="Email" GridPane.columnIndex="0" GridPane.rowIndex="4" />
+            <TextField fx:id = "txtEmail" id = "Customer"  GridPane.rowIndex = "4" GridPane.columnIndex = "1" minWidth="100" promptText = "Enter Email"/> 
+            <Label id="Customer" fx:id="lblAddress" minWidth="100" text="Address" GridPane.columnIndex="0" GridPane.rowIndex="5" />
+            <TextArea fx:id = "txaAddress" id = "Customer"  GridPane.rowIndex = "5" GridPane.columnIndex = "1" prefWidth="100" prefHeight ="50" promptText = "Enter Address"/> 
+            <Label id="Customer" fx:id="lblPriceGroup" minWidth="100" text="Price Group" GridPane.columnIndex="0" GridPane.rowIndex="6" />
+            <ComboBox fx:id = "cboPriceGroup" id = "Customer"  GridPane.rowIndex = "6" GridPane.columnIndex = "1" promptText = "Select Price Group" minWidth="185.0">
+                <contextMenu>
+                    <ContextMenu fx:id ="cmuSelectPriceGroup" id = "Customer">
+                        <items>
+                            <MenuItem mnemonicParsing="false" fx:id ="cmiSelectPriceGroup" id = "Customer" text="Select PriceGroup" />
+                        </items>
+                    </ContextMenu>
+                </contextMenu>
+            </ComboBox>  
+            <Label id="Customer" fx:id="lblBillToCustomer" minWidth="100" text="Bill To Customer" GridPane.columnIndex="0" GridPane.rowIndex="7" />
+            <ComboBox fx:id = "cboBillToCustomer" id = "Customer"  GridPane.rowIndex = "7" GridPane.columnIndex = "1" promptText = "Select Bill To Customer" minWidth="185.0">
+                <contextMenu>
+                    <ContextMenu fx:id ="cmuSelectBillToCustomer" id = "Customer">
+                        <items>
+                            <MenuItem mnemonicParsing="false" fx:id ="cmiSelectBillToCustomer" id = "Customer" text="Select BillToCustomer" />
+                        </items>
+                    </ContextMenu>
+                </contextMenu>
+            </ComboBox>  
+            <Label id="Customer" fx:id="lblCustomerPostingGroup" minWidth="150" text="Customer Posting Group" GridPane.columnIndex="0" GridPane.rowIndex="8" />
+            <ComboBox fx:id = "cboCustomerPostingGroup" id = "Customer"  GridPane.rowIndex = "8" GridPane.columnIndex = "1" promptText = "Select Customer Posting Group" minWidth="185.0">
+                <contextMenu>
+                    <ContextMenu fx:id ="cmuSelectCustomerPostingGroup" id = "Customer">
+                        <items>
+                            <MenuItem mnemonicParsing="false" fx:id ="cmiSelectCustomerPostingGroup" id = "Customer" text="Select CustomerPostingGroup" />
+                        </items>
+                    </ContextMenu>
+                </contextMenu>
+            </ComboBox>  
+            <Label id="Customer" fx:id="lblBusinessGroup" minWidth="100" text="Business Group" GridPane.columnIndex="0" GridPane.rowIndex="9" />
+            <ComboBox fx:id = "cboBusinessGroup" id = "Customer"  GridPane.rowIndex = "9" GridPane.columnIndex = "1" promptText = "Select Business Group" minWidth="185.0">
+                <contextMenu>
+                    <ContextMenu fx:id ="cmuSelectBusinessGroup" id = "Customer">
+                        <items>
+                            <MenuItem mnemonicParsing="false" fx:id ="cmiSelectBusinessGroup" id = "Customer" text="Select BusinessGroup" />
+                        </items>
+                    </ContextMenu>
+                </contextMenu>
+            </ComboBox>  
+            <Label id="Customer" fx:id="lblVATBusinessGroup" minWidth="100" text="VAT Business Group" GridPane.columnIndex="0" GridPane.rowIndex="10" />
+            <ComboBox fx:id = "cboVATBusinessGroup" id = "Customer"  GridPane.rowIndex = "10" GridPane.columnIndex = "1" promptText = "Select VAT Business Group" minWidth="185.0">
+                <contextMenu>
+                    <ContextMenu fx:id ="cmuSelectVATBusinessGroup" id = "Customer">
+                        <items>
+                            <MenuItem mnemonicParsing="false" fx:id ="cmiSelectVATBusinessGroup" id = "Customer" text="Select VATBusinessGroup" />
+                        </items>
+                    </ContextMenu>
+                </contextMenu>
+            </ComboBox>  
+            <Label id="Customer" fx:id="lblReferenceNo" minWidth="100" text="Reference No" GridPane.columnIndex="0" GridPane.rowIndex="11" />
+            <TextField fx:id = "txtReferenceNo" id = "Customer"  GridPane.rowIndex = "11" GridPane.columnIndex = "1" minWidth="100" promptText = "Enter Reference No"/> 
+            <Label id="Customer" fx:id="lblBalance" minWidth="100" text="Balance" GridPane.columnIndex="0" GridPane.rowIndex="12" />
+            <TextField fx:id = "txtBalance" id = "Customer"  GridPane.rowIndex = "12" GridPane.columnIndex = "1" minWidth="100" editable = "false"/>
+        </GridPane>
+        <AnchorPane>
+            <VBox spacing="2" AnchorPane.bottomAnchor="27.0" AnchorPane.leftAnchor="7.0">
+                <Button id="Customer" fx:id="btnSearch"  prefWidth="80.0" text="Search" visible="false" />
+                <Button id="Customer" fx:id="btnSave"  prefHeight="25.0" prefWidth="80.0" text="Save" />
+            </VBox>
+            <VBox spacing="2" AnchorPane.bottomAnchor="27.0" AnchorPane.rightAnchor="7.0">
+                <Button id="Customer" fx:id="btnDelete"  prefWidth="80.0" text="Delete" visible="false" />
+                <Button id="Customer" fx:id="btnClose"  prefHeight="25.0" prefWidth="80.0" text="Close" />
+            </VBox>
+        </AnchorPane>
+    </children>
+
+</VBox>
+
