@@ -57,11 +57,11 @@ public class CustomerPostingGroupController extends EditController {
             this.restrainColumnConstraint = false;
 //            this.minSize = 360;
             this.setNextCustomerPostingGroupID();
-            selectLookupData(CommonNavigate.mainClass,cmiSelectCustomerGroup, CommonObjectNames.CUSTOMERGROUP, "CustomerGroup", "Customer Group", 700, 400, cboCustomerGroup, false);
+            selectLookupData(CommonNavigate.MAIN_CLASS,cmiSelectCustomerGroup, CommonObjectNames.CUSTOMERGROUP, "CustomerGroup", "Customer Group", 700, 400, cboCustomerGroup, false);
 
-            selectItem(CommonNavigate.mainClass, cmiSelectReceivableAccount, oChartAccountDA, oChartAccountDA.getChartAccountDAs(AccountTypes.Income), "ChartAccount", "Sales Account", 700, 400, cboReceivableAccount, true);
-            selectItem(CommonNavigate.mainClass, cmiSelectServiceChargeAccount, oChartAccountDA, oChartAccountDA.getChartAccountDAs(AccountTypes.Income), "ChartAccount", "Receivable Account", 700, 400, cboServiceChargeAccount, true);
-            selectItem(CommonNavigate.mainClass, cmiSelectPaymentDiscountAccount, oChartAccountDA, oChartAccountDA.getChartAccountDAs(AccountTypes.Expense), "ChartAccount", "Payment Discount Account", 700, 400, cboPaymentDiscountAccount, true);
+            selectItem(CommonNavigate.MAIN_CLASS, cmiSelectReceivableAccount, oChartAccountDA, oChartAccountDA.getChartAccountDAs(AccountTypes.Income), "ChartAccount", "Sales Account", 700, 400, cboReceivableAccount, true);
+            selectItem(CommonNavigate.MAIN_CLASS, cmiSelectServiceChargeAccount, oChartAccountDA, oChartAccountDA.getChartAccountDAs(AccountTypes.Income), "ChartAccount", "Receivable Account", 700, 400, cboServiceChargeAccount, true);
+            selectItem(CommonNavigate.MAIN_CLASS, cmiSelectPaymentDiscountAccount, oChartAccountDA, oChartAccountDA.getChartAccountDAs(AccountTypes.Expense), "ChartAccount", "Payment Discount Account", 700, 400, cboPaymentDiscountAccount, true);
 
         } catch (Exception e) {
             errorMessage(e);

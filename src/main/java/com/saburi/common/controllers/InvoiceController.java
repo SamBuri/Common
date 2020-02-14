@@ -108,7 +108,7 @@ public class InvoiceController extends EditController {
             setInvoiceDetailsUnitMeasure();
             setInvoiceDetailsUnitPrice();
             setInvoiceDetailsDiscount();
-            selectItem(CommonNavigate.mainClass,cmiSelectBillTo, oCustomerDA, "Customer", "Customer", 700, 400, cboBillTo, false);
+            selectItem(CommonNavigate.MAIN_CLASS,cmiSelectBillTo, oCustomerDA, "Customer", "Customer", 700, 400, cboBillTo, false);
             cboBillTo.setOnAction(e -> {
                 this.selectedBillTo = ((Customer) getEntity(cboBillTo));
                 InvoiceTypes invoiceType = (InvoiceTypes) cboInvoiceType.getValue();
@@ -328,7 +328,7 @@ public class InvoiceController extends EditController {
             if (selectedItems.isEmpty() || selectedItems.size() > 1) {
                 return;
             }
-            ItemDA itemDA = (ItemDA) getSelectedItem(CommonNavigate.mainClass, new ItemDA(), "Item", "Items", 400, 450, tblInvoiceDetails, false);
+            ItemDA itemDA = (ItemDA) getSelectedItem(CommonNavigate.MAIN_CLASS, new ItemDA(), "Item", "Items", 400, 450, tblInvoiceDetails, false);
 
             if (itemDA == null) {
                 return;
@@ -436,7 +436,7 @@ public class InvoiceController extends EditController {
             }
             List<MeasureRelationDA> measureRelationDAs = new MeasureGroupDA().get(itemDA.getMeasureGroup().getMeasureGroupID()).getAllMeasureRelationsDAs();
 
-            MeasureRelationDA measureRelationDA = (MeasureRelationDA) getSelectedItem(CommonNavigate.mainClass, new MeasureRelationDA(), measureRelationDAs, "View", "Item", 400, 450, tblInvoiceDetails, false);
+            MeasureRelationDA measureRelationDA = (MeasureRelationDA) getSelectedItem(CommonNavigate.MAIN_CLASS, new MeasureRelationDA(), measureRelationDAs, "View", "Item", 400, 450, tblInvoiceDetails, false);
 
             if (measureRelationDA != null) {
                 invoiceDetailsDa.setUnitMeasure(measureRelationDA.getDisplayKey());
@@ -476,7 +476,7 @@ public class InvoiceController extends EditController {
             }
             List<LookupDataDA> lookupDataDAs = LookupDataDA.getLookupDataDAs(oLookupDataDA.getLookupDataByObjectID(CommonObjectNames.LOCATION));
             
-            LookupDataDA lookupDataDA = (LookupDataDA) getSelectedItem(CommonNavigate.mainClass, new LookupDataDA(), lookupDataDAs, "View", "Item", 400, 450, tblInvoiceDetails, false);
+            LookupDataDA lookupDataDA = (LookupDataDA) getSelectedItem(CommonNavigate.MAIN_CLASS, new LookupDataDA(), lookupDataDAs, "View", "Item", 400, 450, tblInvoiceDetails, false);
 
             if (lookupDataDA != null) {
                 invoiceDetailsDa.setLocation(lookupDataDA.getLookupData());

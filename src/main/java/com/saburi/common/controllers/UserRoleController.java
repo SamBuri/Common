@@ -245,7 +245,7 @@ public class UserRoleController extends EditController {
             List<AccessObject> allAccessObjects = new AccessObjectDA().getAccessObjects();
             allAccessObjects.removeAll(tableAccessObjects);
             List<AccessObjectDA> accessObjectDAs = AccessObjectDA.getAccessObjectDAs(allAccessObjects);
-            AccessObjectDA accessObjectDA = (AccessObjectDA) getSelectedItem(CommonNavigate.mainClass, new AccessObjectDA(), accessObjectDAs, "View", "User Role Details", 700, 450, tblUserRoleDetails, true);
+            AccessObjectDA accessObjectDA = (AccessObjectDA) getSelectedItem(CommonNavigate.MAIN_CLASS, new AccessObjectDA(), accessObjectDAs, "View", "User Role Details", 700, 450, tblUserRoleDetails, true);
 
             if (accessObjectDA == null) {
                 return;

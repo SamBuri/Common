@@ -41,7 +41,7 @@ public class Navigation {
     public static String parentFXMl;
     public static String mainStyleSheet = App.class.getResource("MainScene.css").toExternalForm();
     public static String styleControls = App.class.getResource("StyleControls.css").toExternalForm();
-
+    public static String persistenceUnit;
     public static void setParents(DesktopPane desktopPane, StackPane stpMain) {
         Navigation.desktopPane = desktopPane;
         Navigation.stpMain = stpMain;

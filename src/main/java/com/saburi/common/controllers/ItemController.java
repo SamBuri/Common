@@ -110,11 +110,11 @@ public class ItemController extends EditController {
             setItemPriceGroupPriceGroup();
             setItemPriceGroupUnitPrice();
             setItemPriceGroupDiscount();
-            selectItem(CommonNavigate.mainClass, cmiSelectItemCategory, oItemCategoryDA, "ItemCategory", "Item Category", 700, 400, cboItemCategory, true);
-            selectLookupData(CommonNavigate.mainClass, cmiSelectItemGroup, CommonObjectNames.ITEMGROUP, "LookupData", "Item Group", 700, 400, cboItemGroup, false);
-            selectLookupData(CommonNavigate.mainClass, cmiSelectVATItemGroup, CommonObjectNames.VATITEMGROUP, "LookupData", "VAT Item Group", 700, 400, cboVATItemGroup, false);
-            selectLookupData(CommonNavigate.mainClass, cmiSelectInventoryGroup, CommonObjectNames.INVENTORYGROUP, "LookupData", "Inventory Group", 700, 400, cboInventoryGroup, false);
-            selectItem(CommonNavigate.mainClass, cmiSelectMeasureGroup, oMeasureGroupDA, "MeasureGroup", "Measure Group", 700, 400, cboMeasureGroup, true);
+            selectItem(CommonNavigate.MAIN_CLASS, cmiSelectItemCategory, oItemCategoryDA, "ItemCategory", "Item Category", 700, 400, cboItemCategory, true);
+            selectLookupData(CommonNavigate.MAIN_CLASS, cmiSelectItemGroup, CommonObjectNames.ITEMGROUP, "LookupData", "Item Group", 700, 400, cboItemGroup, false);
+            selectLookupData(CommonNavigate.MAIN_CLASS, cmiSelectVATItemGroup, CommonObjectNames.VATITEMGROUP, "LookupData", "VAT Item Group", 700, 400, cboVATItemGroup, false);
+            selectLookupData(CommonNavigate.MAIN_CLASS, cmiSelectInventoryGroup, CommonObjectNames.INVENTORYGROUP, "LookupData", "Inventory Group", 700, 400, cboInventoryGroup, false);
+            selectItem(CommonNavigate.MAIN_CLASS, cmiSelectMeasureGroup, oMeasureGroupDA, "MeasureGroup", "Measure Group", 700, 400, cboMeasureGroup, true);
 
             cboItemCategory.setOnAction(e -> {
                 ItemCategory itemCategory = (ItemCategory) getEntity(cboItemCategory);
@@ -291,7 +291,7 @@ public class ItemController extends EditController {
             if (selectedItems.isEmpty() || selectedItems.size() > 1) {
                 return;
             }
-            LookupDataDA priceGroupDA = (LookupDataDA) getSelectedLookupData(CommonNavigate.mainClass, CommonObjectNames.PRICEGROUP, "LookupData", "Price Groups", 400, 450, tblItemPriceGroups, false);
+            LookupDataDA priceGroupDA = (LookupDataDA) getSelectedLookupData(CommonNavigate.MAIN_CLASS, CommonObjectNames.PRICEGROUP, "LookupData", "Price Groups", 400, 450, tblItemPriceGroups, false);
 
             if (priceGroupDA == null) {
                 return;
@@ -317,7 +317,7 @@ public class ItemController extends EditController {
     private void selectItemTemplate() {
         ItemTemplateDA itemTemplateDA;
         try {
-            itemTemplateDA = (ItemTemplateDA) getSelectedItem(CommonNavigate.mainClass, new ItemTemplateDA(), new ItemTemplateDA().get(), "ItemTemplate", title, viewWidth, viewHight, btnSave, false);
+            itemTemplateDA = (ItemTemplateDA) getSelectedItem(CommonNavigate.MAIN_CLASS, new ItemTemplateDA(), new ItemTemplateDA().get(), "ItemTemplate", title, viewWidth, viewHight, btnSave, false);
             this.loadItem(itemTemplateDA);
         } catch (IOException ex) {
             errorMessage(ex);

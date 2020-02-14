@@ -114,9 +114,9 @@ public class SaleOrderController extends EditController {
             setSaleOrderDetailBaseQuantity();
             setSaleOrderDetailUnitPrice();
             setSaleOrderDetailDiscount();
-            selectItem(CommonNavigate.mainClass, cmiSelectSellTo, oCustomerDA, "Customer", "Customer", 700, 400, cboSellTo, true);
-            selectItem(CommonNavigate.mainClass, cmiSelectBillTo, oCustomerDA, "Customer", "Customer", 700, 400, cboBillTo, true);
-            selectItem(CommonNavigate.mainClass, cmiSelectCurrency, oCurrencyDA, "Currency", "Currency", 700, 400, cboCurrency, true);
+            selectItem(CommonNavigate.MAIN_CLASS, cmiSelectSellTo, oCustomerDA, "Customer", "Customer", 700, 400, cboSellTo, true);
+            selectItem(CommonNavigate.MAIN_CLASS, cmiSelectBillTo, oCustomerDA, "Customer", "Customer", 700, 400, cboBillTo, true);
+            selectItem(CommonNavigate.MAIN_CLASS, cmiSelectCurrency, oCurrencyDA, "Currency", "Currency", 700, 400, cboCurrency, true);
             dtpOrderDate.setValue(LocalDate.now());
             cboBillTo.setOnAction(e -> {
                 this.selectedBillToDA = ((Customer) getEntity(cboBillTo));
@@ -315,7 +315,7 @@ public class SaleOrderController extends EditController {
             if (selectedItems.isEmpty() || selectedItems.size() > 1) {
                 return;
             }
-            ItemDA itemDA = (ItemDA) getSelectedItem(CommonNavigate.mainClass, new ItemDA(), "Item", "Items", 400, 450, tblSaleOrderDetails, false);
+            ItemDA itemDA = (ItemDA) getSelectedItem(CommonNavigate.MAIN_CLASS, new ItemDA(), "Item", "Items", 400, 450, tblSaleOrderDetails, false);
 
             if (itemDA == null) {
                 return;
@@ -375,7 +375,7 @@ public class SaleOrderController extends EditController {
             }
             List<MeasureRelationDA> measureRelationDAs = new MeasureGroupDA().get(itemDA.getMeasureGroup().getMeasureGroupID()).getAllMeasureRelationsDAs();
 
-            MeasureRelationDA measureRelationDA = (MeasureRelationDA) getSelectedItem(CommonNavigate.mainClass, new MeasureRelationDA(), measureRelationDAs, "View", "Item", 400, 450, tblSaleOrderDetails, false);
+            MeasureRelationDA measureRelationDA = (MeasureRelationDA) getSelectedItem(CommonNavigate.MAIN_CLASS, new MeasureRelationDA(), measureRelationDAs, "View", "Item", 400, 450, tblSaleOrderDetails, false);
 
             if (measureRelationDA != null) {
                 saleOrderDetailDA.setUnitMeasure(measureRelationDA.getDisplayKey());

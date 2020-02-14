@@ -83,12 +83,12 @@ public class CustomerController extends EditController {
             this.restrainColumnConstraint = false;
             //this.minSize = 360;
             this.setNextCustomerID();
-            selectLookupData(CommonNavigate.mainClass,cmiSelectCustomerCategory, CommonObjectNames.CUSTOMERCATEGORY, "view", "CustomerCategory", 700, 400, cboCustomerCategory, false);
-            selectLookupData(CommonNavigate.mainClass, cmiSelectPriceGroup, CommonObjectNames.PRICEGROUP, "view", "PriceGroup", 700, 400, cboPriceGroup, false);
-            selectItem(CommonNavigate.mainClass, cmiSelectBillToCustomer, oCustomerDA, "View", "BillToCustomer", 700, 400, cboBillToCustomer, true);
-            selectItem(CommonNavigate.mainClass, cmiSelectCustomerPostingGroup, oCustomerPostingGroupDA, "View", "CustomerPostingGroup", 700, 400, cboCustomerPostingGroup, true);
-            selectLookupData(CommonNavigate.mainClass, cmiSelectBusinessGroup, CommonObjectNames.BUSINESSGROUP, "view", "BusinessGroup", 700, 400, cboBusinessGroup, false);
-            selectLookupData(CommonNavigate.mainClass, cmiSelectVATBusinessGroup, CommonObjectNames.VATBUSINESSGROUP, "view", "VATBusinessGroup", 700, 400, cboVATBusinessGroup, false);
+            selectLookupData(CommonNavigate.MAIN_CLASS,cmiSelectCustomerCategory, CommonObjectNames.CUSTOMERCATEGORY, "view", "CustomerCategory", 700, 400, cboCustomerCategory, false);
+            selectLookupData(CommonNavigate.MAIN_CLASS, cmiSelectPriceGroup, CommonObjectNames.PRICEGROUP, "view", "PriceGroup", 700, 400, cboPriceGroup, false);
+            selectItem(CommonNavigate.MAIN_CLASS, cmiSelectBillToCustomer, oCustomerDA, "View", "BillToCustomer", 700, 400, cboBillToCustomer, true);
+            selectItem(CommonNavigate.MAIN_CLASS, cmiSelectCustomerPostingGroup, oCustomerPostingGroupDA, "View", "CustomerPostingGroup", 700, 400, cboCustomerPostingGroup, true);
+            selectLookupData(CommonNavigate.MAIN_CLASS, cmiSelectBusinessGroup, CommonObjectNames.BUSINESSGROUP, "view", "BusinessGroup", 700, 400, cboBusinessGroup, false);
+            selectLookupData(CommonNavigate.MAIN_CLASS, cmiSelectVATBusinessGroup, CommonObjectNames.VATBUSINESSGROUP, "view", "VATBusinessGroup", 700, 400, cboVATBusinessGroup, false);
            
         } catch (Exception e) {
             errorMessage(e);

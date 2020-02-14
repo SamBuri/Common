@@ -49,7 +49,7 @@ public class AccountCategoryController extends EditController {
             this.restrainColumnConstraint = false;
             this.minSize = 360;
             cboAccountType.setOnAction(e -> this.setNextCategoryID());
-            selectItem(CommonNavigate.mainClass, cmiSelectParentCategory, new AccountCategoryDA(), "AccountCategory", "Parent Category", 700, 400, cboParentCategory, true);
+            selectItem(CommonNavigate.MAIN_CLASS, cmiSelectParentCategory, new AccountCategoryDA(), "AccountCategory", "Parent Category", 700, 400, cboParentCategory, true);
         } catch (Exception e) {
             errorMessage(e);
         } finally {

@@ -75,11 +75,11 @@ public class VendorController extends EditController {
             this.restrainColumnConstraint = false;
             //this.minSize = 360;
             this.setNextVendorID();
-            selectLookupData(CommonNavigate.mainClass, cmiSelectVendorCategory, CommonObjectNames.VENDORCATEGORY, "view", "VendorCategory", 700, 400, cboVendorCategory, false);
-            selectLookupData(CommonNavigate.mainClass, cmiSelectPriceGroup, CommonObjectNames.PRICEGROUP, "view", "PriceGroup", 700, 400, cboPriceGroup, false);
-            selectItem(CommonNavigate.mainClass, cmiSelectVendorPostingGroup, oVendorPostingGroupDA, "View", "VendorPostingGroup", 700, 400, cboVendorPostingGroup, true);
-            selectLookupData(CommonNavigate.mainClass, cmiSelectBusinessGroup, CommonObjectNames.BUSINESSGROUP, "view", "BusinessGroup", 700, 400, cboBusinessGroup, false);
-            selectLookupData(CommonNavigate.mainClass, cmiSelectVATBusinessGroup, CommonObjectNames.VATBUSINESSGROUP, "view", "VATBusinessGroup", 700, 400, cboVATBusinessGroup, false);
+            selectLookupData(CommonNavigate.MAIN_CLASS, cmiSelectVendorCategory, CommonObjectNames.VENDORCATEGORY, "view", "VendorCategory", 700, 400, cboVendorCategory, false);
+            selectLookupData(CommonNavigate.MAIN_CLASS, cmiSelectPriceGroup, CommonObjectNames.PRICEGROUP, "view", "PriceGroup", 700, 400, cboPriceGroup, false);
+            selectItem(CommonNavigate.MAIN_CLASS, cmiSelectVendorPostingGroup, oVendorPostingGroupDA, "View", "VendorPostingGroup", 700, 400, cboVendorPostingGroup, true);
+            selectLookupData(CommonNavigate.MAIN_CLASS, cmiSelectBusinessGroup, CommonObjectNames.BUSINESSGROUP, "view", "BusinessGroup", 700, 400, cboBusinessGroup, false);
+            selectLookupData(CommonNavigate.MAIN_CLASS, cmiSelectVATBusinessGroup, CommonObjectNames.VATBUSINESSGROUP, "view", "VATBusinessGroup", 700, 400, cboVATBusinessGroup, false);
         } catch (Exception e) {
             errorMessage(e);
         } finally {

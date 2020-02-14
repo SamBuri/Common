@@ -42,7 +42,7 @@ public class ParishController extends EditController {
             this.popuprestrainConstraint = false;
 
             cboSubCounty.setOnAction(e -> this.setNextParishID());
-            selectItem(CommonNavigate.mainClass, cmiSelectSubCounty, new SubCountyDA(), "SubCounty", "Sub County", 400, 450, cboSubCounty, false);
+            selectItem(CommonNavigate.MAIN_CLASS, cmiSelectSubCounty, new SubCountyDA(), "SubCounty", "Sub County", 400, 450, cboSubCounty, false);
 
         } catch (Exception e) {
             errorMessage(e);

@@ -47,22 +47,22 @@
         
         
         
-<!--        <dependency>
-            <groupId>org.hibernate.orm</groupId>
-            <artifactId>hibernate-core</artifactId>
-            <version>6.0.0.Alpha4</version>
-        </dependency>
-        <dependency>
-            <groupId>org.hibernate.orm</groupId>
-            <artifactId>hibernate-entitymanager</artifactId>
-            <version>6.0.0.Alpha4</version>
-        </dependency>
-        <dependency>
-            <groupId>org.hibernate.orm</groupId>
-            <artifactId>hibernate-envers</artifactId>
-            <version>6.0.0.Alpha4</version>
-        </dependency>
--->       
+        <!--        <dependency>
+                    <groupId>org.hibernate.orm</groupId>
+                    <artifactId>hibernate-core</artifactId>
+                    <version>6.0.0.Alpha4</version>
+                </dependency>
+                <dependency>
+                    <groupId>org.hibernate.orm</groupId>
+                    <artifactId>hibernate-entitymanager</artifactId>
+                    <version>6.0.0.Alpha4</version>
+                </dependency>
+                <dependency>
+                    <groupId>org.hibernate.orm</groupId>
+                    <artifactId>hibernate-envers</artifactId>
+                    <version>6.0.0.Alpha4</version>
+                </dependency>
+        -->       
         <dependency>
             <groupId>org.hibernate.validator</groupId>
             <artifactId>hibernate-validator</artifactId>
@@ -74,13 +74,13 @@
             <version>3.0.1-b11</version>
         </dependency>
         
-        <dependency>
+        <!--        <dependency>
             <groupId>com.sun.xml.bind</groupId>
             <artifactId>jaxb-impl</artifactId>
             <version>2.4.0-b180830.0438</version>
-        </dependency>
+        </dependency>-->
         <!-- API, java.xml.bind module -->
-<!--        <dependency>
+        <!--        <dependency>
             <groupId>jakarta.xml.bind</groupId>
             <artifactId>jakarta.xml.bind-api</artifactId>
             <version>2.3.2</version>
@@ -218,6 +218,38 @@
                     <mainClass>com.saburi.common.main.App</mainClass>
                 </configuration>
             </plugin>
+            
+            
+<!--            
+            <plugin>
+                <groupId>org.moditect</groupId>
+               
+                <artifactId>moditect-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>create-dependency-image</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>create-runtime-image</goal>
+                        </goals>
+                        <configuration>
+                            <baseJdk>jdk-9_linux-x64</baseJdk>
+                            <modulePath>
+                                <path>${project.build.directory}/modules</path>
+                            </modulePath>
+                            <modules>
+                                <module>com.example</module>
+                            </modules>
+                            <compression>2</compression>
+                            <stripDebug>true</stripDebug>
+                            <excludedResources>
+                                <pattern>glob:/com.example/**</pattern>
+                            </excludedResources>
+                            <outputDirectory>${project.build.directory}/jlink-image</outputDirectory>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>-->
             
             <!--                        <plugin>
                 <artifactId>maven-jlink-plugin</artifactId>

@@ -57,10 +57,10 @@ public class VendorPostingGroupController extends EditController {
             this.restrainColumnConstraint = false;
             this.minSize = 360;
             this.setNextVendorPostingGroupID();
-            selectLookupData(CommonNavigate.mainClass, cmiSelectVendorGroup, CommonObjectNames.VENDORGROUP, "LookupData", "Vendor Group", 700, 400, cboVendorGroup, false);
-            selectItem(CommonNavigate.mainClass, cmiSelectPayableAccount, oChartAccountDA, oChartAccountDA.getChartAccountDAs(AccountTypes.Liability), "ChartAccount", "Payable Account", 700, 400, cboPayableAccount, true);
-            selectItem(CommonNavigate.mainClass, cmiSelectServiceChargeAccount, oChartAccountDA, oChartAccountDA.getChartAccountDAs(AccountTypes.Expense), "ChartAccount", "Service Charge Account", 700, 400, cboServiceChargeAccount, true);
-            selectItem(CommonNavigate.mainClass, cmiSelectPaymentDiscountAccount, oChartAccountDA, oChartAccountDA.getChartAccountDAs(AccountTypes.Income), "ChartAccount", "Payment Discount Account", 700, 400, cboPaymentDiscountAccount, true);
+            selectLookupData(CommonNavigate.MAIN_CLASS, cmiSelectVendorGroup, CommonObjectNames.VENDORGROUP, "LookupData", "Vendor Group", 700, 400, cboVendorGroup, false);
+            selectItem(CommonNavigate.MAIN_CLASS, cmiSelectPayableAccount, oChartAccountDA, oChartAccountDA.getChartAccountDAs(AccountTypes.Liability), "ChartAccount", "Payable Account", 700, 400, cboPayableAccount, true);
+            selectItem(CommonNavigate.MAIN_CLASS, cmiSelectServiceChargeAccount, oChartAccountDA, oChartAccountDA.getChartAccountDAs(AccountTypes.Expense), "ChartAccount", "Service Charge Account", 700, 400, cboServiceChargeAccount, true);
+            selectItem(CommonNavigate.MAIN_CLASS, cmiSelectPaymentDiscountAccount, oChartAccountDA, oChartAccountDA.getChartAccountDAs(AccountTypes.Income), "ChartAccount", "Payment Discount Account", 700, 400, cboPaymentDiscountAccount, true);
         } catch (Exception e) {
             errorMessage(e);
         } finally {

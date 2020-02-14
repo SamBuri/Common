@@ -76,8 +76,8 @@ public class BankAccountController extends EditController {
             this.restrainColumnConstraint = false;
             //this.minSize = 360;
             this.setNextBankAccountID();
-            selectItem(CommonNavigate.mainClass, cmiSelectCurrency, oCurrencyDA, "View", "Currency", 700, 400, cboCurrency, true);
-            selectItem(CommonNavigate.mainClass, cmiSelectPostingAccount, oChartAccountDA, "View", "PostingAccount", 700, 400, cboPostingAccount, true);
+            selectItem(CommonNavigate.MAIN_CLASS, cmiSelectCurrency, oCurrencyDA, "View", "Currency", 700, 400, cboCurrency, true);
+            selectItem(CommonNavigate.MAIN_CLASS, cmiSelectPostingAccount, oChartAccountDA, "View", "PostingAccount", 700, 400, cboPostingAccount, true);
         } catch (Exception e) {
             errorMessage(e);
         } finally {

@@ -74,7 +74,7 @@ public class MeasureGroupController extends EditController {
             setMeasureRelationUnitMeasure();
             setMeasureRelationBaseSize();
             setMeasureRelationDefaultUsage();
-            selectLookupData(CommonNavigate.mainClass, cmiSelectBaseUnitMeasure, CommonObjectNames.UNITMEASURE, "LookupData", "Unit Measure", 700, 400, cboBaseUnitMeasure, false);
+            selectLookupData(CommonNavigate.MAIN_CLASS, cmiSelectBaseUnitMeasure, CommonObjectNames.UNITMEASURE, "LookupData", "Unit Measure", 700, 400, cboBaseUnitMeasure, false);
         } catch (Exception e) {
             errorMessage(e);
         } finally {
@@ -212,7 +212,7 @@ public class MeasureGroupController extends EditController {
             if (selectedItems.isEmpty() || selectedItems.size() > 1) {
                 return;
             }
-            LookupDataDA unitMeasureDA = (LookupDataDA) getSelectedLookupData(CommonNavigate.mainClass, CommonObjectNames.UNITMEASURE, "LookupData", "Unit Measure", 400, 450, tblMeasureRelations, false);
+            LookupDataDA unitMeasureDA = (LookupDataDA) getSelectedLookupData(CommonNavigate.MAIN_CLASS, CommonObjectNames.UNITMEASURE, "LookupData", "Unit Measure", 400, 450, tblMeasureRelations, false);
 
             if (unitMeasureDA == null) {
                 return;

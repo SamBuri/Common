@@ -48,7 +48,7 @@ public class LookupDataController extends EditController {
             this.restrainColumnConstraint = false;
             //this.minSize = 360;
             cboLookupObject.setOnAction(e -> this.setNextLookupDataID());
-            selectItem(CommonNavigate.mainClass, cmiSelectLookupObject, oLookupObjectDA, "View", "LookupObject", 700, 400, cboLookupObject, true);
+            selectItem(CommonNavigate.MAIN_CLASS, cmiSelectLookupObject, oLookupObjectDA, "View", "LookupObject", 700, 400, cboLookupObject, true);
         } catch (Exception e) {
             errorMessage(e);
         } finally {

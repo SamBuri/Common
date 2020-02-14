@@ -73,13 +73,13 @@ public class GeneralPostingGroupController extends EditController {
             this.restrainColumnConstraint = false;
 //            this.minSize = 360;
             this.setNextGeneralPostingID();
-            selectLookupData(CommonNavigate.mainClass, cmiSelectBusinessGroup, CommonObjectNames.BUSINESSGROUP, "view", "BusinessGroup", 700, 400, cboBusinessGroup, false);
-            selectLookupData(CommonNavigate.mainClass, cmiSelectItemGroup, CommonObjectNames.ITEMGROUP, "view", "ItemGroup", 700, 400, cboItemGroup, false);
-            selectItem(CommonNavigate.mainClass, cmiSelectSalesAccount, oChartAccountDA, oChartAccountDA.getChartAccountDAs(AccountTypes.Income),  "ChartAccount", "Sales Account", 700, 400, cboSalesAccount, true);
-            selectItem(CommonNavigate.mainClass, cmiSelectSalesDiscountAccount, oChartAccountDA, oChartAccountDA.getChartAccountDAs(AccountTypes.Expense), "ChartAccount", "Sales Discount Account", 700, 400, cboSalesDiscountAccount, true);
-            selectItem(CommonNavigate.mainClass, cmiSelectPurchasesAccount, oChartAccountDA, oChartAccountDA.getChartAccountDAs(AccountTypes.Expense), "ChartAccount", "Purchases Account", 700, 400, cboPurchasesAccount, true);
-            selectItem(CommonNavigate.mainClass, cmiSelectDirectCostAppliedAccount, oChartAccountDA, oChartAccountDA.getChartAccountDAs(AccountTypes.Expense), "ChartAccount", "Direct CostApplied Account", 700, 400, cboDirectCostAppliedAccount, true);
-            selectItem(CommonNavigate.mainClass, cmiSelectPurchaseDiscountAccount, oChartAccountDA, oChartAccountDA.getChartAccountDAs(AccountTypes.Income),  "ChartAccount", "Purchase Discount Account", 700, 400, cboPurchaseDiscountAccount, true);
+            selectLookupData(CommonNavigate.MAIN_CLASS, cmiSelectBusinessGroup, CommonObjectNames.BUSINESSGROUP, "view", "BusinessGroup", 700, 400, cboBusinessGroup, false);
+            selectLookupData(CommonNavigate.MAIN_CLASS, cmiSelectItemGroup, CommonObjectNames.ITEMGROUP, "view", "ItemGroup", 700, 400, cboItemGroup, false);
+            selectItem(CommonNavigate.MAIN_CLASS, cmiSelectSalesAccount, oChartAccountDA, oChartAccountDA.getChartAccountDAs(AccountTypes.Income),  "ChartAccount", "Sales Account", 700, 400, cboSalesAccount, true);
+            selectItem(CommonNavigate.MAIN_CLASS, cmiSelectSalesDiscountAccount, oChartAccountDA, oChartAccountDA.getChartAccountDAs(AccountTypes.Expense), "ChartAccount", "Sales Discount Account", 700, 400, cboSalesDiscountAccount, true);
+            selectItem(CommonNavigate.MAIN_CLASS, cmiSelectPurchasesAccount, oChartAccountDA, oChartAccountDA.getChartAccountDAs(AccountTypes.Expense), "ChartAccount", "Purchases Account", 700, 400, cboPurchasesAccount, true);
+            selectItem(CommonNavigate.MAIN_CLASS, cmiSelectDirectCostAppliedAccount, oChartAccountDA, oChartAccountDA.getChartAccountDAs(AccountTypes.Expense), "ChartAccount", "Direct CostApplied Account", 700, 400, cboDirectCostAppliedAccount, true);
+            selectItem(CommonNavigate.MAIN_CLASS, cmiSelectPurchaseDiscountAccount, oChartAccountDA, oChartAccountDA.getChartAccountDAs(AccountTypes.Income),  "ChartAccount", "Purchase Discount Account", 700, 400, cboPurchaseDiscountAccount, true);
         } catch (IOException e) {
             errorMessage(e);
         } finally {

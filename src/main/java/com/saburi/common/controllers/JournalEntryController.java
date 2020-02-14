@@ -135,8 +135,8 @@ public class JournalEntryController extends EditController {
             setJournalEntryDetailAmount();
             setJournalEntryDetailsAccountAction();
             setJournalEntryDetailNotes();
-            selectItem(CommonNavigate.mainClass,cmiSelectFinancialPeriod, new FinancialPeriodDA(), "Financial Period", "FinancialPeriod", 700, 400, cboFinancialPeriod, true);
-            selectItem(CommonNavigate.mainClass,cmiSelectCurrency, new CurrencyDA(), "Currency", "Currency", 700, 400, cboCurrency, true);
+            selectItem(CommonNavigate.MAIN_CLASS,cmiSelectFinancialPeriod, new FinancialPeriodDA(), "Financial Period", "FinancialPeriod", 700, 400, cboFinancialPeriod, true);
+            selectItem(CommonNavigate.MAIN_CLASS,cmiSelectCurrency, new CurrencyDA(), "Currency", "Currency", 700, 400, cboCurrency, true);
             dtpEntryDate.setValue(LocalDate.now());
             cboCurrency.setOnAction(e -> {
                 Currency currency = (Currency) getEntity(cboCurrency);
@@ -405,7 +405,7 @@ public class JournalEntryController extends EditController {
             }
             switch (accountGroup) {
                 case COA:
-                    ChartAccountDA chartAccountDA = (ChartAccountDA) getSelectedItem(CommonNavigate.mainClass,new ChartAccountDA(), "ChartAccount", "Chart of Accounts", 400, 450, tblJournalEntryDetails, false);
+                    ChartAccountDA chartAccountDA = (ChartAccountDA) getSelectedItem(CommonNavigate.MAIN_CLASS,new ChartAccountDA(), "ChartAccount", "Chart of Accounts", 400, 450, tblJournalEntryDetails, false);
                     if (chartAccountDA == null) {
                         return;
                     }
@@ -414,7 +414,7 @@ public class JournalEntryController extends EditController {
                     accountType = (AccountTypes) chartAccountDA.getAccountType();
                     break;
                 case Customer:
-                    CustomerDA customerDA = (CustomerDA) getSelectedItem(CommonNavigate.mainClass,new CustomerDA(), "Customer", "Customer", 400, 450, tblJournalEntryDetails, false);
+                    CustomerDA customerDA = (CustomerDA) getSelectedItem(CommonNavigate.MAIN_CLASS,new CustomerDA(), "Customer", "Customer", 400, 450, tblJournalEntryDetails, false);
                     if (customerDA == null) {
                         return;
                     }
@@ -423,7 +423,7 @@ public class JournalEntryController extends EditController {
                     accountType = AccountTypes.Asset;
                     break;
                 case Item:
-                    ItemDA itemDA = (ItemDA) getSelectedItem(CommonNavigate.mainClass, new ItemDA(), "Item", "Items", 400, 450, tblJournalEntryDetails, false);
+                    ItemDA itemDA = (ItemDA) getSelectedItem(CommonNavigate.MAIN_CLASS, new ItemDA(), "Item", "Items", 400, 450, tblJournalEntryDetails, false);
                     if (itemDA == null) {
                         return;
                     }
@@ -432,7 +432,7 @@ public class JournalEntryController extends EditController {
                     accountType = AccountTypes.Asset;
                     break;
                 case Vender:
-                    VendorDA vender = (VendorDA) getSelectedItem(CommonNavigate.mainClass, new VendorDA(), "Vendor", "Vendors", 400, 450, tblJournalEntryDetails, false);
+                    VendorDA vender = (VendorDA) getSelectedItem(CommonNavigate.MAIN_CLASS, new VendorDA(), "Vendor", "Vendors", 400, 450, tblJournalEntryDetails, false);
                     if (vender == null) {
                         return;
                     }
@@ -442,7 +442,7 @@ public class JournalEntryController extends EditController {
                     break;
 
                 case Bank:
-                    BankAccountDA banKAccountDA = (BankAccountDA) getSelectedItem(CommonNavigate.mainClass, new BankAccountDA(), "BankAccount", "Bank Accounts", 400, 450, tblJournalEntryDetails, false);
+                    BankAccountDA banKAccountDA = (BankAccountDA) getSelectedItem(CommonNavigate.MAIN_CLASS, new BankAccountDA(), "BankAccount", "Bank Accounts", 400, 450, tblJournalEntryDetails, false);
                     if (banKAccountDA == null) {
                         return;
                     }

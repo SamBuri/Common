@@ -71,7 +71,7 @@ public class ChartAccountController extends EditController {
             cboCategory.setOnAction(e -> this.setNextAccountID());
             chkContra.setOnAction(e -> setDefaultSelections());
 
-            selectItem(CommonNavigate.mainClass,cmiSelectCategory, new AccountCategoryDA(), "View", "Category", 700, 400, cboCategory, true);
+            selectItem(CommonNavigate.MAIN_CLASS,cmiSelectCategory, new AccountCategoryDA(), "View", "Category", 700, 400, cboCategory, true);
         } catch (Exception e) {
             errorMessage(e);
         } finally {

@@ -18,10 +18,12 @@ public class App  extends Application{
     @Override
     public void start(Stage stage) throws IOException {
         try {
-        Navigation.parentScene = CommonNavigate.mainClass;
+        Navigation.parentScene = CommonNavigate.MAIN_CLASS;
         Navigation.parentFXMl = "MainScene";
+        Navigation.persistenceUnit = "com.saburi.mysql.common";
         scene = new Scene(CommonNavigate.loadFXML("LoginEdit"));
          stage.setScene(scene);
+         stage.setTitle("Common App");
         stage.show();
         } catch (IOException e) {
             FXUIUtils.errorMessage(e);

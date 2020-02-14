@@ -66,11 +66,11 @@ public class ItemTemplateController extends EditController {
             this.dbAccess = oItemTemplateDA;
             this.restrainColumnConstraint = false;
 //            this.minSize = 360;
-            selectItem(CommonNavigate.mainClass, cmiSelectItemCategory, oItemCategoryDA, "LookupData", "Item Category", 700, 400, cboItemCategory, true);
-            selectLookupData(CommonNavigate.mainClass, cmiSelectItemGroup, CommonObjectNames.ITEMGROUP, "LookupData", "Item Group", 700, 400, cboItemGroup, false);
-            selectLookupData(CommonNavigate.mainClass, cmiSelectVATItemGroup, CommonObjectNames.VATITEMGROUP, "LookupData", "VAT Item Group", 700, 400, cboVATItemGroup, false);
-            selectLookupData(CommonNavigate.mainClass, cmiSelectInventoryGroup, CommonObjectNames.INVENTORYGROUP, "LookupData", "Inventory Group", 700, 400, cboInventoryGroup, false);
-            selectItem(CommonNavigate.mainClass, cmiSelectMeasureGroup, oMeasureGroupDA, "Measure Group", "Measure Group", 700, 400, cboMeasureGroup, true);
+            selectItem(CommonNavigate.MAIN_CLASS, cmiSelectItemCategory, oItemCategoryDA, "LookupData", "Item Category", 700, 400, cboItemCategory, true);
+            selectLookupData(CommonNavigate.MAIN_CLASS, cmiSelectItemGroup, CommonObjectNames.ITEMGROUP, "LookupData", "Item Group", 700, 400, cboItemGroup, false);
+            selectLookupData(CommonNavigate.MAIN_CLASS, cmiSelectVATItemGroup, CommonObjectNames.VATITEMGROUP, "LookupData", "VAT Item Group", 700, 400, cboVATItemGroup, false);
+            selectLookupData(CommonNavigate.MAIN_CLASS, cmiSelectInventoryGroup, CommonObjectNames.INVENTORYGROUP, "LookupData", "Inventory Group", 700, 400, cboInventoryGroup, false);
+            selectItem(CommonNavigate.MAIN_CLASS, cmiSelectMeasureGroup, oMeasureGroupDA, "Measure Group", "Measure Group", 700, 400, cboMeasureGroup, true);
             cboItemCategory.setOnAction(e -> txtItemCategoryGroup.setText(((ItemCategory) cboItemCategory.getValue()).getItemCategoryGroup().name()));
         } catch (IOException e) {
             errorMessage(e);

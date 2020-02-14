@@ -110,9 +110,9 @@ public class ReceiptController extends EditController {
             this.restrainColumnConstraint = false;
             this.minSize = 620;
             this.setNextReceiptID();
-            selectItem(CommonNavigate.mainClass,cmiSelectCustomer, new CustomerDA(), "Customer", "Customer", 700, 400, cboCustomer, false);
-            selectItem(CommonNavigate.mainClass, cmiSelectBankAcccount, oBankAccountDA, "ChartAccount", "Bank Acccount", 700, 400, cboBankAcccount, false);
-            selectItem(CommonNavigate.mainClass, cmiSelectCurrency, new CurrencyDA(), "Currency", "Currency", 700, 400, cboCurrency, true);
+            selectItem(CommonNavigate.MAIN_CLASS,cmiSelectCustomer, new CustomerDA(), "Customer", "Customer", 700, 400, cboCustomer, false);
+            selectItem(CommonNavigate.MAIN_CLASS, cmiSelectBankAcccount, oBankAccountDA, "ChartAccount", "Bank Acccount", 700, 400, cboBankAcccount, false);
+            selectItem(CommonNavigate.MAIN_CLASS, cmiSelectCurrency, new CurrencyDA(), "Currency", "Currency", 700, 400, cboCurrency, true);
 
             txtAmountTered.textProperty().addListener((ObservableValue<? extends String> observable, String oldValue, String newValue) -> {
                 if (!newValue.matches("\\d*\\.")) {

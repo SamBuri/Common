@@ -52,8 +52,8 @@ public class SubCountyController extends EditController {
 
             cboCounty.setOnAction(e -> this.setNextSubCountyID());
 
-            selectLookupData(CommonNavigate.mainClass, cmiSelectDistrict, CommonObjectNames.DISTRICT, "LookupData", "District", 700, 450, btnSave, restrainColumnConstraint);
-            selectItem(CommonNavigate.mainClass, cmiSelectCounty, new CountyDA(), "County", "County", 700, 450, cboCounty, true);
+            selectLookupData(CommonNavigate.MAIN_CLASS, cmiSelectDistrict, CommonObjectNames.DISTRICT, "LookupData", "District", 700, 450, btnSave, restrainColumnConstraint);
+            selectItem(CommonNavigate.MAIN_CLASS, cmiSelectCounty, new CountyDA(), "County", "County", 700, 450, cboCounty, true);
         } catch (IOException e) {
             errorMessage(e);
         } finally {

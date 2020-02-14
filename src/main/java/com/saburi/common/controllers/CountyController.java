@@ -43,7 +43,7 @@ public class CountyController extends EditController {
             btnDelete.setOnAction(e -> this.delete());
             cboDistrict.setOnAction(e->this.setNextCountyID());
             
-            selectLookupData(CommonNavigate.mainClass, cmiSelectDistrict, CommonObjectNames.DISTRICT, "LookupData", "District", cboDistrict, true);
+            selectLookupData(CommonNavigate.MAIN_CLASS, cmiSelectDistrict, CommonObjectNames.DISTRICT, "LookupData", "District", cboDistrict, true);
             
         } catch (Exception e) {
             errorMessage(e);

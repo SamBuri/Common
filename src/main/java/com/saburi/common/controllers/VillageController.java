@@ -40,7 +40,7 @@ public class VillageController extends EditController {
             this.restrainColumnConstraint = false;
 //            this.minSize=360;
             cboParish.setOnAction(e -> this.setNextVillageID());
-            selectItem(CommonNavigate.mainClass, cmiSelectParish, new ParishDA(), "Parish", "Parish", 700, 450, cboParish, true);
+            selectItem(CommonNavigate.MAIN_CLASS, cmiSelectParish, new ParishDA(), "Parish", "Parish", 700, 450, cboParish, true);
 
         } catch (Exception e) {
             errorMessage(e);

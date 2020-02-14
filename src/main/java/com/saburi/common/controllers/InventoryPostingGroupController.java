@@ -51,9 +51,9 @@ public class InventoryPostingGroupController extends EditController {
             this.restrainColumnConstraint = false;
             this.minSize = 360;
             this.setNextInventoryPostingGroupID();
-            selectLookupData(CommonNavigate.mainClass,cmiSelectLocation, CommonObjectNames.LOCATION, "view", "Location", 700, 400, cboLocation, false);
-            selectLookupData(CommonNavigate.mainClass, cmiSelectInventoryGroup, CommonObjectNames.INVENTORYGROUP, "LookupData", "Inventory Group", 700, 400, cboInventoryGroup, false);
-            selectItem(CommonNavigate.mainClass,cmiSelectAccount, oChartAccountDA, "ChartAccount", "Account", 700, 400, cboAccount, true);
+            selectLookupData(CommonNavigate.MAIN_CLASS,cmiSelectLocation, CommonObjectNames.LOCATION, "view", "Location", 700, 400, cboLocation, false);
+            selectLookupData(CommonNavigate.MAIN_CLASS, cmiSelectInventoryGroup, CommonObjectNames.INVENTORYGROUP, "LookupData", "Inventory Group", 700, 400, cboInventoryGroup, false);
+            selectItem(CommonNavigate.MAIN_CLASS,cmiSelectAccount, oChartAccountDA, "ChartAccount", "Account", 700, 400, cboAccount, true);
         } catch (Exception e) {
             errorMessage(e);
         } finally {

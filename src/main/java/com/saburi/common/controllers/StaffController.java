@@ -106,11 +106,11 @@ public class StaffController extends EditController {
             btnCapturePhoto.setOnAction(e -> setCapturedImage(imvPhoto));
             btnClearPhoto.setOnAction(e -> imvPhoto.setImage(null));
             this.setNextStaffID();
-            selectLookupData(CommonNavigate.mainClass, cmiSelectCountry, CommonObjectNames.COUNTRY, "LookupData", "Country", cboCountry, false);
-            selectItem(CommonNavigate.mainClass, cmiSelectVillage, oVillageDA, "Village", "Village", cboVillage, true);
-            selectLookupData(CommonNavigate.mainClass, cmiSelectStaffTitle, CommonObjectNames.STAFFTITLE, "LookupData", "Staff Title", cboStaffTitle, false);
-            selectLookupData(CommonNavigate.mainClass, cmiSelectQualification, CommonObjectNames.QUALIFICATION, "LookupData", "Qualification", cboQualification, false);
-            selectLookupData(CommonNavigate.mainClass, cmiSelectDepartment, CommonObjectNames.DEPARTMENT, "LookupData", "Department", cboDepartment, false);
+            selectLookupData(CommonNavigate.MAIN_CLASS, cmiSelectCountry, CommonObjectNames.COUNTRY, "LookupData", "Country", cboCountry, false);
+            selectItem(CommonNavigate.MAIN_CLASS, cmiSelectVillage, oVillageDA, "Village", "Village", cboVillage, true);
+            selectLookupData(CommonNavigate.MAIN_CLASS, cmiSelectStaffTitle, CommonObjectNames.STAFFTITLE, "LookupData", "Staff Title", cboStaffTitle, false);
+            selectLookupData(CommonNavigate.MAIN_CLASS, cmiSelectQualification, CommonObjectNames.QUALIFICATION, "LookupData", "Qualification", cboQualification, false);
+            selectLookupData(CommonNavigate.MAIN_CLASS, cmiSelectDepartment, CommonObjectNames.DEPARTMENT, "LookupData", "Department", cboDepartment, false);
         } catch (Exception e) {
             errorMessage(e);
         } finally {

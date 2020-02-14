@@ -62,10 +62,10 @@ public class VATPostingGroupController extends EditController {
             this.restrainColumnConstraint = false;
             this.minSize = 360;
             this.setNextVATPostingGroupID();
-            selectLookupData(CommonNavigate.mainClass, cmiSelectVATBusinessGroup, CommonObjectNames.VATBUSINESSGROUP, "ChartAccount", "VAT Business Group", 700, 400, cboVATBusinessGroup, false);
-            selectLookupData(CommonNavigate.mainClass, cmiSelectVATItemGroup, CommonObjectNames.VATITEMGROUP, "ChartAccount", "VAT Item Group", 700, 400, cboVATItemGroup, false);
-            selectItem(CommonNavigate.mainClass, cmiSelectVATSalesAccount, oChartAccountDA, oChartAccountDA.getChartAccountDAs(AccountTypes.Liability), "ChartAccount", "VAT Sales Account", 700, 400, cboVATSalesAccount, true);
-            selectItem(CommonNavigate.mainClass, cmiSelectVATPurchaseAccount, oChartAccountDA, oChartAccountDA.getChartAccountDAs(AccountTypes.Asset), "ChartAccount", "VAT Purchase Account", 700, 400, cboVATPurchaseAccount, true);
+            selectLookupData(CommonNavigate.MAIN_CLASS, cmiSelectVATBusinessGroup, CommonObjectNames.VATBUSINESSGROUP, "ChartAccount", "VAT Business Group", 700, 400, cboVATBusinessGroup, false);
+            selectLookupData(CommonNavigate.MAIN_CLASS, cmiSelectVATItemGroup, CommonObjectNames.VATITEMGROUP, "ChartAccount", "VAT Item Group", 700, 400, cboVATItemGroup, false);
+            selectItem(CommonNavigate.MAIN_CLASS, cmiSelectVATSalesAccount, oChartAccountDA, oChartAccountDA.getChartAccountDAs(AccountTypes.Liability), "ChartAccount", "VAT Sales Account", 700, 400, cboVATSalesAccount, true);
+            selectItem(CommonNavigate.MAIN_CLASS, cmiSelectVATPurchaseAccount, oChartAccountDA, oChartAccountDA.getChartAccountDAs(AccountTypes.Asset), "ChartAccount", "VAT Purchase Account", 700, 400, cboVATPurchaseAccount, true);
         } catch (Exception e) {
             errorMessage(e);
         } finally {

@@ -52,7 +52,7 @@ public abstract class EditController implements Initializable {
     protected boolean popuprestrainConstraint = false;
     protected TableView tableView;
     protected boolean editSuccessful = false;
-    protected Class mainClass = CommonNavigate.mainClass; 
+    protected Class mainClass = CommonNavigate.MAIN_CLASS; 
 
     public void setEdit(Object primaryKeyValue) {
         this.formMode = FormMode.Update;

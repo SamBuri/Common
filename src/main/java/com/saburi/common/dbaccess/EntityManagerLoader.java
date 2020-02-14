@@ -6,6 +6,7 @@
 package com.saburi.common.dbaccess;
 
 import com.saburi.common.utils.DBConnection;
+import com.saburi.common.utils.Navigation;
 import java.util.HashMap;
 import java.util.Map;
 import javax.persistence.EntityManagerFactory;
@@ -29,7 +30,7 @@ public class EntityManagerLoader {
         properties.put("javax.persistence.jdbc.user", DBConnection.getCurrentDBConnection().getUsername());
         properties.put("javax.persistence.jdbc.password", DBConnection.getCurrentDBConnection().getPassword());
       
-             entityManagerFactory = Persistence.createEntityManagerFactory("com.saburi.mysql", properties);
+             entityManagerFactory = Persistence.createEntityManagerFactory(Navigation.persistenceUnit, properties);
         } catch (Exception e) {
             LOGGER.error(e,e);
             throw e;
