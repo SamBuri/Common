@@ -39,7 +39,7 @@ public class CommonSearchTree {
     protected final TreeItem<SearchItem> triInvoicingRev = new TreeItem<>(new SearchItem("Invoicing"));
     protected List<SearchItem> commonSearchObjects = new ArrayList<>();
     protected List<TreeItem> treeItems;
-    private Class mainClass  = App.class;
+    private final Class mainClass  = App.class;
     private final List<SearchItem> sItems = Arrays.asList(
             //           Setup
             new SearchItem(mainClass, new BankAccountDA(), "BankAccount", "Bank Account", true, triSetup),

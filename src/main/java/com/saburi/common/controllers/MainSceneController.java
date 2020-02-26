@@ -31,7 +31,7 @@ import java.io.IOException;
  *
  * @author Hp
  */
-public abstract class MainController implements Initializable {
+public abstract class MainSceneController implements Initializable {
 
     protected final DesktopPane desktopPane = new DesktopPane();
     @FXML
@@ -41,11 +41,11 @@ public abstract class MainController implements Initializable {
     @FXML
     private Label lblStatusBar;
     @FXML
-    private MenuItem mnuSettingsUsersAdd;
+    protected MenuItem mnuSearchEngine;
+    @FXML
+    private MenuItem mnuSettingsUsersAdd, mnuSettingsUsersUpdate;
     @FXML
     private MenuItem mnuStaffAdd, mnuStaffUpdate, mnuStaffView;
-    @FXML
-    private MenuItem mnuSettingsUsersUpdate;
     @FXML
     private MenuItem mnuSettingsLookupDataAdd, mnuSettingsLookupDataUpdate, mnuSettingsLookupDataView;
     @FXML
@@ -125,8 +125,8 @@ public abstract class MainController implements Initializable {
         stpMain.getChildren().add(desktopPane);
         Navigation.setParents(desktopPane, stpMain);
         setIcons();
-        mnuFileClose.setOnAction(e->System.exit(0));
-        mnuFileLogout.setOnAction(e->{
+        mnuFileClose.setOnAction(e -> System.exit(0));
+        mnuFileLogout.setOnAction(e -> {
             CurrentUser.setAppUser(null);
             lblStatusBar.getScene().getWindow().hide();
             LoginHelper.showStage("Login");
@@ -139,9 +139,7 @@ public abstract class MainController implements Initializable {
                 CurrentFinacialPeriod.setFinancialPeriodDA(new FinancialPeriodDA((FinancialPeriod) op.get()));
             }
         });
-        
-        
-        
+
         editMenuItemClick(mnuSettingsLookupDataAdd, "LookupData", "Lookup Data", FormMode.Save);
         editMenuItemClick(mnuSettingsLookupDataUpdate, "LookupData", "Lookup Data", FormMode.Update);
         viewMenuItemClick(mnuSettingsLookupDataView, new LookupDataDA(), "LookupData", "Lookup Data", true, true);

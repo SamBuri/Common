@@ -21,9 +21,11 @@ public class App  extends Application{
         Navigation.parentScene = CommonNavigate.MAIN_CLASS;
         Navigation.parentFXMl = "MainScene";
         Navigation.persistenceUnit = "com.saburi.mysql.common";
+        Navigation.appTitle="Common App";
         scene = new Scene(CommonNavigate.loadFXML("LoginEdit"));
+        scene.getStylesheets().add(Navigation.styleControls);
          stage.setScene(scene);
-         stage.setTitle("Common App");
+         stage.setTitle(Navigation.appTitle);
         stage.show();
         } catch (IOException e) {
             FXUIUtils.errorMessage(e);

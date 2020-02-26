@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.ContextMenu?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
+<VBox id="Registration"  spacing="10"  xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.RegistrationController">
+<children>
+
+<GridPane vgap ="4" hgap="10">
+<padding>
+<Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+</padding>
+ <Label id="Registration" fx:id="lblAcademicPeriod" minWidth="100" text="Academic Period" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+<TextField fx:id = "txtAcademicPeriod" id = "Registration"  GridPane.rowIndex = "0" GridPane.columnIndex = "1" minWidth="100" promptText = "Enter Academic Period"/> <Label id="Registration" fx:id="lblStudentID" minWidth="100" text="Student ID" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+<TextField fx:id = "txtStudentID" id = "Registration"  GridPane.rowIndex = "1" GridPane.columnIndex = "1" minWidth="100" promptText = "Enter Student ID"/> <Label id="Registration" fx:id="lblRegistrationID" minWidth="100" text="Regisition ID" GridPane.columnIndex="0" GridPane.rowIndex="2" />
+<TextField fx:id = "txtRegistrationID" id = "Registration"  GridPane.rowIndex = "2" GridPane.columnIndex = "1"  minWidth="100" promptText = "Enter Regisition ID">
+<contextMenu>
+  <ContextMenu fx:id ="cmuSelectRegistrationID" id = "Registration">
+ <items>
+<MenuItem mnemonicParsing="false" fx:id ="cmiLoad" id = "Registration" text="Load" />   </items>
+</ContextMenu>
+ </contextMenu>
+</TextField>  <Label id="Registration" fx:id="lblAcademicPeriod" minWidth="100" text="Academic Period" GridPane.columnIndex="0" GridPane.rowIndex="3" />
+<TextField fx:id = "txtAcademicPeriod" id = "Registration"  GridPane.rowIndex = "3" GridPane.columnIndex = "1" minWidth="100" promptText = "Enter Academic Period"/> <Label id="Registration" fx:id="lblStudentName" minWidth="100" text="Student Name" GridPane.columnIndex="0" GridPane.rowIndex="4" />
+<TextField fx:id = "txtStudentName" id = "Registration"  GridPane.rowIndex = "4" GridPane.columnIndex = "1" minWidth="100" promptText = "Enter Student Name"/> <Label id="Registration" fx:id="lblStreams" minWidth="100" text="Streams" GridPane.columnIndex="0" GridPane.rowIndex="5" />
+<ComboBox fx:id = "cboStreams" id = "Registration"  GridPane.rowIndex = "5" GridPane.columnIndex = "1" promptText = "Select Streams" minWidth="185.0">
+<contextMenu>
+  <ContextMenu fx:id ="cmuSelectStreams" id = "Registration">
+ <items>
+<MenuItem mnemonicParsing="false" fx:id ="cmiSelectStreams" id = "Registration" text="Select Streams" />
+   </items>
+</ContextMenu>
+ </contextMenu>
+</ComboBox>  <Label id="Registration" fx:id="lblRegistrationDate" minWidth="100" text="Registration Date" GridPane.columnIndex="0" GridPane.rowIndex="6" />
+<DatePicker fx:id = "dtpRegistrationDate" id = "Registration"  GridPane.rowIndex = "6" GridPane.columnIndex = "1" minWidth="185.0"/> <Label id="Registration" fx:id="lblClasses" minWidth="100" text="Class" GridPane.columnIndex="0" GridPane.rowIndex="7" />
+<ComboBox fx:id = "cboClasses" id = "Registration"  GridPane.rowIndex = "7" GridPane.columnIndex = "1" promptText = "Select Class" minWidth="185.0">
+<contextMenu>
+  <ContextMenu fx:id ="cmuSelectClasses" id = "Registration">
+ <items>
+<MenuItem mnemonicParsing="false" fx:id ="cmiSelectClasses" id = "Registration" text="Select Classes" />
+   </items>
+</ContextMenu>
+ </contextMenu>
+</ComboBox>  <Label id="Registration" fx:id="lblAverage" minWidth="100" text="Average" GridPane.columnIndex="0" GridPane.rowIndex="8" />
+<TextField fx:id = "txtAverage" id = "Registration"  GridPane.rowIndex = "8" GridPane.columnIndex = "1" minWidth="100" promptText = "Enter Average"/> <Label id="Registration" fx:id="lblPoints" minWidth="100" text="Points" GridPane.columnIndex="0" GridPane.rowIndex="9" />
+<TextField fx:id = "txtPoints" id = "Registration"  GridPane.rowIndex = "9" GridPane.columnIndex = "1" minWidth="100" promptText = "Enter Points"/></GridPane>
+<AnchorPane>
+<VBox spacing="2" AnchorPane.bottomAnchor="27.0" AnchorPane.leftAnchor="7.0">
+<Button id="Registration" fx:id="btnSearch"  prefWidth="80.0" text="Search" visible="false" />
+<Button id="Registration" fx:id="btnSave"  prefHeight="25.0" prefWidth="80.0" text="Save" />
+</VBox>
+<VBox spacing="2" AnchorPane.bottomAnchor="27.0" AnchorPane.rightAnchor="7.0">
+<Button id="Registration" fx:id="btnDelete"  prefWidth="80.0" text="Delete" visible="false" />
+<Button id="Registration" fx:id="btnClose"  prefHeight="25.0" prefWidth="80.0" text="Close" />
+</VBox>
+</AnchorPane></children>
+
+</VBox>
+

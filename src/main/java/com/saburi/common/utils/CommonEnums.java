@@ -14,6 +14,10 @@ public class CommonEnums {
     public static enum DataTypes {
         NUMBER, STRING, BOOLEAN, DATE
     }
+    
+    public static enum NumericDataTypes {
+        INTEGER, FLOAT, DOUBLE
+    }
 
     public enum Rights {
         Create, Read, Update, Delete
