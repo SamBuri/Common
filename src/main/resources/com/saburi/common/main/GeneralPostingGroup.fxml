@@ -10,7 +10,7 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.ComboBox?>
-<VBox id="GeneralPostingGroup"  spacing="10"  xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.saburi.common.controllers.GeneralPostingGroupController">
+<VBox fx:id = "mVBox" id="GeneralPostingGroup"  spacing="10"  xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.saburi.common.controllers.GeneralPostingGroupController">
     <children>
 
         <GridPane vgap ="4" hgap="10">

@@ -20,7 +20,7 @@ public class CommonEnums {
     }
 
     public enum Rights {
-        Create, Read, Update, Delete
+        Create, Read, Update, Delete, Print
     }
 
     public enum ObjectTypes {

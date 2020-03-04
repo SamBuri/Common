@@ -113,12 +113,12 @@ public abstract class MainSceneController implements Initializable {
     private MenuItem spmSaleOrderAdd, spmSaleOrderUpdate, spmSaleOrderView;
 
     @FXML
-    private MenuItem spmInvoiceAdd, spmInvoiceUpdate, spmInvoiceView;
+    private MenuItem spmInvoiceAdd, spmInvoicePrint, spmInvoiceView;
     @FXML
-    private MenuItem spmReceiptAdd, spmReceiptUpdate, spmReceiptView;
+    private MenuItem spmReceiptAdd, spmReceiptPrint, spmReceiptView;
 
     @FXML
-    SplitMenuButton spmCustomer, spmInvoicing, spmJournalEntry;
+    SplitMenuButton spmCustomer, spmSales, spmJournalEntry;
 
     protected void init() throws IOException {
         desktopPane.setMinHeight(stpMain.getHeight());
@@ -259,18 +259,18 @@ public abstract class MainSceneController implements Initializable {
         viewMenuItemClick(spmSaleOrderView, new SaleOrderDA(), "SaleOrder", "Sale Orders", false, true);
 
         editMenuItemClick(spmInvoiceAdd, "Invoice", "Invoice", FormMode.Save);
-        editMenuItemClick(spmInvoiceUpdate, "Invoice", "Invoice", FormMode.Update);
+        editMenuItemClick(spmInvoicePrint, "Invoice", "Invoice", FormMode.Print);
         viewMenuItemClick(spmInvoiceView, new InvoiceDA(), "Invoice", "Invoice", false, true);
 
         editMenuItemClick(spmReceiptAdd, FontAwesomeIcon.MONEY, "Receipt", "Receipt", FormMode.Save);
-        editMenuItemClick(spmReceiptUpdate, "Receipt", "Receipt", FormMode.Update);
+        editMenuItemClick(spmReceiptPrint, "Receipt", "Receipt", FormMode.Print);
         viewMenuItemClick(spmReceiptView, new ReceiptDA(), "Receipt", "Receipt", false, true);
 
     }
 
     private void setIcons() {
         spmCustomer.setGraphic(GlyphsDude.createIcon(FontAwesomeIcon.USER));
-        spmInvoicing.setGraphic(GlyphsDude.createIcon(FontAwesomeIcon.MONEY));
+        spmSales.setGraphic(GlyphsDude.createIcon(FontAwesomeIcon.MONEY));
         spmJournalEntry.setGraphic(GlyphsDude.createIcon(FontAwesomeIcon.BOOK));
     }
 

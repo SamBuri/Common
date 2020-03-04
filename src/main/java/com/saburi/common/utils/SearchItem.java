@@ -23,8 +23,11 @@ public class SearchItem {
     private String uiName;
     private String title;
     private boolean constrainColumns;
+    private boolean editable = true;
+    private boolean printable = false;
     private TreeItem<SearchItem> parent;
     private Class mainClass;
+
     public SearchItem(String title) {
         this.title = title;
     }
@@ -35,15 +38,27 @@ public class SearchItem {
     }
 
     public SearchItem(Class mainClass, DBAccess dbAccess, String uiName, String title, boolean constrainColumns) {
-        this.mainClass= mainClass;
+        this.mainClass = mainClass;
         this.dbAccess = dbAccess;
         this.uiName = uiName;
         this.title = title;
         this.constrainColumns = constrainColumns;
     }
 
-    public SearchItem(Class mainClass, DBAccess dbAccess, SearchItemTypes searchItemTypes, String uiName, String title, boolean constrainColumns) {
-        this.mainClass =  mainClass;
+    public SearchItem(Class mainClass, DBAccess dbAccess, String uiName, String title, boolean constrainColumns,
+            boolean editable, boolean printable) {
+        this.mainClass = mainClass;
+        this.dbAccess = dbAccess;
+        this.uiName = uiName;
+        this.title = title;
+        this.constrainColumns = constrainColumns;
+        this.editable = editable;
+        this.printable = printable;
+    }
+
+    public SearchItem(Class mainClass, DBAccess dbAccess, SearchItemTypes searchItemTypes, String uiName, String title,
+            boolean constrainColumns) {
+        this.mainClass = mainClass;
         this.dbAccess = dbAccess;
         this.uiName = uiName;
         this.title = title;
@@ -51,7 +66,65 @@ public class SearchItem {
         this.searchItemTypes = searchItemTypes;
     }
 
-    public SearchItem(Class mainClass, DBAccess dbAccess, List<DBAccess> dBAccesses, List<SearchColumn> searchColumns, SearchItemTypes searchItemTypes, String uiName, String title, boolean constrainColumns) {
+    public SearchItem(Class mainClass, DBAccess dbAccess, List<DBAccess> dBAccesses, List<SearchColumn> searchColumns,
+            String uiName, String title, boolean constrainColumns) {
+        this.mainClass = mainClass;
+        this.dbAccess = dbAccess;
+        this.dBAccesses = dBAccesses;
+        this.searchColumns = searchColumns;
+        this.uiName = uiName;
+        this.title = title;
+        this.constrainColumns = constrainColumns;
+    }
+
+    public SearchItem(Class mainClass, DBAccess dbAccess, List<DBAccess> dBAccesses, List<SearchColumn> searchColumns,
+            String uiName, String title,
+            boolean constrainColumns, TreeItem<SearchItem> parent) {
+        this.mainClass = mainClass;
+        this.dbAccess = dbAccess;
+        this.dBAccesses = dBAccesses;
+        this.searchColumns = searchColumns;
+        this.uiName = uiName;
+        this.title = title;
+        this.constrainColumns = constrainColumns;
+        this.parent = parent;
+    }
+
+    public SearchItem(Class mainClass, DBAccess dbAccess, String uiName, String title, boolean constrainColumns,
+            TreeItem<SearchItem> parent) {
+        this.mainClass = mainClass;
+        this.dbAccess = dbAccess;
+        this.uiName = uiName;
+        this.title = title;
+        this.constrainColumns = constrainColumns;
+        this.parent = parent;
+    }
+
+    public SearchItem(Class mainClass, DBAccess dbAccess, String uiName, String title, boolean constrainColumns,
+            TreeItem<SearchItem> parent, boolean editable, boolean printable) {
+        this.mainClass = mainClass;
+        this.dbAccess = dbAccess;
+        this.uiName = uiName;
+        this.title = title;
+        this.constrainColumns = constrainColumns;
+        this.parent = parent;
+        this.editable = editable;
+        this.printable = printable;
+    }
+
+    public SearchItem(Class mainClass, DBAccess dbAccess, SearchItemTypes searchItemTypes, String uiName,
+            String title, boolean constrainColumns, TreeItem<SearchItem> parent) {
+        this.mainClass = mainClass;
+        this.dbAccess = dbAccess;
+        this.searchItemTypes = searchItemTypes;
+        this.uiName = uiName;
+        this.title = title;
+        this.constrainColumns = constrainColumns;
+        this.parent = parent;
+    }
+
+    public SearchItem(Class mainClass, DBAccess dbAccess, List<DBAccess> dBAccesses,
+            List<SearchColumn> searchColumns, SearchItemTypes searchItemTypes, String uiName, String title, boolean constrainColumns, TreeItem<SearchItem> parent) {
         this.mainClass = mainClass;
         this.dbAccess = dbAccess;
         this.dBAccesses = dBAccesses;
@@ -60,9 +133,11 @@ public class SearchItem {
         this.uiName = uiName;
         this.title = title;
         this.constrainColumns = constrainColumns;
+        this.parent = parent;
     }
 
-    public SearchItem(Class mainClass, DBAccess dbAccess, List<DBAccess> dBAccesses, List<SearchColumn> searchColumns, String uiName, String title, boolean constrainColumns, TreeItem<SearchItem> parent) {
+    public SearchItem(Class mainClass, DBAccess dbAccess, List<DBAccess> dBAccesses, List<SearchColumn> searchColumns,
+            String uiName, String title, boolean constrainColumns, TreeItem<SearchItem> parent, boolean editable, boolean printable) {
         this.mainClass = mainClass;
         this.dbAccess = dbAccess;
         this.dBAccesses = dBAccesses;
@@ -71,37 +146,8 @@ public class SearchItem {
         this.title = title;
         this.constrainColumns = constrainColumns;
         this.parent = parent;
-    }
-
-    public SearchItem(Class mainClass, DBAccess dbAccess, String uiName, String title, boolean constrainColumns, TreeItem<SearchItem> parent) {
-       this.mainClass = mainClass;
-        this.dbAccess = dbAccess;
-        this.uiName = uiName;
-        this.title = title;
-        this.constrainColumns = constrainColumns;
-        this.parent = parent;
-    }
-
-    public SearchItem(Class mainClass, DBAccess dbAccess, SearchItemTypes searchItemTypes, String uiName, String title, boolean constrainColumns, TreeItem<SearchItem> parent) {
-        this.mainClass = mainClass;
-        this.dbAccess = dbAccess;
-        this.searchItemTypes = searchItemTypes;
-        this.uiName = uiName;
-        this.title = title;
-        this.constrainColumns = constrainColumns;
-        this.parent = parent;
-    }
-
-    public SearchItem(Class mainClass, DBAccess dbAccess, List<DBAccess> dBAccesses, List<SearchColumn> searchColumns, SearchItemTypes searchItemTypes, String uiName, String title, boolean constrainColumns, TreeItem<SearchItem> parent) {
-        this.mainClass = mainClass;
-        this.dbAccess = dbAccess;
-        this.dBAccesses = dBAccesses;
-        this.searchColumns = searchColumns;
-        this.searchItemTypes = searchItemTypes;
-        this.uiName = uiName;
-        this.title = title;
-        this.constrainColumns = constrainColumns;
-        this.parent = parent;
+        this.editable = editable;
+        this.printable = printable;
     }
 
     public Class getMainClass() {
@@ -112,8 +158,6 @@ public class SearchItem {
         this.mainClass = mainClass;
     }
 
-    
-    
     public DBAccess getDbAccess() {
         return dbAccess;
     }
@@ -176,6 +220,14 @@ public class SearchItem {
 
     public void setParent(TreeItem<SearchItem> parent) {
         this.parent = parent;
+    }
+
+    public boolean isEditable() {
+        return editable;
+    }
+
+    public boolean isPrintable() {
+        return printable;
     }
 
 }

@@ -1,0 +1,5 @@
+IdHelper, Id Helper, int, ,, , , ID_Helper, 100, false, false, 
+ItemGroup, Item Group, String, ItemGroups,, , , ID_Generator, 100, true, false, CommonEnums
+ItemCategoryID, Item Category ID, String, ,, , Primary, , 20, false, false, 
+ItemCategoryName, Item Category Name, String, ,, , Unique, Display, 100, false, false, 
+Hidden, Hidden, boolean

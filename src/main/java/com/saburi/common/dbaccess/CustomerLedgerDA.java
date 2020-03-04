@@ -298,10 +298,10 @@ public class CustomerLedgerDA extends DBAccess {
         this.searchColumns.add(new SearchColumn("description", "Description", this.description.get(), SearchDataTypes.STRING));
         this.searchColumns.add(new SearchColumn("documentNo", "Document No", this.documentNo.get(), SearchDataTypes.STRING));
         this.searchColumns.add(new SearchColumn("referenceNo", "Reference No", this.referenceNo.get(), SearchDataTypes.STRING));
-        this.searchColumns.add(new SearchColumn("amount", "Amount", this.amount.get(), SearchDataTypes.NUMBER));
-        this.searchColumns.add(new SearchColumn("debit", "Debit", this.debit.get(), SearchDataTypes.NUMBER));
-        this.searchColumns.add(new SearchColumn("credit", "Credit", this.credit.get(), SearchDataTypes.NUMBER));
-        this.searchColumns.add(new SearchColumn("balance", "Balance", this.balance.get(), SearchDataTypes.NUMBER));
+        this.searchColumns.add(new SearchColumn("amountDisplay", "Amount", this.amountDisplay.get(), SearchDataTypes.NUMBER));
+        this.searchColumns.add(new SearchColumn("debitDisplay", "Debit", this.debitDisplay.get(), SearchDataTypes.NUMBER));
+        this.searchColumns.add(new SearchColumn("creditDisplay", "Credit", this.creditDisplay.get(), SearchDataTypes.NUMBER));
+        this.searchColumns.add(new SearchColumn("balanceDisplay", "Balance", this.balanceDisplay.get(), SearchDataTypes.NUMBER));
         this.searchColumns.addAll(this.getDefaultSearchColumns());
     }
 

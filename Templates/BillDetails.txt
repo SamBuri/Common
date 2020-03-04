@@ -1,0 +1,9 @@
+Bill, Bill, String. Bill
+Item, Item, String, Item
+BillDetailID, Bill Detail ID, String
+Quantity, Quantity, int
+UnitPrice, Unit Price, double
+Discount, Discount, double
+Amount, Amount, double
+InvoiceStatus, Invoice Status, String, InvoiceStatus
+InvoiceNo, Invoice No, String 

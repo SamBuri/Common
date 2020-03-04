@@ -12,6 +12,7 @@ import com.saburi.common.entities.DBEntity;
 import com.saburi.common.utils.CommonEnums.Rights;
 import com.saburi.common.utils.CommonNavigate;
 import com.saburi.common.utils.CurrentUser;
+import com.saburi.common.utils.FXUIUtils;
 import static com.saburi.common.utils.FXUIUtils.close;
 import static com.saburi.common.utils.FXUIUtils.errorMessage;
 import static com.saburi.common.utils.FXUIUtils.getSelectedItem;
@@ -25,6 +26,7 @@ import javafx.scene.control.Control;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.VBox;
 
 /**
  *
@@ -32,6 +34,8 @@ import javafx.scene.control.TextField;
  */
 public abstract class EditController implements Initializable {
 
+    @FXML
+    protected VBox mVBox;
     @FXML
     protected Button btnSave, btnSearch, btnDelete, btnClose;
     @FXML
@@ -52,13 +56,14 @@ public abstract class EditController implements Initializable {
     protected boolean popuprestrainConstraint = false;
     protected TableView tableView;
     protected boolean editSuccessful = false;
-    protected Class mainClass = CommonNavigate.MAIN_CLASS; 
+    protected Class mainClass = CommonNavigate.MAIN_CLASS;
 
-    public void setEdit(Object primaryKeyValue) {
-        this.formMode = FormMode.Update;
-        btnSave.setText(FormMode.Update.name());
-        btnSearch.setVisible(true);
-        btnDelete.setVisible(true);
+    public void setEdit(Object primaryKeyValue, FormMode formMode) {
+        this.formMode = formMode;
+        btnSave.setText(formMode.name());
+        boolean editMode = formMode.equals(FormMode.Update);
+        btnSearch.setVisible(editMode);
+        btnDelete.setVisible(editMode);
 
         if (primaryKeyControl instanceof TextField) {
             TextField textField = (TextField) primaryKeyControl;
@@ -84,19 +89,17 @@ public abstract class EditController implements Initializable {
         btnSave.setText(formMode.name());
         btnSearch.setVisible(formMode.equals(FormMode.Update));
         btnDelete.setVisible(formMode.equals(FormMode.Update));
-        cmiLoad.setVisible(formMode.equals(FormMode.Update));
+        cmiLoad.setVisible(formMode.equals(FormMode.Update) || formMode.equals(FormMode.Print));
         CurrentUser.applyRights(btnSave, Rights.Create);
         CurrentUser.applyRights(btnDelete, Rights.Delete);
         CurrentUser.applyRights(cmiLoad, Rights.Read);
         if (formMode.equals(FormMode.Update)) {
             CurrentUser.applyRights(btnSave, Rights.Update);
-            if (primaryKeyControl instanceof TextField) {
-                TextField textField = (TextField) primaryKeyControl;
-                textField.clear();
-            } else if (primaryKeyControl instanceof ComboBox) {
-                ComboBox textField = (ComboBox) primaryKeyControl;
-                textField.setValue(null);
-            }
+            clearPrimaryKey();
+        } else if ( formMode.equals(FormMode.Print)) {
+            CurrentUser.applyRights(btnSave, Rights.Print);
+            clearPrimaryKey();
+            disable();
         }
 
         btnSave.setOnAction(e -> {
@@ -156,6 +159,14 @@ public abstract class EditController implements Initializable {
 
     protected abstract void loadData();
 
+    protected void clear() {
+        FXUIUtils.clear(mVBox);
+    }
+
+    protected void disable() {
+        FXUIUtils.enabled(mVBox, false);
+    }
+
     public String getEditUI() {
         return editUI;
     }
@@ -182,6 +193,16 @@ public abstract class EditController implements Initializable {
 
     public void setTableView(TableView tableView) {
         this.tableView = tableView;
+    }
+
+    private void clearPrimaryKey() {
+        if (primaryKeyControl instanceof TextField) {
+                TextField textField = (TextField) primaryKeyControl;
+                textField.clear();
+            } else if (primaryKeyControl instanceof ComboBox) {
+                ComboBox textField = (ComboBox) primaryKeyControl;
+                textField.setValue(null);
+            }
     }
 
 }

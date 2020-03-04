@@ -120,12 +120,6 @@ public class ItemCategoryController extends EditController {
         }
     }
 
-    private void clear() {
-        cboItemGroup.setValue(null);
-        txtItemCategoryID.clear();
-        txtItemCategoryName.clear();
-        chkHidden.setSelected(false);
-        cboItemGroup.setOnAction(e -> this.setNextItemCategoryID());
-    }
+   
 
 }

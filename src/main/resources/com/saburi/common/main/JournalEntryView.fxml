@@ -14,7 +14,7 @@
 <?import javafx.scene.control.cell.PropertyValueFactory?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Button?>
-<VBox id="JournalEntry" minWidth="800.0" spacing="10" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.saburi.common.controllers.JournalEntryViewController">
+<VBox fx:id = "mVBox" id="JournalEntry" minWidth="800.0" spacing="10" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.saburi.common.controllers.JournalEntryViewController">
     <children>
         <HBox spacing= "10">
             <padding>

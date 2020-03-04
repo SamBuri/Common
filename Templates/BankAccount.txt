@@ -1,0 +1,14 @@
+IdHelper, IdHelper, int, ,, , , ID_Helper, 100, false, false, 
+BankAccountID, Bank Account ID, String, ,, , Primary, , 20, false, false, 
+BankAccountName, Bank Account Name, String, ,, , , Display, 100, false, false, 
+BankAccountType, Bank Account Type, String, BankAccountTypes,, , , , 100, true, true, CommonEnums
+Currency, Currency, String, Currency
+AccountNo, Account No, String
+BankName, Bank Name, String
+BranchName, Branch Name, String
+PostingAccount, Posting Account, String, ChartAccount
+PhoneNo, Phone No, String, ,, , , , 100, false, true, 
+Email, Email, String, ,, , , , 100, false, true, 
+Address, Address, String, ,, , , , 200, false, true,
+isDefault, Is Default, boolean  
+Balance, Balance, double

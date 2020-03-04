@@ -18,6 +18,7 @@ import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.saburi.common.utils.CommonEnums.NumericDataTypes;
 import static com.saburi.common.utils.PDFDocuments.SUBHEADER;
+import static com.saburi.common.utils.Utilities.isNullOrEmpty;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -33,9 +34,62 @@ import javafx.scene.control.TableView;
  */
 public class JavaFXPDF extends PDFDocuments {
 
+    private Map<String, Object> headMap;
+    private int headerSeperator, startXpos, startYpos, hSpace, vSpace, lineBreak, colDist;
+    private TableView<?> tableToPrint;
+    private List<PrintableColumn> printableColumns;
+    private String title;
+    private String[] signitories;
+    private String tableHeader;
+    private String tableFooter;
+
     public JavaFXPDF(String fileName, Rectangle pageSize) throws FileNotFoundException, DocumentException {
         super(fileName, pageSize);
     }
+    
+    public JavaFXPDF(String fileName, Rectangle pageSize, Map<String, Object> headMap, int headerSeperator,
+            int startXpos, int startYpos, int hSpace, int vSpace, int lineBreak, int colDist, 
+            TableView<?> tableToPrint, List<PrintableColumn> printableColumns, 
+            String title, String[] signitories, String tableFooter) throws FileNotFoundException, DocumentException {
+        super(fileName, pageSize);
+        this.headMap = headMap;
+        this.headerSeperator = headerSeperator;
+        this.startXpos = startXpos;
+        this.startYpos = startYpos;
+        this.hSpace = hSpace;
+        this.vSpace = vSpace;
+        this.lineBreak = lineBreak;
+        this.colDist = colDist;
+        this.tableToPrint = tableToPrint;
+        this.printableColumns = printableColumns;
+        this.title = title;
+        this.signitories = signitories;
+        this.tableFooter = tableFooter;
+    }
+
+    public JavaFXPDF(String fileName, Rectangle pageSize, Map<String, Object> headMap, int headerSeperator, int startXpos, int startYpos, int hSpace, int vSpace, int lineBreak, int colDist, TableView<?> tableToPrint, List<PrintableColumn> printableColumns, String title, String[] signitories, String tableHeader, String tableFooter) throws FileNotFoundException, DocumentException {
+        super(fileName, pageSize);
+        this.headMap = headMap;
+        this.headerSeperator = headerSeperator;
+        this.startXpos = startXpos;
+        this.startYpos = startYpos;
+        this.hSpace = hSpace;
+        this.vSpace = vSpace;
+        this.lineBreak = lineBreak;
+        this.colDist = colDist;
+        this.tableToPrint = tableToPrint;
+        this.printableColumns = printableColumns;
+        this.title = title;
+        this.signitories = signitories;
+        this.tableHeader = tableHeader;
+        this.tableFooter = tableFooter;
+    }
+
+    public void modifyTitle() {
+        this.title = this.title.concat(" (COPY)");
+    }
+    
+    
 
     private int getFont(int columns) {
         int tfont = 7;
@@ -60,12 +114,12 @@ public class JavaFXPDF extends PDFDocuments {
         List headers = new ArrayList();
 
         printableColumns.forEach((column) -> {
-            String title = column.getTitle();
+            String columnTitle = column.getTitle();
             TableColumn tableColumn = column.getTableColumn();
-            if (title.isBlank()) {
-                title = tableColumn.getText();
+            if (columnTitle.isBlank()) {
+                columnTitle = tableColumn.getText();
             }
-            headers.add(title);
+            headers.add(columnTitle);
         });
         return headers;
     }
@@ -205,7 +259,7 @@ public class JavaFXPDF extends PDFDocuments {
 
             int index = 0;
             boolean addTotals = printableColumns.stream()
-                    .filter((p)->p.isComputeTotal())
+                    .filter((p) -> p.isComputeTotal())
                     .map(PrintableColumn::isComputeTotal)
                     .findAny().orElse(false);
             for (PrintableColumn printableColumn : printableColumns) {
@@ -332,8 +386,10 @@ public class JavaFXPDF extends PDFDocuments {
         }
     }
 
-    public void makePDFDocument(Map<String, Object> headMap, int startXpos, int startYpos, int hSpace, int vSpace, int lineBreak, int colDist,
-            TableView<?> tableToPrint, List<TableColumn> tableColumns, String title, String[] signitories) throws IOException, DocumentException {
+    public void makePDFDocument(Map<String, Object> headMap, int startXpos, int startYpos, int hSpace,
+            int vSpace, int lineBreak, int colDist,
+            TableView<?> tableToPrint, List<TableColumn> tableColumns,
+            String title, String[] signitories) throws IOException, DocumentException {
 
         try {
             Paragraph ttitle = new Paragraph(title, SUBHEADER);
@@ -392,16 +448,15 @@ public class JavaFXPDF extends PDFDocuments {
 
     }
 
-    public void makePrintablePDFDocument(Map<String, Object> headMap, int startXpos, int startYpos, int hSpace, int vSpace, int lineBreak, int colDist,
-            TableView<?> tableToPrint, List<PrintableColumn> printableColumns, String title, String[] signitories) throws IOException, DocumentException {
+    public void makePrintablePDFDocument() throws IOException, DocumentException {
 
         try {
-            Paragraph ttitle = new Paragraph(title, SUBHEADER);
-            ttitle.setAlignment(Element.ALIGN_CENTER);
+            Paragraph titleParagraph = new Paragraph(title, SUBHEADER);
+            titleParagraph.setAlignment(Element.ALIGN_CENTER);
 
             this.document.open();
-            this.document.add(ttitle);
-            Paragraph p = new Paragraph();
+            this.document.add(titleParagraph);
+            Paragraph headerParagraph = new Paragraph();
             int count = 0;
             boolean addVSpace = true;
             int initialYStart = startYpos;
@@ -415,7 +470,7 @@ public class JavaFXPDF extends PDFDocuments {
                 startYpos += vSpace;
                 count++;
                 if (addVSpace) {
-                    p.add(Chunk.NEWLINE);
+                    headerParagraph.add(Chunk.NEWLINE);
                 }
                 if (count == lineBreak) {
                     startXpos += startXpos + hSpace + colDist;
@@ -425,14 +480,26 @@ public class JavaFXPDF extends PDFDocuments {
                 }
 
             }
-            addBlankVerticalkSpace(p, 2);
-
+            addBlankVerticalkSpace(headerParagraph, headerSeperator);
+//            document.add(headerParagraph);
+//            Paragraph tableParagraph =  new Paragraph(tableHeader, BODYNOMAL);
             PdfPTable table = getPrintablePDFTable(tableToPrint, printableColumns);
             table.setWidthPercentage(100);
             table.setSpacingBefore(30f);
             table.setSpacingAfter(0f);
-            p.add(table);
-            this.document.add(p);
+            if (!isNullOrEmpty(tableHeader)) {
+                Paragraph paragraph = new Paragraph("", BODYNOMAL_UNDERLINED);
+                paragraph.setAlignment(Element.ALIGN_CENTER);
+                paragraph.add(tableHeader);
+                headerParagraph.add(paragraph);
+
+            }
+            headerParagraph.add(table);
+            if (!tableFooter.isBlank()) {
+                Paragraph paragraph = new Paragraph(tableFooter, BODYBOLD);
+                headerParagraph.add(paragraph);
+            }
+            this.document.add(headerParagraph);
             Paragraph signParagraph = new Paragraph("", BODYNOMAL);
             addBlankVerticalkSpace(signParagraph, 1);
             for (String signitory : signitories) {

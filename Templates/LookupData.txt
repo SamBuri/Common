@@ -1,0 +1,7 @@
+IdHelper, Id Helper, int, ,, , , ID_Helper, 100, false, false, 
+LookupObject, Lookup Object, String, LookupObject,, OneToOne, Foreign, ID_Generator, 100, false, false, 
+LookupDataID, Lookup Data ID, String, ,, , Primary, , 100, false, false, 
+LookupDataName, Lookup Data Name, String, ,, , , Display, 100, false, false, 
+ReadOnly, ReadOnly, boolean, ,, , , , 100, false, true, 
+Hidden, Hidden, boolean, ,, , , , 100, false, true, 
+IsDefault, IsDefault, boolean, ,, , , , 100, false, true, 

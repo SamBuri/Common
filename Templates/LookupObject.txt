@@ -1,0 +1,4 @@
+LookupObjectID, Lookup Object ID, int, ,, , Primary, , 100, false, false, 
+LookupObjectName, Lookup Object Name, String, ,, , , Display, 40, false, false, 
+ReadOnly, ReadOnly, boolean, ,, , , , 100, false, true, 
+Hidden, Hidden, boolean, ,, , , , 100, false, true, 

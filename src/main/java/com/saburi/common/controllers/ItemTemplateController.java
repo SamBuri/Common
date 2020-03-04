@@ -144,15 +144,4 @@ public class ItemTemplateController extends EditController {
 
     }
 
-    private void clear() {
-        txtTemplateName.clear();
-        cboItemCategory.setValue(null);
-        txtItemCategoryGroup.clear();
-        cboItemGroup.setValue(null);
-        cboVATItemGroup.setValue(null);
-        cboInventoryGroup.setValue(null);
-        cboMeasureGroup.setValue(null);
-
-    }
-
 }

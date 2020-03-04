@@ -7,41 +7,42 @@ package com.saburi.common.dbaccess;
 import com.saburi.common.entities.ChartAccount;
 import javafx.beans.property.*;
 import java.util.ArrayList;
+import com.saburi.common.entities.AppRevisionEntity;
 import java.util.List;
-import javafx.util.Pair;
 import com.saburi.common.utils.SearchColumn;
 import com.saburi.common.utils.SearchColumn.SearchDataTypes;
+import org.hibernate.envers.RevisionType;
 import com.saburi.common.utils.CommonEnums.AccountTypes;
 import com.saburi.common.entities.AccountCategory;
+import com.saburi.common.entities.DBEntity;
+import com.saburi.common.utils.CommonEnums.AccountActions;
+import com.saburi.common.utils.CommonEnums.AccountReports;
+import static com.saburi.common.utils.Utilities.formatNumber;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Join;
 import javax.persistence.criteria.Root;
-import com.saburi.common.utils.CommonEnums.AccountActions;
-import com.saburi.common.utils.CommonEnums.AccountReports;
-import com.saburi.common.utils.CurrentFinacialPeriod;
-import static com.saburi.common.utils.Utilities.formatNumber;
 
 public class ChartAccountDA extends DBAccess {
 
-    private ChartAccount chartAccount;
-    private SimpleIntegerProperty idHelper = new SimpleIntegerProperty(this, "idHelper");
-    private SimpleObjectProperty accountType = new SimpleObjectProperty(this, "accountType");
-    private SimpleStringProperty categoryDisplay = new SimpleStringProperty(this, "categoryDisplay");
-    private SimpleObjectProperty categoryID = new SimpleObjectProperty(this, "categoryID");
-    private AccountCategory category;
-    private SimpleStringProperty accountID = new SimpleStringProperty(this, "accountID");
-    private SimpleStringProperty accountName = new SimpleStringProperty(this, "accountName");
-    private SimpleObjectProperty accountAction = new SimpleObjectProperty(this, "accountAction");
-    private SimpleObjectProperty accountReport = new SimpleObjectProperty(this, "accountReport");
-    private SimpleDoubleProperty openingBalance = new SimpleDoubleProperty(this, "openingBalance");
-    private SimpleStringProperty openingBalanceDisplay = new SimpleStringProperty(this, "openingBalanceDisplay");
-    private SimpleDoubleProperty closingBalance = new SimpleDoubleProperty(this, "closingBalance");
-    private SimpleStringProperty closingBalanceDisplay = new SimpleStringProperty(this, "closingBalanceDisplay");
-    private SimpleBooleanProperty contra = new SimpleBooleanProperty(this, "contra");
-    private SimpleBooleanProperty readOnly = new SimpleBooleanProperty(this, "readOnly");
-    private SimpleBooleanProperty controlAccount = new SimpleBooleanProperty(this, "controlAccount");
-    private SimpleBooleanProperty hidden = new SimpleBooleanProperty(this, "hidden");
+    private ChartAccount chartAccount = new ChartAccount();
+    private final SimpleIntegerProperty idHelper = new SimpleIntegerProperty(this, "idHelper");
+    private final SimpleObjectProperty accountType = new SimpleObjectProperty(this, "accountType");
+    private final SimpleStringProperty accountCategoryDisplay = new SimpleStringProperty(this, "accountCategoryDisplay");
+    private final SimpleObjectProperty accountCategoryID = new SimpleObjectProperty(this, "accountCategoryID");
+    private AccountCategory accountCategory;
+    private final SimpleStringProperty accountID = new SimpleStringProperty(this, "accountID");
+    private final SimpleStringProperty accountName = new SimpleStringProperty(this, "accountName");
+    private final SimpleObjectProperty accountAction = new SimpleObjectProperty(this, "accountAction");
+    private final SimpleObjectProperty accountReport = new SimpleObjectProperty(this, "accountReport");
+    private final SimpleBooleanProperty contra = new SimpleBooleanProperty(this, "contra");
+    private final SimpleBooleanProperty controlAccount = new SimpleBooleanProperty(this, "controlAccount");
+    private final SimpleDoubleProperty openingBalance = new SimpleDoubleProperty(this, "openingBalance");
+    private final SimpleStringProperty openingBalanceDisplay = new SimpleStringProperty(this, "openingBalanceDisplay");
+    private final SimpleDoubleProperty closingBalance = new SimpleDoubleProperty(this, "closingBalance");
+    private final SimpleStringProperty closingBalanceDisplay = new SimpleStringProperty(this, "closingBalanceDisplay");
+    private final SimpleBooleanProperty readOnly = new SimpleBooleanProperty(this, "readOnly");
+    private final SimpleBooleanProperty hidden = new SimpleBooleanProperty(this, "hidden");
 
     public ChartAccountDA() {
         createSearchColumns();
@@ -64,15 +65,21 @@ public class ChartAccountDA extends DBAccess {
         createSearchColumns();
     }
 
-    public ChartAccountDA(AccountTypes accountType, AccountCategory category, String accountID, String accountName, AccountActions accountAction, AccountReports accountReport, double openingBalance, double closingBalance, boolean contra, boolean readOnly, boolean controlAccount, boolean hidden) {
-        this.chartAccount = new ChartAccount(getNextIdHelper(category), category, accountID, accountName, accountAction, accountReport, openingBalance, closingBalance, contra, readOnly, controlAccount, hidden);
+    public ChartAccountDA(AccountCategory accountCategory, String accountID, String accountName, AccountActions accountAction, AccountReports accountReport, boolean contra, boolean controlAccount, double openingBalance, double closingBalance, boolean readOnly, boolean hidden) {
+        this.chartAccount = new ChartAccount(getNextIdHelper(accountCategory), accountCategory, accountID, accountName, accountAction, accountReport, contra, controlAccount, openingBalance, closingBalance, readOnly, hidden);
+        initialseProprties();
+        createSearchColumns();
+    }
+    
+     public ChartAccountDA(AccountCategory accountCategory, String accountID, String accountName, AccountActions accountAction, AccountReports accountReport, boolean contra, boolean controlAccount, boolean readOnly, boolean hidden) {
+        this.chartAccount = new ChartAccount(getNextIdHelper(accountCategory), accountCategory, accountID, accountName, accountAction, accountReport, contra, controlAccount, readOnly, hidden);
         initialseProprties();
         createSearchColumns();
     }
 
-    public ChartAccountDA(String persistenceUnit, AccountTypes accountType, AccountCategory category, String accountID, String accountName, AccountActions accountAction, AccountReports accountReport, double openingBalance, double closingBalance, boolean contra, boolean readOnly, boolean controlAccount, boolean hidden) {
+    public ChartAccountDA(String persistenceUnit, AccountCategory accountCategory, String accountID, String accountName, AccountActions accountAction, AccountReports accountReport, boolean contra, boolean controlAccount, double openingBalance, double closingBalance, boolean readOnly, boolean hidden) {
         super(persistenceUnit);
-        this.chartAccount = new ChartAccount(getNextIdHelper(category), category, accountID, accountName, accountAction, accountReport, openingBalance, closingBalance, contra, readOnly, controlAccount, hidden);
+        this.chartAccount = new ChartAccount(getNextIdHelper(accountCategory), accountCategory, accountID, accountName, accountAction, accountReport, contra, controlAccount, openingBalance, closingBalance, readOnly, hidden);
         initialseProprties();
         createSearchColumns();
     }
@@ -90,42 +97,28 @@ public class ChartAccountDA extends DBAccess {
         return accountType.get();
     }
 
-    public void setAccountType(AccountTypes accountType) {
-        chartAccount.getCategory().setAccountType(accountType);
-        this.accountType.set(accountType);
+    
+    public AccountCategory getAccountCategory() {
+        return accountCategory;
     }
 
-    public AccountCategory getCategory() {
-        return category;
+    public Object getAccountCategoryID() {
+        return accountCategoryID.get();
     }
 
-    public Object getCategoryID() {
-        return categoryID.get();
+    public String getAccountCategoryDisplay() {
+        return accountCategoryDisplay.get();
     }
 
-    public String getCategoryDisplay() {
-        return categoryDisplay.get();
+    public AccountCategoryDA getAccountCategoryDA() {
+        return this.accountCategory != null ? new AccountCategoryDA(this.accountCategory) : null;
     }
 
-    public AccountCategoryDA getCategoryDA() {
-        if (this.category == null) {
-            return new AccountCategoryDA();
-        } else {
-            return new AccountCategoryDA(this.category);
-        }
-    }
-
-    public Pair<String, Object> getCategoryPair() {
-        if (this.getCategoryDA() == null) {
-            return new Pair<>("", "");
-        } else {
-            return this.getCategoryDA().keyValuePair();
-        }
-    }
-
-    public void setCategory(AccountCategory category) {
-        chartAccount.setCategory(category);
-        this.category = category;
+    public void setAccountCategory(AccountCategory accountCategory) {
+        chartAccount.setAccountCategory(accountCategory);
+        this.accountCategory = accountCategory;
+        this.accountCategoryID.set(accountCategory.getId());
+        this.accountCategoryDisplay.set(accountCategory.getDisplayKey());
     }
 
     public String getAccountID() {
@@ -164,6 +157,24 @@ public class ChartAccountDA extends DBAccess {
         this.accountReport.set(accountReport);
     }
 
+    public boolean isContra() {
+        return contra.get();
+    }
+
+    public void setContra(boolean contra) {
+        chartAccount.setContra(contra);
+        this.contra.set(contra);
+    }
+
+    public boolean isControlAccount() {
+        return controlAccount.get();
+    }
+
+    public void setControlAccount(boolean controlAccount) {
+        chartAccount.setControlAccount(controlAccount);
+        this.controlAccount.set(controlAccount);
+    }
+
     public double getOpeningBalance() {
         return openingBalance.get();
     }
@@ -175,6 +186,7 @@ public class ChartAccountDA extends DBAccess {
     public void setOpeningBalance(double openingBalance) {
         chartAccount.setOpeningBalance(openingBalance);
         this.openingBalance.set(openingBalance);
+        this.openingBalanceDisplay.set(formatNumber(openingBalance));
     }
 
     public double getClosingBalance() {
@@ -188,15 +200,7 @@ public class ChartAccountDA extends DBAccess {
     public void setClosingBalance(double closingBalance) {
         chartAccount.setClosingBalance(closingBalance);
         this.closingBalance.set(closingBalance);
-    }
-
-    public boolean isContra() {
-        return contra.get();
-    }
-
-    public void setContra(boolean contra) {
-        chartAccount.setContra(contra);
-        this.contra.set(contra);
+        this.closingBalanceDisplay.set(formatNumber(closingBalance));
     }
 
     public boolean isReadOnly() {
@@ -206,15 +210,6 @@ public class ChartAccountDA extends DBAccess {
     public void setReadOnly(boolean readOnly) {
         chartAccount.setReadOnly(readOnly);
         this.readOnly.set(readOnly);
-    }
-
-    public boolean isControlAccount() {
-        return controlAccount.get();
-    }
-
-    public void setControlAccount(boolean controlAccount) {
-        chartAccount.setControlAccount(controlAccount);
-        this.controlAccount.set(controlAccount);
     }
 
     public boolean isHidden() {
@@ -250,41 +245,42 @@ public class ChartAccountDA extends DBAccess {
 
     private void initialseProprties() {
         this.dBEntity = chartAccount;
-        this.idHelper = new SimpleIntegerProperty(chartAccount.getIdHelper());
-        this.accountType = new SimpleObjectProperty(chartAccount.getCategory().getAccountType());
-        this.category = chartAccount.getCategory();
-        if (this.category != null) {
-            this.categoryID = new SimpleObjectProperty(category.getId());
-            this.categoryDisplay = new SimpleStringProperty(category.getDisplayKey());
+        this.idHelper.set(chartAccount.getIdHelper());
+        
+        this.accountCategory = chartAccount.getAccountCategory();
+        if (this.accountCategory != null) {
+            this.accountType.set(accountCategory.getAccountType());
+            this.accountCategoryID.set(accountCategory.getId());
+            this.accountCategoryDisplay.set(accountCategory.getDisplayKey());
         }
-        this.accountID = new SimpleStringProperty(chartAccount.getAccountID());
-        this.accountName = new SimpleStringProperty(chartAccount.getAccountName());
-        this.accountAction = new SimpleObjectProperty(chartAccount.getAccountAction());
-        this.accountReport = new SimpleObjectProperty(chartAccount.getAccountReport());
-        this.openingBalance = new SimpleDoubleProperty(chartAccount.getOpeningBalance());
-        this.openingBalanceDisplay = new SimpleStringProperty(formatNumber(chartAccount.getOpeningBalance()));
-        this.closingBalance = new SimpleDoubleProperty(chartAccount.getClosingBalance());
-        this.closingBalanceDisplay = new SimpleStringProperty(formatNumber(chartAccount.getClosingBalance()));
-        this.contra = new SimpleBooleanProperty(chartAccount.isContra());
-        this.readOnly = new SimpleBooleanProperty(chartAccount.isReadOnly());
-        this.controlAccount = new SimpleBooleanProperty(chartAccount.isControlAccount());
-        this.hidden = new SimpleBooleanProperty(chartAccount.isHidden());
+        this.accountID.set(chartAccount.getAccountID());
+        this.accountName.set(chartAccount.getAccountName());
+        this.accountAction.set(chartAccount.getAccountAction());
+        this.accountReport.set(chartAccount.getAccountReport());
+        this.contra.set(chartAccount.isContra());
+        this.controlAccount.set(chartAccount.isControlAccount());
+        this.openingBalance.set(chartAccount.getOpeningBalance());
+        this.openingBalanceDisplay.set(formatNumber(chartAccount.getOpeningBalance()));
+        this.closingBalance.set(chartAccount.getClosingBalance());
+        this.closingBalanceDisplay.set(formatNumber(chartAccount.getClosingBalance()));
+        this.readOnly.set(chartAccount.isReadOnly());
+        this.hidden.set(chartAccount.isHidden());
         initCommonProprties();
     }
 
     private void createSearchColumns() {
         this.searchColumns.add(new SearchColumn("accountType", "Account Type", this.accountType.get(), SearchDataTypes.STRING, SearchColumn.SearchType.Equal));
-        this.searchColumns.add(new SearchColumn("categoryID", "Category ID", this.categoryID.get(), SearchDataTypes.STRING, SearchColumn.SearchType.Equal, false));
-        this.searchColumns.add(new SearchColumn("categoryDisplay", "Category", this.categoryDisplay.get(), SearchDataTypes.STRING));
+        this.searchColumns.add(new SearchColumn("accountCategoryID", "Account Category ID", this.accountCategoryID.get(), SearchDataTypes.STRING, SearchColumn.SearchType.Equal, false));
+        this.searchColumns.add(new SearchColumn("accountCategoryDisplay", "Account Category", this.accountCategoryDisplay.get(), SearchDataTypes.STRING));
         this.searchColumns.add(new SearchColumn("accountID", "Account ID", this.accountID.get(), SearchDataTypes.STRING));
         this.searchColumns.add(new SearchColumn("accountName", "Account Name", this.accountName.get(), SearchDataTypes.STRING));
         this.searchColumns.add(new SearchColumn("accountAction", "Account Action", this.accountAction.get(), SearchDataTypes.STRING, SearchColumn.SearchType.Equal));
         this.searchColumns.add(new SearchColumn("accountReport", "Account Report", this.accountReport.get(), SearchDataTypes.STRING, SearchColumn.SearchType.Equal));
+        this.searchColumns.add(new SearchColumn("contra", "Contra", this.contra.get(), SearchDataTypes.BOOLEAN));
+        this.searchColumns.add(new SearchColumn("controlAccount", "Control Account", this.controlAccount.get(), SearchDataTypes.BOOLEAN));
         this.searchColumns.add(new SearchColumn("openingBalance", "Opening Balance", this.openingBalance.get(), SearchDataTypes.NUMBER));
         this.searchColumns.add(new SearchColumn("closingBalance", "Closing Balance", this.closingBalance.get(), SearchDataTypes.NUMBER));
-        this.searchColumns.add(new SearchColumn("contra", "Contra", this.contra.get(), SearchDataTypes.BOOLEAN));
         this.searchColumns.add(new SearchColumn("readOnly", "Read Only", this.readOnly.get(), SearchDataTypes.BOOLEAN));
-        this.searchColumns.add(new SearchColumn("controlAccount", "Control Account", this.controlAccount.get(), SearchDataTypes.BOOLEAN));
         this.searchColumns.add(new SearchColumn("hidden", "Hidden", this.hidden.get(), SearchDataTypes.BOOLEAN));
         this.searchColumns.addAll(this.getDefaultSearchColumns());
     }
@@ -337,6 +333,10 @@ public class ChartAccountDA extends DBAccess {
         return (ChartAccount) super.find(ChartAccount.class, accountID);
     }
 
+    public ChartAccount getChartAccount() {
+        return this.chartAccount;
+    }
+
     public List<ChartAccount> getChartAccounts() {
         return super.find(ChartAccount.class);
     }
@@ -344,10 +344,10 @@ public class ChartAccountDA extends DBAccess {
     @Override
     public List<DBAccess> get() {
         List<DBAccess> list = new ArrayList<>();
-        List<ChartAccount> datas = super.find(ChartAccount.class);
-        datas.forEach((data) -> {
-            list.add(new ChartAccountDA(data));
-        });
+        selectQuery(ChartAccount.class).forEach(o -> list.add(new ChartAccountDA((ChartAccount) o)));
+        if (entityManager != null) {
+            entityManager.close();
+        }
         return list;
     }
 
@@ -360,22 +360,12 @@ public class ChartAccountDA extends DBAccess {
     }
 
     public List<ChartAccountDA> get(String columName, Object value) {
-        List<ChartAccount> data = super.find(ChartAccount.class, columName, value);
         List<ChartAccountDA> list = new ArrayList<>();
-        data.forEach(da -> list.add(new ChartAccountDA(da)));
+        super.selectQuery(ChartAccount.class, columName, value).forEach(da -> list.add(new ChartAccountDA((ChartAccount) da)));
+        if (entityManager != null) {
+            entityManager.close();
+        }
         return list;
-    }
-
-    public List<Pair<String, Object>> keyValuePairs() {
-        List<Pair<String, Object>> pairs = new ArrayList<>();
-        this.get().forEach((t) -> pairs.add(t.keyValuePair()));
-        return pairs;
-    }
-
-    public List<Pair<String, Object>> keyValuePairs(String columName, Object value) {
-        List<Pair<String, Object>> pairs = new ArrayList<>();
-        this.get(columName, value).forEach((t) -> pairs.add(t.keyValuePair()));
-        return pairs;
     }
 
     public List<ChartAccountDA> toDaList(List<ChartAccount> chartAccounts) {
@@ -398,28 +388,44 @@ public class ChartAccountDA extends DBAccess {
         return super.getMax(ChartAccount.class, columnName, comparatorColumn, comparatorVaue);
     }
 
-    public final int getNextIdHelper(AccountCategory category) {
-        return this.getMax("idHelper", "category", category) + 1;
+    public final int getNextIdHelper(AccountCategory accountCategory) {
+        return this.getMax("idHelper", "accountCategory", accountCategory) + 1;
     }
 
-    public String getNextAccountID(int idHelper, String category) {
-        return new IDGeneratorDA().getToAppendString(ChartAccount.class.getSimpleName(), category, idHelper);
+    public String getNextAccountID(int idHelper, String accountCategory) {
+        return new IDGeneratorDA().getToAppendString(ChartAccount.class.getSimpleName(), accountCategory, idHelper);
     }
 
     public List<ChartAccount> getChartAccounts(String columName, Object value) {
         return super.find(ChartAccount.class, columName, value);
     }
 
-    public List<ChartAccount> getChartAccountsByAccountCategoryDA(AccountCategoryDA accountCategoryDA) {
-        return this.getChartAccounts("accountCategory", accountCategoryDA != null ? accountCategoryDA.dBEntity : null);
-    }
+    @Override
+    public List<DBAccess> getRevisions() {
+        try {
 
-    public double getCurrentBalance() {
-        if (CurrentFinacialPeriod.getFinancialPeriodDA() == null) {
-            return 0;
-        } else {
-            return new GeneralLedgerDA().getAccountBalance(chartAccount, CurrentFinacialPeriod.getFinancialPeriodDA().getFinancialPeriod().getCompany());
+            List<Object[]> list = getEntityRevisions(ChartAccount.class);
+            List<DBAccess> dBAccesses = new ArrayList<>();
+            list.forEach(e -> {
+
+                ChartAccountDA chartAccountDA = new ChartAccountDA((ChartAccount) e[0]);
+                chartAccountDA.revisionEntity = (AppRevisionEntity) e[1];
+                chartAccountDA.oRevisionType = (RevisionType) e[2];
+                chartAccountDA.initRevProprties();
+                chartAccountDA.searchColumns.addAll(chartAccountDA.getRevSearchColumns());
+                dBAccesses.add(chartAccountDA);
+
+            });
+
+            return dBAccesses;
+        } catch (Exception e) {
+            throw e;
+        } finally {
+            if (entityManager == null) {
+                entityManager.close();
+            }
         }
+
     }
 
     public List<ChartAccount> getChartAccounts(AccountTypes accountType) {
@@ -429,7 +435,7 @@ public class ChartAccountDA extends DBAccess {
             CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
             CriteriaQuery<ChartAccount> criteriaQuery = criteriaBuilder.createQuery(ChartAccount.class);
             Root<ChartAccount> root = criteriaQuery.from(ChartAccount.class);
-            Join<ChartAccount, AccountCategory> join = root.join("category");
+            Join<ChartAccount, AccountCategory> join = root.join("accountCategory");
             criteriaQuery.where(criteriaBuilder.equal(join.get("accountType"), accountType));
             criteriaQuery.orderBy(criteriaBuilder.desc(root.get("accountName")));
 
@@ -442,8 +448,10 @@ public class ChartAccountDA extends DBAccess {
 
     }
 
+
+
     public List<ChartAccountDA> getChartAccountDAs(AccountTypes accountType) {
-        return toDaList(this.getChartAccounts(accountType));
+        return getChartAccountDAs(getChartAccounts(accountType));
     }
 
 }

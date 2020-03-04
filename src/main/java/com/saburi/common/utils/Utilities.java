@@ -43,7 +43,7 @@ import org.hibernate.Session;
 public class Utilities {
 
     public static enum FormMode {
-        Save, Update
+        Save, Update, Print
     }
 
     public static String getHostName() {
@@ -51,7 +51,7 @@ public class Utilities {
             return Inet4Address.getLocalHost().getHostName();
         } catch (UnknownHostException ex) {
             ex.printStackTrace();
-           return "";
+            return "";
         }
     }
 
@@ -374,7 +374,9 @@ public class Utilities {
             throw ex;
         } finally {
             try {
-               if(reader!=null) reader.close();
+                if (reader != null) {
+                    reader.close();
+                }
             } catch (IOException ex) {
                 throw ex;
             }
@@ -413,8 +415,6 @@ public class Utilities {
         writer.close();
 
     }
-
-  
 
     public static void openFile(String fileName) throws IOException {
 
@@ -549,6 +549,9 @@ public class Utilities {
     }
 
     public static boolean isNullOrEmpty(String string) {
+        if (string == null) {
+            return true;
+        }
         return string.isEmpty() || string.equals("");
     }
 

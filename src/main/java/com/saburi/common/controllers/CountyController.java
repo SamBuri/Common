@@ -120,16 +120,5 @@ public class CountyController extends EditController {
         }
     }
 
-    public void clear() {
-        cboDistrict.setValue(null);
-        txtCountyID.clear();
-        txtCountyName.clear();
-        txtCountyID.focusedProperty().addListener((observable, oldValue, newValue) -> {
-            if (oldValue) {
-                this.setNextCountyID();
-            }
-        });
-
-    }
-
+   
 }

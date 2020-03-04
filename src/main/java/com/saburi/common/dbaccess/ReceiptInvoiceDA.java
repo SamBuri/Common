@@ -212,6 +212,7 @@ public class ReceiptInvoiceDA extends DBAccess {
             this.invoiceAmount.set(invoice.getAmount());
             this.invoiceAmountDisplay.set(formatNumber(invoice.getAmount()));
             previousPaidAmount  =  invoice.getAmountPaid();
+            this.invoiceType.set(invoice.getInvoiceType());
 
         }
         this.receiptInvoiceID.set(receiptInvoice.getReceiptInvoiceID());
@@ -225,7 +226,8 @@ public class ReceiptInvoiceDA extends DBAccess {
         this.searchColumns.add(new SearchColumn("receiptDisplay", "Receipt", this.receiptDisplay.get(), SearchDataTypes.STRING));
         this.searchColumns.add(new SearchColumn("invoiceID", "Invoice ID", this.invoiceID.get(), SearchDataTypes.STRING, SearchColumn.SearchType.Equal, false));
         this.searchColumns.add(new SearchColumn("invoiceDisplay", "Invoice", this.invoiceDisplay.get(), SearchDataTypes.STRING));
-        this.searchColumns.add(new SearchColumn("receiptInvoiceID", "ReceiptInvoiceID", this.receiptInvoiceID.get(), SearchDataTypes.STRING));
+        this.searchColumns.add(new SearchColumn("receiptInvoiceID", "ReceiptInvoiceID", this.receiptInvoiceID.get(), SearchDataTypes.STRING, false));
+        this.searchColumns.add(new SearchColumn("invoiceType", "Invoice Type", this.invoiceType.get(), SearchDataTypes.STRING));
         this.searchColumns.add(new SearchColumn("amount", "Amount", this.amount.get(), SearchDataTypes.NUMBER));
         this.searchColumns.addAll(this.getDefaultSearchColumns());
     }

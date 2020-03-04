@@ -6,7 +6,6 @@
 package com.saburi.common.utils;
 
 //import com.sun.javafx.scene.control.skin.TableViewSkin;
-
 import com.saburi.common.controllers.ViewController;
 import com.saburi.common.dbaccess.DBAccess;
 import com.saburi.common.dbaccess.LookupDataDA;
@@ -63,6 +62,8 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import javafx.stage.Modality;
@@ -276,7 +277,7 @@ public class FXUIUtils {
         e.printStackTrace();
         LOGGER.error(e, e);
         LOGGER.error(e);
-        
+
     }
 
     public static void errorMessage(String message) {
@@ -294,7 +295,7 @@ public class FXUIUtils {
         alert.setTitle(title);
         alert.setHeaderText(null);
         alert.setContentText(e.getMessage());
-e.printStackTrace();
+        e.printStackTrace();
         alert.show();
         LOGGER.error(e, e);
         LOGGER.error(e);
@@ -306,7 +307,7 @@ e.printStackTrace();
         alert.setTitle(title);
         alert.setHeaderText(null);
         alert.setContentText(e.getLocalizedMessage());
-e.printStackTrace();
+        e.printStackTrace();
         alert.show();
         LOGGER.error(e, e);
         LOGGER.error(e);
@@ -830,6 +831,10 @@ e.printStackTrace();
         return object;
     }
 
+    public static Object getSelectedValue(ComboBox box) {
+        return box.getValue();
+    }
+
     public static DBEntity getEntity(ComboBox<DBEntity> box, String string) throws Exception {
         DBEntity object = box.getValue();
         if (object == null) {
@@ -849,11 +854,6 @@ e.printStackTrace();
 
     public static DBEntity getEntity(ComboBox<DBEntity> box, String string, boolean condition) throws Exception {
         return condition ? getEntity(box, string) : getEntity(box);
-    }
-
-    public static Object getSelectedValue(ComboBox box) {
-
-        return box.getValue();
     }
 
     public static String getText(TextArea textArea, String string) throws Exception {
@@ -1203,7 +1203,6 @@ e.printStackTrace();
     }
 
 //    Load Forms
-  
     public static void loadUI(DesktopPane desktop, String title, Parent content, int size) {
         InternalWindow window = new InternalWindow(title, null, title, content);
         window.setMinWidth(size);
@@ -1646,8 +1645,6 @@ e.printStackTrace();
         }
 
     }
-    
-    
 
     public static void selectLookupData(Class mainClass, MenuItem menuItem, int objectID, String uiName, String title, float widith, float height,
             Node node, boolean constrainColumns) throws IOException {
@@ -1742,30 +1739,101 @@ e.printStackTrace();
 
     }
 
-    public static void clear(Parent parent) {
-        List<Node> nodes = parent.getChildrenUnmodifiable();
+    public static void clear(VBox vBOX) {
+        List<Node> nodes = vBOX.getChildren();
 
-        for (Node node : nodes) {
-            if (node instanceof TextField) {
-                TextField textField = (TextField) node;
-                textField.clear();
-            } else if (node instanceof TextArea) {
-                TextArea textArea = (TextArea) node;
-                textArea.clear();
-            } else if (node instanceof ComboBox) {
-                ComboBox comboBox = (ComboBox) node;
-                comboBox.setValue(null);
-            } else if (node instanceof DatePicker) {
-                DatePicker datePicker = (DatePicker) node;
-                datePicker.setValue(null);
-            } else if (node instanceof CheckBox) {
-                CheckBox checkBox = (CheckBox) node;
-                checkBox.setSelected(false);
+        nodes.forEach((node) -> {
+            if (node instanceof GridPane) {
+                GridPane gridPane = (GridPane) node;
+                gridPane.getChildren().forEach(n -> clear(n));
+            } else if (node instanceof HBox) {
+                HBox hBox = (HBox) node;
+                hBox.getChildren().forEach(n -> clear(n));
             } else if (node instanceof TableView) {
                 TableView tableView = (TableView) node;
                 tableView.getItems().clear();
             }
+        });
+    }
+
+    public static void clear(VBox vBOX, List<Node> exclusions) {
+        List<Node> nodes = vBOX.getChildren();
+        nodes.removeAll(exclusions);
+        nodes.forEach((node) -> {
+            if (node instanceof GridPane) {
+                GridPane gridPane = (GridPane) node;
+                gridPane.getChildren().stream().filter((p) -> !exclusions.contains(p)).forEach(n -> clear(n));
+            } else if (node instanceof HBox) {
+                HBox hBox = (HBox) node;
+                hBox.getChildren().forEach(n -> clear(n));
+            } else if (node instanceof TableView) {
+                if (!exclusions.contains(node)) {
+                    TableView tableView = (TableView) node;
+                    tableView.getItems().clear();
+                }
+            }
+        });
+    }
+
+    public static void clear(Node node) {
+        if (node instanceof TextField) {
+            TextField textField = (TextField) node;
+            textField.clear();
+        } else if (node instanceof TextArea) {
+            TextArea textArea = (TextArea) node;
+            textArea.clear();
+        } else if (node instanceof ComboBox) {
+            ComboBox comboBox = (ComboBox) node;
+            comboBox.setValue(null);
+        } else if (node instanceof DatePicker) {
+            DatePicker datePicker = (DatePicker) node;
+            datePicker.setValue(null);
+        } else if (node instanceof CheckBox) {
+            CheckBox checkBox = (CheckBox) node;
+            checkBox.setSelected(false);
+        } else if (node instanceof TableView) {
+            TableView tableView = (TableView) node;
+            tableView.getItems().clear();
         }
+    }
+
+    public static void enable(Node node, boolean enabled) {
+        if (node instanceof TextField) {
+            TextField textField = (TextField) node;
+            textField.editableProperty().set(enabled);
+        } else if (node instanceof TextArea) {
+            TextArea textArea = (TextArea) node;
+            textArea.editableProperty().set(enabled);
+        } else if (node instanceof ComboBox) {
+            ComboBox comboBox = (ComboBox) node;
+            comboBox.disableProperty().set(!enabled);
+        } else if (node instanceof DatePicker) {
+            DatePicker datePicker = (DatePicker) node;
+            datePicker.disableProperty().set(!enabled);
+        } else if (node instanceof CheckBox) {
+            CheckBox checkBox = (CheckBox) node;
+            checkBox.disableProperty().set(enabled);
+        } else if (node instanceof TableView) {
+            TableView tableView = (TableView) node;
+            tableView.editableProperty().set(enabled);
+        }
+    }
+
+    public static void enabled(VBox vBOX, boolean enabled) {
+        List<Node> nodes = vBOX.getChildren();
+
+        nodes.forEach((node) -> {
+            if (node instanceof GridPane) {
+                GridPane gridPane = (GridPane) node;
+                gridPane.getChildren().forEach(n -> enable(n, enabled));
+            } else if (node instanceof HBox) {
+                HBox hBox = (HBox) node;
+                hBox.getChildren().forEach(n -> enable(n, enabled));
+            } else if (node instanceof TableView) {
+                TableView tableView = (TableView) node;
+                tableView.setEditable(enabled);
+            }
+        });
     }
 
 }

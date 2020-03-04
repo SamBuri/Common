@@ -11,7 +11,7 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.ComboBox?>
-<VBox id="RequisitionOne"  spacing="10"  xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.RequisitionOneController">
+<VBox fx:id = "mVBox" id="RequisitionOne"  spacing="10"  xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.RequisitionOneController">
 <children>
 
 <GridPane vgap ="4" hgap="10">

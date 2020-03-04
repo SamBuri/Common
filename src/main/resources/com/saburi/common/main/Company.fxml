@@ -11,7 +11,7 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.image.ImageView?>
-<VBox id="Company"  spacing="10"  xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.saburi.controllers.common.CompanyController">
+<VBox fx:id = "mVBox" id="Company"  spacing="10"  xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.saburi.controllers.common.CompanyController">
     <children>
 
         <GridPane vgap ="8" hgap="40">

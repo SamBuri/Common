@@ -235,11 +235,9 @@ public class MeasureGroupController extends EditController {
         }
     }
 
-    private void clear() {
-        txtMeasureGroupID.clear();
-        txtMeasureGroupName.clear();
-        cboBaseUnitMeasure.setValue(null);
-        tblMeasureRelations.getItems().clear();
+    @Override
+    protected void clear() {
+        super.clear();
         addRow(tblMeasureRelations, new MeasureRelationDA());
         this.setNextMeasureGroupID();
 

@@ -18,7 +18,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox id="controllers.LoginController" fx:id="vbLoginController" VBox.vgrow="ALWAYS" spacing="10" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.saburi.common.controllers.LoginController">
+<VBox fx:id = "mVBox" id="controllers.LoginController"  VBox.vgrow="ALWAYS" spacing="10" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.saburi.common.controllers.LoginController">
     <children>
         <GridPane hgap="40" vgap="8">
             <padding>

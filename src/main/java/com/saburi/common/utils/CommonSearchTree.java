@@ -23,6 +23,8 @@ public class CommonSearchTree {
     protected final TreeItem<SearchItem> triRevisions = new TreeItem<>(new SearchItem("Revision History"));
     protected final TreeItem<SearchItem> triSetup = new TreeItem<>(new SearchItem("Set up"));
     protected final TreeItem<SearchItem> triSetupRev = new TreeItem<>(new SearchItem("Set up"));
+    protected final TreeItem<SearchItem> triChartAccounts = new TreeItem<>(new SearchItem("Chart of Accounts"));
+    protected final TreeItem<SearchItem> triChartAccountsRev = new TreeItem<>(new SearchItem("Chart of Accounts"));
     protected final TreeItem<SearchItem> triItem = new TreeItem<>(new SearchItem("Item"));
     protected final TreeItem<SearchItem> triItemRev = new TreeItem<>(new SearchItem("Item"));
     protected final TreeItem<SearchItem> triFinance = new TreeItem<>(new SearchItem("Finance"));
@@ -35,13 +37,17 @@ public class CommonSearchTree {
     protected final TreeItem<SearchItem> triGeneralRev = new TreeItem<>(new SearchItem("General"));
     protected final TreeItem<SearchItem> triAccounting = new TreeItem<>(new SearchItem("Accounting"));
     protected final TreeItem<SearchItem> triAccountingRev = new TreeItem<>(new SearchItem("Accounting"));
-    protected final TreeItem<SearchItem> triInvoicing = new TreeItem<>(new SearchItem("Invoicing"));
-    protected final TreeItem<SearchItem> triInvoicingRev = new TreeItem<>(new SearchItem("Invoicing"));
+    protected final TreeItem<SearchItem> triSales = new TreeItem<>(new SearchItem("Sales"));
+    protected final TreeItem<SearchItem> triSalesRev = new TreeItem<>(new SearchItem("Sales"));
     protected List<SearchItem> commonSearchObjects = new ArrayList<>();
     protected List<TreeItem> treeItems;
-    private final Class mainClass  = App.class;
+    private final Class mainClass = App.class;
     private final List<SearchItem> sItems = Arrays.asList(
             //           Setup
+            new SearchItem(mainClass, new AccountCategoryDA(), "AccountCategory", "Account Categories", false, triChartAccounts),
+            new SearchItem(mainClass, new AccountCategoryDA(), Revision, "AccountCategory", "Account Categories", false, triChartAccountsRev),
+            new SearchItem(mainClass, new ChartAccountDA(), "ChartAccount", "Chart Accounts", false, triChartAccounts),
+            new SearchItem(mainClass, new ChartAccountDA(), Revision, "ChartAccount", "Chart Accounts", false, triChartAccountsRev),
             new SearchItem(mainClass, new BankAccountDA(), "BankAccount", "Bank Account", true, triSetup),
             new SearchItem(mainClass, new BankAccountDA(), Revision, "BankAccount", "Bank Account", true, triSetupRev),
             new SearchItem(mainClass, new LookupDataDA(), "LookupData", "LookupData", true, triSetup),
@@ -95,18 +101,18 @@ public class CommonSearchTree {
             //            Accounting
 
             //            Invoicing
-            new SearchItem(mainClass, new SaleOrderDA(), "SaleOrder", "Sale Orders", false, triInvoicing),
-            new SearchItem(mainClass, new SaleOrderDA(), Revision, "SaleOrder", "Sale Orders", false, triInvoicingRev),
-            new SearchItem(mainClass, new SaleOrderDetailDA(), "SaleOrderDetail", "Sale Order Details", false, triInvoicing),
-            new SearchItem(mainClass, new SaleOrderDetailDA(), Revision, "SaleOrderDetail", "Sale Order Details", false, triInvoicingRev),
-            new SearchItem(mainClass, new InvoiceDA(), "Invoice", "Invoice", false, triInvoicing),
-            new SearchItem(mainClass, new InvoiceDA(), Revision, "Invoice", "Invoice", false, triInvoicingRev),
-            new SearchItem(mainClass, new InvoiceDetailsDA(), "InvoiceDetails", "Invoice Details", false, triInvoicing),
-            new SearchItem(mainClass, new InvoiceDetailsDA(), Revision, "InvoiceDetails", "Invoice Details", false, triInvoicingRev),
-            new SearchItem(mainClass, new ReceiptDA(), "Receipt", "Receipt", false, triInvoicing),
-            new SearchItem(mainClass, new ReceiptDA(), Revision, "Receipt", "Receipt", false, triInvoicingRev),
-            new SearchItem(mainClass, new ReceiptInvoiceDA(), "ReceiptInvoice", "Receipt Invoice", false, triInvoicing),
-            new SearchItem(mainClass, new ReceiptInvoiceDA(), Revision, "ReceiptInvoice", "Receipt Invoice", false, triInvoicingRev),
+            new SearchItem(mainClass, new SaleOrderDA(), "SaleOrder", "Sale Orders", false, triSales),
+            new SearchItem(mainClass, new SaleOrderDA(), Revision, "SaleOrder", "Sale Orders", false, triSalesRev),
+            new SearchItem(mainClass, new SaleOrderDetailDA(), "SaleOrderDetail", "Sale Order Details", false, triSales),
+            new SearchItem(mainClass, new SaleOrderDetailDA(), Revision, "SaleOrderDetail", "Sale Order Details", false, triSalesRev),
+            new SearchItem(mainClass, new InvoiceDA(), "Invoice", "Invoice", false, triSales, false, true),
+            new SearchItem(mainClass, new InvoiceDA(), Revision, "Invoice", "Invoice", false, triSalesRev),
+            new SearchItem(mainClass, new InvoiceDetailsDA(), "InvoiceDetails", "Invoice Details", false, triSales, false, false),
+            new SearchItem(mainClass, new InvoiceDetailsDA(), Revision, "InvoiceDetails", "Invoice Details", false, triSalesRev),
+            new SearchItem(mainClass, new ReceiptDA(), "Receipt", "Receipt", false, triSales, false, true),
+            new SearchItem(mainClass, new ReceiptDA(), Revision, "Receipt", "Receipt", false, triSalesRev),
+            new SearchItem(mainClass, new ReceiptInvoiceDA(), "ReceiptInvoice", "Receipt Invoice", true, triSales, false, false),
+            new SearchItem(mainClass, new ReceiptInvoiceDA(), Revision, "ReceiptInvoice", "Receipt Invoice", false, triSalesRev),
             //            Invoicing End
             //            General
             new SearchItem(mainClass, new CustomerDA(), "Customer", "Customer", false),
@@ -156,18 +162,18 @@ public class CommonSearchTree {
         triItemRev.setExpanded(true);
         triGeneral.setExpanded(true);
         triGeneralRev.setExpanded(true);
-        triInvoicing.setExpanded(true);
-        triInvoicingRev.setExpanded(true);
+        triSales.setExpanded(true);
+        triSalesRev.setExpanded(true);
         triEntities.setExpanded(true);
         triRevisions.setExpanded(false);
 
         sItems.forEach(e -> addTreeItem(e));
-        triFinance.getChildren().addAll(triPositingGroup);
-        triFinanceRev.getChildren().addAll(triPositingGroupRev);
+        triFinance.getChildren().addAll(triChartAccounts, triPositingGroup);
+        triFinanceRev.getChildren().addAll(triChartAccountsRev, triPositingGroupRev);
         triSetup.getChildren().addAll(triGeographicalLocation, triFinance, triItem);
         triSetupRev.getChildren().addAll(triGeographicalLocationRev, triFinanceRev, triItemRev);
-        triEntities.getChildren().addAll(triSetup, triGeneral, triInvoicing, triAccounting);
-        triRevisions.getChildren().addAll(triSetupRev, triGeneralRev, triInvoicingRev, triAccountingRev);
+        triEntities.getChildren().addAll(triSetup, triGeneral, triSales, triAccounting);
+        triRevisions.getChildren().addAll(triSetupRev, triGeneralRev, triSalesRev, triAccountingRev);
 
         this.treeItems = Arrays.asList(triEntities, triRevisions);
         return this.treeItems;

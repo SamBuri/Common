@@ -36,11 +36,12 @@ public class UserRoleDetail extends DBEntity {
     private boolean canUpdate;
     private boolean canRead;
     private boolean canDelete;
+    private boolean canPrint;
 
     public UserRoleDetail() {
     }
 
-    public UserRoleDetail(UserRole userRole, AccessObject accessObject, boolean canCreate, boolean canUpdate, boolean canRead, boolean canDelete) {
+    public UserRoleDetail(UserRole userRole, AccessObject accessObject, String userRoleDetailID, boolean canCreate, boolean canUpdate, boolean canRead, boolean canDelete, boolean canPrint) {
         this.userRole = userRole;
         this.accessObject = accessObject;
         setUserRoleDetailID();
@@ -48,6 +49,7 @@ public class UserRoleDetail extends DBEntity {
         this.canUpdate = canUpdate;
         this.canRead = canRead;
         this.canDelete = canDelete;
+        this.canPrint = canPrint;
 
     }
 
@@ -109,6 +111,14 @@ public class UserRoleDetail extends DBEntity {
 
     public void setCanDelete(boolean canDelete) {
         this.canDelete = canDelete;
+    }
+
+    public boolean isCanPrint() {
+        return canPrint;
+    }
+
+    public void setCanPrint(boolean canPrint) {
+        this.canPrint = canPrint;
     }
 
     @Override

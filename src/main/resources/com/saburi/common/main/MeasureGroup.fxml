@@ -15,7 +15,7 @@
 <?import javafx.scene.control.cell.PropertyValueFactory?>
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.Tab?>
-<VBox id="MeasureGroup"  spacing="10"  xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.saburi.common.controllers.MeasureGroupController">
+<VBox fx:id = "mVBox" id="MeasureGroup"  spacing="10"  xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.saburi.common.controllers.MeasureGroupController">
     <children>
 
         <GridPane vgap ="4" hgap="10">

@@ -14,7 +14,7 @@
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.CheckBox?>
-<VBox id="Staff"  spacing="10"  xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.saburi.common.controllers.StaffController">
+<VBox fx:id = "mVBox" id="Staff"  spacing="10"  xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.saburi.common.controllers.StaffController">
     <children>
 
         <GridPane vgap ="4" hgap="10">

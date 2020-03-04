@@ -497,7 +497,7 @@ public class JournalEntryDetailDA extends DBAccess {
                 default:
                     return null;
             }
-            AccountTypes aType = cAccount.getCategory().getAccountType();
+            AccountTypes aType = cAccount.getAccountCategory().getAccountType();
             boolean isContra = cAccount.isContra();
 
             double balanceValue = new GeneralLedgerDA().getAccountBalance(cAccount);

@@ -81,6 +81,9 @@ public class CurrentUser {
                 case Delete:
                     action = userRoleDetail.isCanDelete();
                     break;
+                case Print:
+                    action = userRoleDetail.isCanPrint();
+                    break;
                 default:
                     break;
             }
@@ -114,6 +117,9 @@ public class CurrentUser {
                         break;
                     case "Delete":
                         action = userRoleDetail.isCanDelete();
+                        break;
+                    case "Print":
+                        action = userRoleDetail.isCanPrint();
                         break;
                     default:
                         break;
@@ -150,6 +156,9 @@ public class CurrentUser {
                             break;
                         case "Delete":
                             action = userRoleDetail.isCanDelete();
+                            break;
+                        case "Print":
+                            action = userRoleDetail.isCanPrint();
                             break;
                         default:
                             break;
@@ -188,6 +197,9 @@ public class CurrentUser {
                         break;
                     case "Delete":
                         action = userRoleDetail.isCanDelete();
+                        break;
+                    case "Print":
+                        action = userRoleDetail.isCanPrint();
                         break;
                     default:
                         break;
@@ -233,6 +245,9 @@ public class CurrentUser {
                     case Delete:
                         action = userRoleDetail.isCanDelete();
                         break;
+                    case Print:
+                        action = userRoleDetail.isCanPrint();
+                        break;
                     default:
                         break;
                 }
@@ -272,6 +287,9 @@ public class CurrentUser {
                     break;
                 case Delete:
                     action = userRoleDetail.isCanDelete();
+                    break;
+                case Print:
+                    action = userRoleDetail.isCanPrint();
                     break;
                 default:
                     break;

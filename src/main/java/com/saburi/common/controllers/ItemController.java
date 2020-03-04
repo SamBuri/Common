@@ -269,21 +269,7 @@ public class ItemController extends EditController {
         });
     }
 
-    private void clear() {
-        cboItemCategory.setValue(null);
-        txtItemID.clear();
-        txtItemName.clear();
-        txtItemCategoryGroup.clear();
-        txtUnitCost.clear();
-        txtUnitPrice.clear();
-        cboItemGroup.setValue(null);
-        cboVATItemGroup.setValue(null);
-        cboInventoryGroup.setValue(null);
-        cboMeasureGroup.setValue(null);
-        tblItemPriceGroups.getItems().clear();
-        addRow(tblItemPriceGroups, new ItemPriceGroupDA());
-        cboItemCategory.setOnAction(e -> this.setNextItemID());
-    }
+    
 
     private void loadPriceGroups() {
         try {

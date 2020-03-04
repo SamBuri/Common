@@ -294,7 +294,8 @@ public class SaleOrderController extends EditController {
         this.calculateAmount();
     }
 
-    private void clear() {
+    @Override
+    protected void clear() {
         txtSaleOrderID.clear();
         dtpOrderDate.setValue(null);
         txaShipAddress.clear();

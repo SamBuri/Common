@@ -105,6 +105,7 @@ public class GeneralPostingGroupController extends EditController {
                 generalPostingGroupDA.save();
                 message("Saved Successfully");
                 clear();
+                this.setNextGeneralPostingID();
             } else if (buttonText.equalsIgnoreCase(FormMode.Update.name())) {
                 generalPostingGroupDA.update();
                 message("Updated Successfully");
@@ -165,17 +166,6 @@ public class GeneralPostingGroupController extends EditController {
         }
     }
 
-    private void clear() {
-        txtGeneralPostingID.clear();
-        cboBusinessGroup.setValue(null);
-        cboItemGroup.setValue(null);
-        cboSalesAccount.setValue(null);
-        cboSalesDiscountAccount.setValue(null);
-        cboPurchasesAccount.setValue(null);
-        cboDirectCostAppliedAccount.setValue(null);
-        cboPurchaseDiscountAccount.setValue(null);
-        this.setNextGeneralPostingID();
-
-    }
+    
 
 }

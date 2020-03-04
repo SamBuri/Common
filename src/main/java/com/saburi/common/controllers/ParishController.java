@@ -122,11 +122,5 @@ public class ParishController extends EditController {
         }
     }
 
-    private void clear() {
-        cboSubCounty.setValue(null);
-        txtParishID.clear();
-        txtParishName.clear();
-        cboSubCounty.setOnAction(e -> this.setNextParishID());
-    }
-
+   
 }

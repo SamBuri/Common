@@ -61,7 +61,7 @@ public abstract class AbstractViewController implements Initializable {
     @FXML
     protected TextField txtSearch, txtSecondValue;
     @FXML
-    private MenuItem cmiNew, cmiUpdate, cmiDelete, cmiSelectAll;
+    private MenuItem cmiNew, cmiUpdate, cmiPrint, cmiDelete, cmiSelectAll;
     @FXML
     private ComboBox<SearchColumn> cboSearchColumn;
     @FXML
@@ -83,6 +83,8 @@ public abstract class AbstractViewController implements Initializable {
     List<SearchColumn> defaultSearchColumns = new ArrayList<>();
     protected ObservableList selectedItems;
     protected Node editNode;
+    protected boolean editable;
+    protected boolean printable;
 
     public void setPopUp(boolean popUp) {
         this.popUp = popUp;
@@ -104,8 +106,9 @@ public abstract class AbstractViewController implements Initializable {
         this.tableView.setItems(FXCollections.observableArrayList());
         this.tableView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
 
-        cmiNew.setOnAction(e -> setUpdate(this.mainClass,this.uiEdit, this.title, FormMode.Save));
+        cmiNew.setOnAction(e -> setUpdate(this.mainClass, this.uiEdit, this.title, FormMode.Save));
         cmiUpdate.setOnAction(e -> setUpdate(this.mainClass, this.uiEdit, this.title, FormMode.Update));
+        cmiPrint.setOnAction(e -> setUpdate(this.mainClass, this.uiEdit, this.title, FormMode.Print));
         cmiDelete.setOnAction(e -> this.delete());
         cmiSelectAll.setOnAction(e -> tableView.getSelectionModel().selectAll());
 
@@ -203,12 +206,24 @@ public abstract class AbstractViewController implements Initializable {
 
         try {
 
-            if (formMode.equals(FormMode.Save)) {
-                Navigation.loadEditUI(type,ui, title, "", tableView, Utilities.FormMode.Save, isPopUp());
-            } else if (formMode.equals(FormMode.Update)) {
-                DBAccess dBAccess = (DBAccess) tableView.getSelectionModel().getSelectedItem();
-                Object recordID = dBAccess.getId();
-                Navigation.loadEditUI(type, ui, title, recordID, tableView, Utilities.FormMode.Update, isPopUp());
+            switch (formMode) {
+                case Save:
+                    Navigation.loadEditUI(type, ui, title, "", tableView, Utilities.FormMode.Save, isPopUp());
+                    break;
+                case Update: {
+                    DBAccess dBAccess = (DBAccess) tableView.getSelectionModel().getSelectedItem();
+                    Object recordID = dBAccess.getId();
+                    Navigation.loadEditUI(type, ui, title, recordID, tableView, Utilities.FormMode.Update, isPopUp());
+                    break;
+                }
+                case Print: {
+                    DBAccess dBAccess = (DBAccess) tableView.getSelectionModel().getSelectedItem();
+                    Object recordID = dBAccess.getId();
+                    Navigation.loadEditUI(type, ui, title, recordID, tableView, Utilities.FormMode.Print, isPopUp());
+                    break;
+                }
+                default:
+                    break;
             }
 
         } catch (IOException ex) {
@@ -260,6 +275,23 @@ public abstract class AbstractViewController implements Initializable {
         this.mainClass = type;
         this.title = objectName;
 
+        loadTable();
+
+    }
+
+    public void setInitData(Class type, DBAccess oDBAccess, String objectName, boolean constrainColumns,
+            boolean editable, boolean printable) {
+        this.constrainColumns = constrainColumns;
+        this.oDBAccess = oDBAccess;
+        this.list = oDBAccess.get();
+        this.searchColumns = this.oDBAccess.getSearchColumns();
+        this.defaultSearchColumns = this.oDBAccess.getDefaultSearchColumns();
+        this.objectName = objectName;
+        this.uiEdit = objectName;
+        this.mainClass = type;
+        this.title = objectName;
+        this.editable = editable;
+        this.printable = printable;
         loadTable();
 
     }
@@ -342,14 +374,14 @@ public abstract class AbstractViewController implements Initializable {
             List<SearchColumn> searchColumns, String objectName, boolean constrainColumns) {
         try {
             this.constrainColumns = constrainColumns;
-        this.oDBAccess = oDBAccess;
-        this.list = dBAccesses;
-        this.searchColumns = searchColumns;
-        this.objectName = objectName;
-        this.uiEdit = objectName;
-        this.mainClass = type;
-        this.title = objectName;
-        loadTable();
+            this.oDBAccess = oDBAccess;
+            this.list = dBAccesses;
+            this.searchColumns = searchColumns;
+            this.objectName = objectName;
+            this.uiEdit = objectName;
+            this.mainClass = type;
+            this.title = objectName;
+            loadTable();
         } catch (Exception e) {
             throw e;
         }
@@ -359,21 +391,21 @@ public abstract class AbstractViewController implements Initializable {
     public void setInitRevData(DBAccess oDBAccess, String objectName, boolean constrainColumns) {
         try {
             this.constrainColumns = constrainColumns;
-        this.oDBAccess = oDBAccess;
-        this.list = oDBAccess.getRevisions();
-        this.searchColumns = oDBAccess.getSearchColumns();
-        this.searchColumns.removeAll(oDBAccess.getDefaultSearchColumns());
-        this.searchColumns.addAll(oDBAccess.getRevSearchColumns());
-        this.objectName = objectName;
-        this.uiEdit = objectName;
-        this.title = objectName;
-        this.cmuView.hide();
-        loadTable();
-        this.cmiNew.setVisible(false);
-        this.cmiUpdate.setVisible(false);
-        this.cmiDelete.setVisible(false);
+            this.oDBAccess = oDBAccess;
+            this.list = oDBAccess.getRevisions();
+            this.searchColumns = oDBAccess.getSearchColumns();
+            this.searchColumns.removeAll(oDBAccess.getDefaultSearchColumns());
+            this.searchColumns.addAll(oDBAccess.getRevSearchColumns());
+            this.objectName = objectName;
+            this.uiEdit = objectName;
+            this.title = objectName;
+            this.cmuView.hide();
+            loadTable();
+            this.cmiNew.setVisible(false);
+            this.cmiUpdate.setVisible(false);
+            this.cmiDelete.setVisible(false);
         } catch (Exception e) {
-            throw  e;
+            throw e;
         }
 
     }
@@ -389,7 +421,14 @@ public abstract class AbstractViewController implements Initializable {
         } else {
             cmiUpdate.disableProperty().set(true);
         }
+        if (selectedItems.size() == 1) {
+            applyRights(objectName, cmiPrint);
+        } else {
+            cmiPrint.disableProperty().set(true);
+        }
         applyRights(objectName, cmiNew);
+        this.cmiUpdate.setVisible(this.editable);
+        this.cmiPrint.setVisible(this.printable);
     }
 
 }

@@ -124,13 +124,6 @@ public class RequisitionOneController extends EditController {
         }
     }
 
-    private void clear() {
-        txtRequisitionID.clear();
-        dtpRequistionDate.setValue(null);
-        cboStatus.setValue(null);
-        cboItemGroup.setValue(null);
-        this.setNextRequisitionID();
-
-    }
+  
 
 }

@@ -252,21 +252,22 @@ public class JournalEntryController extends EditController {
 
     }
 
-     private void clear() {
+    @Override
+     protected void clear() {
         txtJournalID.clear();
         dtpEntryDate.setValue(null);
         txaNarration.clear();
         cboDocumentType.setValue(null);
         txtDocumentNo.clear();
         txtReferenceNo.clear();
-        cboCurrency.setValue(oCurrencyDA.getDefaultCurrency());
-        setExchangeRate();
         txtBaseAmount.clear();
         txtExchangeRate.clear();
         txtAmount.clear();
         txaAmountWords.clear();
         cboPostStatus.setValue(PostStatus.Pending);
         tblJournalEntryDetails.getItems().clear();
+        cboCurrency.setValue(oCurrencyDA.getDefaultCurrency());
+        setExchangeRate();
         this.setNextJournalID();
         addRow(tblJournalEntryDetails, new JournalEntryDetailDA());
     }

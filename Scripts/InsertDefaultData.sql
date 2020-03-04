@@ -133,6 +133,8 @@ call uspEditAccessObject ('BankLedger', 'Bank Ledger', '0');
 call uspEditAccessObject ('Receipt', 'Receipt', '0');
 call uspEditIDGenerator('Receipt', '0', 2, '', 0, '');
 
+call uspEditAccessObject ('ReceiptInvoice', 'Receipt Invoice', '0');
+
 call uspEditAccessObject ('Paper', 'Paper', '0');
 
 call uspEditAccessObject ('Combination', 'Combination', '0');

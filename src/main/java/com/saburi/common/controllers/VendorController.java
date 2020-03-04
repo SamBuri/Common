@@ -106,6 +106,7 @@ public class VendorController extends EditController {
                 vendorDA.save();
                 message("Saved Successfully");
                 clear();
+                this.setNextVendorID();
             } else if (buttonText.equalsIgnoreCase(FormMode.Update.name())) {
                 vendorDA.update();
                 message("Updated Successfully");
@@ -168,20 +169,6 @@ public class VendorController extends EditController {
         }
     }
 
-    private void clear() {
-        txtVendorID.clear();
-        txtVendorName.clear();
-        cboVendorCategory.setValue(null);
-        txtPhoneNo.clear();
-        txtEmail.clear();
-        txaAddress.clear();
-        cboPriceGroup.setValue(null);
-        cboVendorPostingGroup.setValue(null);
-        cboBusinessGroup.setValue(null);
-        cboVATBusinessGroup.setValue(null);
-        txtBalance.clear();
-        this.setNextVendorID();
-
-    }
+    
 
 }

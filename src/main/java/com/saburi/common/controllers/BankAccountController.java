@@ -174,22 +174,5 @@ public class BankAccountController extends EditController {
         }
     }
 
-    private void clear() {
-        txtBankAccountID.clear();
-        txtBankAccountName.clear();
-        cboBankAccountType.setValue(null);
-        cboCurrency.setValue(null);
-        txtAccountNo.clear();
-        txtBankName.clear();
-        txtBranchName.clear();
-        cboPostingAccount.setValue(null);
-        txtPhoneNo.clear();
-        txtEmail.clear();
-        txaAddress.clear();
-        chkisDefault.setSelected(false);
-        txtBalance.clear();
-        this.setNextBankAccountID();
-
-    }
-
+    
 }

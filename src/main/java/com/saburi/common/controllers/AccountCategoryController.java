@@ -42,14 +42,14 @@ public class AccountCategoryController extends EditController {
     public void initialize(URL url, ResourceBundle rb) {
         try {
             cboAccountType.setItems(FXCollections.observableArrayList(AccountTypes.values()));
-            loadDBEntities(new AccountCategoryDA().getAccountCategorys(), cboParentCategory);
+//            loadDBEntities(oAccountCategoryDA.getAccountCategorys(), cboParentCategory);
 
             this.primaryKeyControl = txtCategoryID;
             this.dbAccess = oAccountCategoryDA;
             this.restrainColumnConstraint = false;
-            this.minSize = 360;
-            cboAccountType.setOnAction(e -> this.setNextCategoryID());
-            selectItem(CommonNavigate.MAIN_CLASS, cmiSelectParentCategory, new AccountCategoryDA(), "AccountCategory", "Parent Category", 700, 400, cboParentCategory, true);
+            //this.minSize = 360;
+            cboAccountType.setOnAction(e -> this.AccountTypeSelected());
+            selectItem(CommonNavigate.MAIN_CLASS, cmiSelectParentCategory, oAccountCategoryDA, "AccountCategory", "Parent Category", cboParentCategory, true);
         } catch (Exception e) {
             errorMessage(e);
         } finally {
@@ -72,7 +72,6 @@ public class AccountCategoryController extends EditController {
             if (buttonText.equalsIgnoreCase(FormMode.Save.name())) {
                 accountCategoryDA.save();
                 message("Saved Successfully");
-                loadDBEntities(new AccountCategoryDA().getAccountCategorys(), cboParentCategory);
                 clear();
             } else if (buttonText.equalsIgnoreCase(FormMode.Update.name())) {
                 accountCategoryDA.update();
@@ -112,7 +111,7 @@ public class AccountCategoryController extends EditController {
             cboAccountType.setValue(accountCategoryDA.getAccountType());
             txtCategoryID.setText(accountCategoryDA.getCategoryID());
             txtCategoryName.setText(accountCategoryDA.getCategoryName());
-            cboParentCategory.setValue(accountCategoryDA.getParentCategoryDA());
+            cboParentCategory.setValue(accountCategoryDA.getParentCategory());
             chkReadOnly.setSelected(accountCategoryDA.isReadOnly());
             chkHidden.setSelected(accountCategoryDA.isHidden());
 
@@ -136,14 +135,16 @@ public class AccountCategoryController extends EditController {
         }
     }
 
-    private void clear() {
-        cboAccountType.setValue(null);
-        txtCategoryID.clear();
-        txtCategoryName.clear();
-        cboParentCategory.setValue(null);
-        chkReadOnly.setSelected(false);
-        chkHidden.setSelected(false);
-        cboAccountType.setOnAction(e -> this.setNextCategoryID());
+    @Override
+    protected void clear() {
+        super.clear();
+       this.AccountTypeSelected();
+    }
+    
+    private void AccountTypeSelected(){
+        setNextCategoryID();
+        loadDBEntities(oAccountCategoryDA.getAccountCategories((AccountTypes) cboAccountType.getValue()), cboParentCategory);
+    
     }
 
 }

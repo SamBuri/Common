@@ -1,0 +1,21 @@
+IdHelper, Id Helper, int, ,, , , ID_Helper, 100, false, false, 
+StaffID, Staff ID, String, ,, , Primary, , 20, false, false, 
+Photo, Photo, Image, ,, , , , 100, false, true, 
+FirstName, First Name, String, ,, , , Display, 20, false, false, 
+LastName, Last Name, String, ,, , , Display, 20, false, false, 
+OtherNames, Other Names, String, ,, , , Display, 20, false, true, 
+Initials, Initials, String, ,, , , , 100, false, true, 
+Gender, Gender, String, Gender,, , , , 100, true, true, CommonEnums
+BirthDate, Birth Date, LocalDate, ,, , , , 100, false, true, 
+JoinDate, Join Date, LocalDate, ,, , , , 100, false, true, 
+NationalID, National ID, String, ,, , , , 100, false, true, 
+Country, Country, String, LookupData,, OneToOne, Foreign, , 100, false, true, CommonEnums
+Village, Village, String, Village,, OneToOne, Foreign, , 100, false, true, 
+StaffTitle, Staff Title, String, LookupData,, OneToOne, Foreign, , 100, false, true, CommonEnums
+Qualification, Qualification, String, LookupData,, OneToOne, Foreign, , 100, false, true, CommonEnums
+Department, Department, String, LookupData,, OneToOne, Foreign, , 100, false, true, CommonEnums
+PhoneNo, Phone No, String, ,, , , , 100, false, true, 
+EmailAddress, Email Address, String, ,, , , , 100, false, true, 
+PhysicalAddress, Physical Address, String, ,, , , , 200, false, true, 
+SpecialSkills, Special Skills, String, ,, , , , 200, false, true, 
+Active, Active, boolean, ,, , , , 100, false, true, 

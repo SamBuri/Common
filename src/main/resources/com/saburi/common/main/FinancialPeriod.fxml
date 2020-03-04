@@ -11,7 +11,7 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.DatePicker?>
-<VBox id="FinancialPeriod"  spacing="10"  xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.saburi.common.controllers.FinancialPeriodController">
+<VBox fx:id = "mVBox" id="FinancialPeriod"  spacing="10"  xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.saburi.common.controllers.FinancialPeriodController">
     <children>
 
         <GridPane vgap ="4" hgap="10">

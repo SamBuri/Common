@@ -1,0 +1,7 @@
+IdHelper, Id Helper, Int, ,, , , ID_Helper, 100, false, false, 
+AccountType, Account Type, String, AccountTypes,, , , ID_Generator, 20, true, false, 
+CategoryID, Category ID, String, ,, , Primary, , 100, false, false, 
+CategoryName, Category Name, String, ,, , , Display, 100, false, false, 
+ParentCategory, Parent Category, String, AccountCategory,, , , , 100, false, true, 
+ReadOnly, Read Only, boolean, ,, , , , 100, false, true, 
+Hidden, Hidden, boolean, ,, , , , 100, false, true, 

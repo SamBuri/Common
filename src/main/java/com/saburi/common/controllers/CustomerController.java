@@ -119,6 +119,7 @@ public class CustomerController extends EditController {
                 customerDA.save();
                 message("Saved Successfully");
                 clear();
+                this.setNextCustomerID();
             } else if (buttonText.equalsIgnoreCase(FormMode.Update.name())) {
                 customerDA.update();
                 message("Updated Successfully");
@@ -184,22 +185,5 @@ public class CustomerController extends EditController {
         }
     }
 
-    private void clear() {
-        txtCustomerID.clear();
-        txtCustomerName.clear();
-        cboCustomerCategory.setValue(null);
-        txtPhoneNo.clear();
-        txtEmail.clear();
-        txaAddress.clear();
-        cboPriceGroup.setValue(null);
-        cboBillToCustomer.setValue(null);
-        cboCustomerPostingGroup.setValue(null);
-        cboBusinessGroup.setValue(null);
-        cboVATBusinessGroup.setValue(null);
-        txtReferenceNo.clear();
-        txtBalance.clear();
-        this.setNextCustomerID();
-
-    }
-
+    
 }

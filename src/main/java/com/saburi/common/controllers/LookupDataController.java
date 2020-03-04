@@ -133,13 +133,6 @@ public class LookupDataController extends EditController {
         }
     }
 
-    private void clear() {
-       txtLookupDataID.clear();
-        txtLookupDataName.clear();
-        chkReadOnly.setSelected(false);
-        chkHidden.setSelected(false);
-        chkIsDefault.setSelected(false);
-        cboLookupObject.setOnAction(e -> this.setNextLookupDataID());
-    }
+   
 
 }

@@ -415,7 +415,7 @@ public class GeneralLedgerDA extends DBAccess {
     public double getAccountBalance(ChartAccount chartAccount, Company company) {
 
         try {
-            AccountTypes acType = chartAccount.getCategory().getAccountType();
+            AccountTypes acType = chartAccount.getAccountCategory().getAccountType();
             entityManager = entityManagerFactory.createEntityManager();
             CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
             CriteriaQuery<Double> criteriaQuery = criteriaBuilder.createQuery(Double.class);
@@ -444,7 +444,7 @@ public class GeneralLedgerDA extends DBAccess {
     public double getAccountBalance(ChartAccount chartAccount) {
 
         try {
-            AccountTypes acType = chartAccount.getCategory().getAccountType();
+            AccountTypes acType = chartAccount.getAccountCategory().getAccountType();
             entityManager = entityManagerFactory.createEntityManager();
             CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
             CriteriaQuery<Double> criteriaQuery = criteriaBuilder.createQuery(Double.class);

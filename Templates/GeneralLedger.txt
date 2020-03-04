@@ -1,0 +1,11 @@
+LedgerID, Ledger ID, int, ,, , Primary, , 100, false, false, 
+JournalEntryDetail, Journal Entry Detail, String, JournalEntryDetail,, OneToOne, Foreign, , 100, false, false, 
+PostingDate, Posting Date, LocalDate, ,, , , , 20, false, false, 
+AccountID, Account ID, String, ,, , , , 20, false, true, 
+AccountName, Account Name, String, ,, , , Display, 100, false, true, 
+AccountType, Account Type, String, AccountTypes,, OneToOne, Foreign, , 100, true, true, CommonEnums
+Description, Description, String
+Amount, Amount, double, ,, , , , 100, false, true, 
+Debit, Debit, double, ,, , , , 100, false, true, 
+Credit, Credit, double, ,, , , , 100, false, true, 
+Balance, Balance, double, ,, , , , 100, false, true, 

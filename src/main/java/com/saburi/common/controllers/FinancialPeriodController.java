@@ -77,6 +77,7 @@ public class FinancialPeriodController extends EditController {
                 financialPeriodDA.save();
                 message("Saved Successfully");
                 clear();
+                this.setNextPeriodID();
             } else if (buttonText.equalsIgnoreCase(FormMode.Update.name())) {
                 financialPeriodDA.update();
                 message("Updated Successfully");
@@ -135,15 +136,5 @@ public class FinancialPeriodController extends EditController {
         }
     }
 
-    private void clear() {
-        txtPeriodID.clear();
-        txtDescription.clear();
-        cboCompany.setValue(null);
-        dtpStartDate.setValue(null);
-        dtpEndDate.setValue(null);
-        cboStatus.setValue(null);
-        this.setNextPeriodID();
-
-    }
 
 }

@@ -36,7 +36,6 @@ import javafx.scene.control.TablePosition;
 import javafx.collections.ObservableList;
 import com.saburi.common.utils.EditCell;
 import com.saburi.common.entities.Item;
-import com.saburi.common.utils.CommonEnums;
 import com.saburi.common.utils.CommonEnums.NumericDataTypes;
 import com.saburi.common.utils.CommonNavigate;
 import java.io.IOException;
@@ -46,18 +45,19 @@ import javafx.scene.input.KeyCode;
 import com.saburi.common.utils.CommonObjectNames;
 import com.saburi.common.utils.JavaFXPDF;
 import com.saburi.common.utils.NumberToWord;
-import com.saburi.common.utils.PDFDocuments;
 import com.saburi.common.utils.PrintableColumn;
 import static com.saburi.common.utils.Utilities.defortNumberOptional;
+import static com.saburi.common.utils.Utilities.formatDate;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
-
-
+import javafx.scene.Node;
+import javafx.scene.control.Label;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.VBox;
 
 public class InvoiceController extends EditController {
-
+   
     private final InvoiceDA oInvoiceDA = new InvoiceDA();
     @FXML
     private TextField txtInvoiceID;
@@ -118,14 +118,20 @@ public class InvoiceController extends EditController {
             setInvoiceDetailsUnitMeasure();
             setInvoiceDetailsUnitPrice();
             setInvoiceDetailsDiscount();
-            selectItem(CommonNavigate.MAIN_CLASS,cmiSelectBillTo, oCustomerDA, "Customer", "Customer", 700, 400, cboBillTo, false);
+            selectItem(CommonNavigate.MAIN_CLASS, cmiSelectBillTo, oCustomerDA, "Customer", "Customer", 700, 400, cboBillTo, false);
             cboBillTo.setOnAction(e -> {
                 this.selectedBillTo = ((Customer) getEntity(cboBillTo));
                 InvoiceTypes invoiceType = (InvoiceTypes) cboInvoiceType.getValue();
+                if (invoiceType == null) {
+                    return;
+                }
                 if (invoiceType.equals(InvoiceTypes.Direct)) {
                     tblInvoiceDetails.getItems().forEach(bi -> {
-                        if (bi.getItemDA().getItemID() != null) {
-                            setPrices(bi);
+                        ItemDA itemDA = bi.getItemDA();
+                        if (itemDA != null) {
+                            if (itemDA.getItemID() != null) {
+                                setPrices(bi);
+                            }
                         }
 
                     });
@@ -143,8 +149,7 @@ public class InvoiceController extends EditController {
                         .focusModelProperty().get().focusedCellProperty().get();
                 if (focusedCell.getTableColumn() == tbcInvoiceDetailsUnitMeasure) {
                     loadUnitMeasure();
-                }
-                else if(focusedCell.getTableColumn() == tbcInvoiceDetailsLocation){
+                } else if (focusedCell.getTableColumn() == tbcInvoiceDetailsLocation) {
                     loadLocation();
                 }
 
@@ -170,43 +175,53 @@ public class InvoiceController extends EditController {
             double amount = getDouble(txtAmount, "Amount");
             String amountWords = getText(txaAmountWords, "Amount Words");
             List<InvoiceDetailsDA> invoiceDetailsDAs = tblInvoiceDetails.getItems();
-            invoiceDetailsDAs.removeIf((p) -> p.getItem()== null);
+            invoiceDetailsDAs.removeIf((p) -> p.getItem() == null);
 
             InvoiceDA invoiceDA = new InvoiceDA(invoiceID, invoiceDate, invoiceType, billTo, amount, amountWords);
             invoiceDetailsDAs.forEach(e -> {
                 e.setInvoice((Invoice) invoiceDA.getInvoice());
-                if(invoiceType.equals(InvoiceTypes.Direct)){
+                if (invoiceType.equals(InvoiceTypes.Direct)) {
                     e.setSellTo(billTo);
                 }
             });
             invoiceDA.setInvoiceDetailsDAs(invoiceDetailsDAs);
+
+//            Printing data
+            Map<String, Object> map = new LinkedHashMap<>();
+            map.put("Invoice ID", invoiceID);
+            map.put("Bill To Customer", billTo.getDisplayKey());
+            map.put("Invoice Date", formatDate(invoiceDate));
+            map.put("Invoice Type", invoiceType.name());
+            map.put("Amount", formatNumber(amount));
+
+            JavaFXPDF javaFXPDF = new JavaFXPDF("Invoice", PageSize.A4, map, 1, 40, 200, 100, 20, 3, 70,
+                    tblInvoiceDetails, Arrays.asList(new PrintableColumn(tbcInvoiceDetailsItemID),
+                            new PrintableColumn(tbcInvoiceDetailsItemDisplay, "Item Name"),
+                            new PrintableColumn(tbcInvoiceDetailsQuantity, NumericDataTypes.INTEGER),
+                            new PrintableColumn(tbcInvoiceDetailsUnitPrice, NumericDataTypes.DOUBLE),
+                            new PrintableColumn(tbcInvoiceDetailsDiscount, NumericDataTypes.DOUBLE, true),
+                            new PrintableColumn(tbcInvoiceDetailsAmount, NumericDataTypes.DOUBLE, true)),
+                    "Invoice for Customer: " + billTo.getDisplayKey(), new String[]{"Customer", "Checked By"},
+                    "Net Amount In Words: " + amountWords);
+
             String buttonText = btnSave.getText();
             if (buttonText.equalsIgnoreCase(FormMode.Save.name())) {
                 invoiceDA.save();
-                message("Saved Successfully");
+                if (warningOK("Operation Successful", "Would like to print")) {
+
+                    javaFXPDF.makePrintablePDFDocument();
+                }
                 clear();
             } else if (buttonText.equalsIgnoreCase(FormMode.Update.name())) {
                 invoiceDA.update();
                 message("Updated Successfully");
+            } else if (buttonText.equalsIgnoreCase(FormMode.Print.name())) {
+                javaFXPDF.modifyTitle();
+                javaFXPDF.makePrintablePDFDocument();
             }
             this.dbAccess = invoiceDA;
             this.editSuccessful = true;
-            Map<String, Object> map = new LinkedHashMap<>();
-            map.put("Invoice ID", invoiceID);
-            map.put("Bill To Customer", billTo.getDisplayKey());
-            map.put("Invoice Date", invoiceDate);
-            map.put("Invoice Type", invoiceType.name());
-            map.put("Amount", formatNumber(amount));
-            map.put("Amount In Words", amountWords);
-            JavaFXPDF javaFXPDF = new JavaFXPDF("Invoice.pdf", PageSize.A4);
-            javaFXPDF.makePrintablePDFDocument(map, 50, 200, 100, 20,3,50, 
-                    tblInvoiceDetails,Arrays.asList(new PrintableColumn(tbcInvoiceDetailsItemID),
-                            new PrintableColumn(tbcInvoiceDetailsItemDisplay, "Item Name"), 
-                            new PrintableColumn(tbcInvoiceDetailsQuantity, NumericDataTypes.INTEGER),
-                    new PrintableColumn(tbcInvoiceDetailsUnitPrice, NumericDataTypes.DOUBLE), 
-                    new PrintableColumn(tbcInvoiceDetailsDiscount, NumericDataTypes.DOUBLE, true), 
-                    new PrintableColumn(tbcInvoiceDetailsAmount, NumericDataTypes.DOUBLE, true)), 
-                    "Invoice for Customer: "+billTo.getDisplayKey(), new String[]{"Customer", "Checked By"});
+
         } catch (Exception e) {
             errorMessage(e);
         } finally {
@@ -333,20 +348,18 @@ public class InvoiceController extends EditController {
         });
     }
 
-   
-
-    private void clear() {
-        txtInvoiceID.clear();
-        dtpInvoiceDate.setValue(null);
-        cboInvoiceType.setValue(null);
-        cboBillTo.setValue(null);
-        txtAmount.clear();
-        txaAmountWords.clear();
-        tblInvoiceDetails.getItems().clear();
-        addRow(tblInvoiceDetails, new InvoiceDetailsDA());
-        this.setNextInvoiceID();
-
-    }
+//    private void clear() {
+//        txtInvoiceID.clear();
+//        dtpInvoiceDate.setValue(null);
+//        cboInvoiceType.setValue(null);
+//        cboBillTo.setValue(null);
+//        txtAmount.clear();
+//        txaAmountWords.clear();
+//        tblInvoiceDetails.getItems().clear();
+//        addRow(tblInvoiceDetails, new InvoiceDetailsDA());
+//        this.setNextInvoiceID();
+//
+//    }
 
     private void loadItem() {
         try {
@@ -422,7 +435,7 @@ public class InvoiceController extends EditController {
                 final TablePosition<InvoiceDetailsDA, ?> focusedCell = tblInvoiceDetails
                         .focusModelProperty().get().focusedCellProperty().get();
                 tblInvoiceDetails.edit(focusedCell.getRow(), focusedCell.getTableColumn());
-              
+
             } else if (event.getCode() == KeyCode.RIGHT
                     || event.getCode() == KeyCode.TAB) {
                 tblInvoiceDetails.getSelectionModel().selectNext();
@@ -480,7 +493,7 @@ public class InvoiceController extends EditController {
             errorMessage(e);
         }
     }
-    
+
     private void loadLocation() {
         try {
             ObservableList<InvoiceDetailsDA> selectedItems = tblInvoiceDetails.getSelectionModel().getSelectedItems();
@@ -502,16 +515,15 @@ public class InvoiceController extends EditController {
                 return;
             }
             List<LookupDataDA> lookupDataDAs = LookupDataDA.getLookupDataDAs(oLookupDataDA.getLookupDataByObjectID(CommonObjectNames.LOCATION));
-            
+
             LookupDataDA lookupDataDA = (LookupDataDA) getSelectedItem(CommonNavigate.MAIN_CLASS, new LookupDataDA(), lookupDataDAs, "View", "Item", 400, 450, tblInvoiceDetails, false);
 
             if (lookupDataDA != null) {
                 invoiceDetailsDa.setLocation(lookupDataDA.getLookupData());
-                
+
             }
 
             tblInvoiceDetails.refresh();
-           
 
         } catch (IOException e) {
             errorMessage(e);

@@ -120,11 +120,6 @@ public class VillageController extends EditController {
         }
     }
 
-    private void clear() {
-        cboParish.setValue(null);
-        txtVillageID.clear();
-        txtVillageName.clear();
-        cboParish.setOnAction(e -> this.setNextVillageID());
-    }
+  
 
 }

@@ -29,6 +29,7 @@ public class UserRoleDetailDA extends DBAccess {
     private final SimpleBooleanProperty canUpdate = new SimpleBooleanProperty(this, "canUpdate");
     private final SimpleBooleanProperty canRead = new SimpleBooleanProperty(this, "canRead");
     private final SimpleBooleanProperty canDelete = new SimpleBooleanProperty(this, "canDelete");
+    private final SimpleBooleanProperty canPrint = new SimpleBooleanProperty(this, "canPrint");
 
     public UserRoleDetailDA() {
         createSearchColumns();
@@ -51,15 +52,15 @@ public class UserRoleDetailDA extends DBAccess {
         createSearchColumns();
     }
 
-    public UserRoleDetailDA(UserRole userRole, AccessObject accessObject, boolean canCreate, boolean canUpdate, boolean canRead, boolean canDelete) {
-        this.userRoleDetail = new UserRoleDetail(userRole, accessObject, canCreate, canUpdate, canRead, canDelete);
+    public UserRoleDetailDA(UserRole userRole, AccessObject accessObject, String userRoleDetailID, boolean canCreate, boolean canUpdate, boolean canRead, boolean canDelete, boolean canPrint) {
+        this.userRoleDetail = new UserRoleDetail(userRole, accessObject, userRoleDetailID, canCreate, canUpdate, canRead, canDelete, canPrint);
         initialseProprties();
         createSearchColumns();
     }
 
-    public UserRoleDetailDA(String persistenceUnit, UserRole userRole, AccessObject accessObject, boolean canCreate, boolean canUpdate, boolean canRead, boolean canDelete) {
+    public UserRoleDetailDA(String persistenceUnit, UserRole userRole, AccessObject accessObject, String userRoleDetailID, boolean canCreate, boolean canUpdate, boolean canRead, boolean canDelete, boolean canPrint) {
         super(persistenceUnit);
-        this.userRoleDetail = new UserRoleDetail(userRole, accessObject, canCreate, canUpdate, canRead, canDelete);
+        this.userRoleDetail = new UserRoleDetail(userRole, accessObject, userRoleDetailID, canCreate, canUpdate, canRead, canDelete, canPrint);
         initialseProprties();
         createSearchColumns();
     }
@@ -150,6 +151,15 @@ public class UserRoleDetailDA extends DBAccess {
         this.canDelete.set(canDelete);
     }
 
+    public boolean isCanPrint() {
+        return canPrint.get();
+    }
+
+    public void setCanPrint(boolean canPrint) {
+        userRoleDetail.setCanPrint(canPrint);
+        this.canPrint.set(canPrint);
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -189,6 +199,7 @@ public class UserRoleDetailDA extends DBAccess {
         this.canUpdate.set(userRoleDetail.isCanUpdate());
         this.canRead.set(userRoleDetail.isCanRead());
         this.canDelete.set(userRoleDetail.isCanDelete());
+        this.canPrint.set(userRoleDetail.isCanPrint());
         initCommonProprties();
     }
 
@@ -202,6 +213,7 @@ public class UserRoleDetailDA extends DBAccess {
         this.searchColumns.add(new SearchColumn("canUpdate", "Update", this.canUpdate.get(), SearchDataTypes.BOOLEAN));
         this.searchColumns.add(new SearchColumn("canRead", "Read", this.canRead.get(), SearchDataTypes.BOOLEAN));
         this.searchColumns.add(new SearchColumn("canDelete", "Delete", this.canDelete.get(), SearchDataTypes.BOOLEAN));
+        this.searchColumns.add(new SearchColumn("canPrint", "Print", this.canPrint.get(), SearchDataTypes.BOOLEAN));
         this.searchColumns.addAll(this.getDefaultSearchColumns());
     }
 
@@ -356,7 +368,9 @@ public class UserRoleDetailDA extends DBAccess {
         return canDelete;
     }
     
-    
+     public SimpleBooleanProperty getCanPrint() {
+        return canPrint;
+    }
 
     public UserRoleDetail getUserRoleDetail(UserRole userRole, AccessObject accessObject) {
         List<UserRoleDetail> userRoleDetails = super.find(UserRoleDetail.class, "userRole", userRole, "accessObject", accessObject);

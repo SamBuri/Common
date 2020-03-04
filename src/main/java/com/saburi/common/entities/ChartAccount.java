@@ -6,58 +6,81 @@ package com.saburi.common.entities;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import org.hibernate.envers.Audited;
+import org.hibernate.envers.RelationTargetAuditMode;
+import javax.validation.constraints.NotNull;
 import javax.persistence.JoinColumn;
 import javax.persistence.ForeignKey;
 import javax.persistence.OneToOne;
 import javax.persistence.Column;
+import javax.validation.constraints.Size;
 import com.saburi.common.utils.CommonEnums.AccountActions;
 import javax.persistence.Enumerated;
 import com.saburi.common.utils.CommonEnums.AccountReports;
 
 @Entity
+@Audited(targetAuditMode = RelationTargetAuditMode.NOT_AUDITED)
 public class ChartAccount extends DBEntity {
 
-    @Column(name = "idHelper", updatable = false)
+    @Column(updatable = false)
     private int idHelper;
+    @NotNull(message = "The field: Account Category cannot be null")
     @OneToOne
-    @JoinColumn(name = "categoryID", foreignKey = @ForeignKey(name = "fkCategoryIDChartAccount"), nullable = false)
-    private AccountCategory category;
+    @JoinColumn(name = "accountCategoryID", foreignKey = @ForeignKey(name = "fkAccountCategoryIDChartAccount"))
+    private AccountCategory accountCategory;
     @Id
-    @Column(name = "accountID", updatable = false, length = 20, nullable = false)
+    @NotNull(message = "The field: Account ID cannot be null")
+    @Size(max = 20, message = "The field: Account ID size cannot be greater than 20")
+    @Column(length = 20, updatable = false)
     private String accountID;
-    @Column(name = "accountName", length = 100, nullable = false)
+    @Size(max = 100, message = "The field: Account Name size cannot be greater than 100")
+    @Column(length = 100)
     private String accountName;
     @Enumerated
-    @Column(name = "accountAction")
     private AccountActions accountAction;
     @Enumerated
-    @Column(name = "accountReport")
     private AccountReports accountReport;
+    private boolean contra;
+    private boolean controlAccount;
     private double openingBalance;
     private double closingBalance;
-    private boolean contra;
     private boolean readOnly;
-    private boolean controlAccount;
     private boolean hidden;
 
     public ChartAccount() {
     }
 
-    public ChartAccount(int idHelper, AccountCategory category, String accountID, String accountName, AccountActions accountAction, AccountReports accountReport, double openingBalance, double closingBalance, boolean contra, boolean readOnly, boolean controlAccount, boolean hidden) {
+    public ChartAccount(int idHelper, AccountCategory accountCategory, String accountID, String accountName, AccountActions accountAction, AccountReports accountReport, boolean contra, boolean controlAccount, double openingBalance, double closingBalance, boolean readOnly, boolean hidden) {
         this.idHelper = idHelper;
-        this.category = category;
+        this.accountCategory = accountCategory;
         this.accountID = accountID;
         this.accountName = accountName;
         this.accountAction = accountAction;
         this.accountReport = accountReport;
+        this.contra = contra;
+        this.controlAccount = controlAccount;
         this.openingBalance = openingBalance;
         this.closingBalance = closingBalance;
-        this.contra = contra;
         this.readOnly = readOnly;
-        this.controlAccount = controlAccount;
         this.hidden = hidden;
 
     }
+
+    public ChartAccount(int idHelper, AccountCategory accountCategory, String accountID, String accountName, AccountActions accountAction, 
+            AccountReports accountReport, boolean contra, boolean controlAccount,  boolean readOnly, boolean hidden) {
+        this.idHelper = idHelper;
+        this.accountCategory = accountCategory;
+        this.accountID = accountID;
+        this.accountName = accountName;
+        this.accountAction = accountAction;
+        this.accountReport = accountReport;
+        this.contra = contra;
+        this.controlAccount = controlAccount;
+        this.readOnly = readOnly;
+        this.hidden = hidden;
+
+    }
+
 
     public int getIdHelper() {
         return idHelper;
@@ -67,12 +90,12 @@ public class ChartAccount extends DBEntity {
         this.idHelper = idHelper;
     }
 
-    public AccountCategory getCategory() {
-        return category;
+    public AccountCategory getAccountCategory() {
+        return accountCategory;
     }
 
-    public void setCategory(AccountCategory category) {
-        this.category = category;
+    public void setAccountCategory(AccountCategory accountCategory) {
+        this.accountCategory = accountCategory;
     }
 
     public String getAccountID() {
@@ -107,6 +130,22 @@ public class ChartAccount extends DBEntity {
         this.accountReport = accountReport;
     }
 
+    public boolean isContra() {
+        return contra;
+    }
+
+    public void setContra(boolean contra) {
+        this.contra = contra;
+    }
+
+    public boolean isControlAccount() {
+        return controlAccount;
+    }
+
+    public void setControlAccount(boolean controlAccount) {
+        this.controlAccount = controlAccount;
+    }
+
     public double getOpeningBalance() {
         return openingBalance;
     }
@@ -123,28 +162,12 @@ public class ChartAccount extends DBEntity {
         this.closingBalance = closingBalance;
     }
 
-    public boolean isContra() {
-        return contra;
-    }
-
-    public void setContra(boolean contra) {
-        this.contra = contra;
-    }
-
     public boolean isReadOnly() {
         return readOnly;
     }
 
     public void setReadOnly(boolean readOnly) {
         this.readOnly = readOnly;
-    }
-
-    public boolean isControlAccount() {
-        return controlAccount;
-    }
-
-    public void setControlAccount(boolean controlAccount) {
-        this.controlAccount = controlAccount;
     }
 
     public boolean isHidden() {

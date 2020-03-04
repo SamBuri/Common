@@ -9,6 +9,7 @@ import com.saburi.common.utils.FXUIUtils;
 
 import com.saburi.common.utils.CommonSearchTree;
 import static com.saburi.common.utils.Navigation.loadSearchEngine;
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -33,7 +34,7 @@ public class ParentSceneController extends MainSceneController{
            init();
            loadSearchEngine(mnuSearchEngine, new CommonSearchTree().getTreeItems(), true);
 
-        } catch (Exception ex) {
+        } catch (IOException ex) {
             FXUIUtils.errorMessage(ex);
         }
     }

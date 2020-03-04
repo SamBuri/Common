@@ -1,0 +1,8 @@
+UserRole, User Role, String, UserRole,, , , Display, 100, false, false, 
+AccessObject, AccessObject, String, AccessObject,, , , Display, 100, false, false, 
+UserRoleDetailID, User Role Detail ID, String, ,, , Primary, , 80, false, false, 
+CanCreate, Create, boolean, ,, , , , 100, false, true, 
+CanUpdate, Update, boolean, ,, , , , 100, false, true, 
+CanRead, Read, boolean, ,, , , , 100, false, true, 
+CanDelete, Delete, boolean, ,, , , , 100, false, true, 
+CanPrint, Print, boolean, ,, , , , 100, false, true, 

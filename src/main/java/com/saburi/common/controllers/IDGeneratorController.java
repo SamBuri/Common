@@ -110,14 +110,6 @@ public class IDGeneratorController extends EditController {
 
     }
 
-    private void clear() {
-        txtObjectName.clear();
-        txtPadChar.clear();
-        txtPadLength.clear();
-        txtSeperator.clear();
-        txtSeporatorPosition.clear();
-        txtStartWith.clear();
-
-    }
+  
 
 }

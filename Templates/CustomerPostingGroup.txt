@@ -1,0 +1,6 @@
+IdHelper, Id Helper, int, ,, , , ID_Helper, 100, false, false, 
+CustomerPostingGroupID, Customer Posting Group ID, String, ,, , Primary, , 20, false, false, 
+CustomerGroup, Customer Group, String, LookupData,, , , Display, 100, false, false, CommonEnums
+ReceivableAccount, Receivable Account, String, ChartAccount,, , , , 100, false, true, 
+ServiceChargeAccount, Service Charge Account, String, ChartAccount,, , , , 100, false, true, 
+PaymentDiscountAccount, Payment Discount Account, String, ChartAccount,, , , , 100, false, true, 

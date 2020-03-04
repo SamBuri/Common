@@ -139,7 +139,7 @@ public class CompanyController extends EditController {
         }
     }
 
-    private void clear() {
+    protected void clear() {
         txtCompanyID.clear();
         txtCompanyName.clear();
         cboBusinessType.setValue(null);

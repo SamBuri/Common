@@ -111,8 +111,8 @@ public class Navigation {
             controller.setFormMode(formMode);
             controller.init(title, formMode);
             controller.setTableView(tableView);
-            if (formMode.equals(FormMode.Update)) {
-                controller.setEdit(objectValue);
+            if (formMode.equals(FormMode.Update)||formMode.equals(FormMode.Print)) {
+                controller.setEdit(objectValue, formMode);
             }
             if (isPopup) {
                 FXUIUtils.showDialog(root, title, tableView);
@@ -155,10 +155,18 @@ public class Navigation {
     public static void editMenuItemClick(Class type, MenuItem menuItem, String uiName, String title, FormMode formMode) {
 
         CurrentUser.applyRights(uiName, menuItem);
-        if (formMode.equals(FormMode.Update)) {
-            menuItem.setGraphic(GlyphsDude.createIcon(FontAwesomeIcon.EDIT));
-        } else {
-            menuItem.setGraphic(GlyphsDude.createIcon(FontAwesomeIcon.PLUS));
+        switch (formMode) {
+            case Update:
+                menuItem.setGraphic(GlyphsDude.createIcon(FontAwesomeIcon.EDIT));
+                break;
+            case Save:
+                menuItem.setGraphic(GlyphsDude.createIcon(FontAwesomeIcon.PLUS));
+                break;
+            case Print:
+                menuItem.setGraphic(GlyphsDude.createIcon(FontAwesomeIcon.PRINT));
+                break;
+            default:
+                break;
         }
 
         menuItem.setOnAction((event) -> {

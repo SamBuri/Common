@@ -75,6 +75,7 @@ public class InventoryPostingGroupController extends EditController {
                 inventoryPostingGroupDA.save();
                 message("Saved Successfully");
                 clear();
+                this.setNextInventoryPostingGroupID();
             } else if (buttonText.equalsIgnoreCase(FormMode.Update.name())) {
                 inventoryPostingGroupDA.update();
                 message("Updated Successfully");
@@ -131,13 +132,6 @@ public class InventoryPostingGroupController extends EditController {
         }
     }
 
-    private void clear() {
-        txtInventoryPostingGroupID.clear();
-        cboLocation.setValue(null);
-        cboInventoryGroup.setValue(null);
-        cboAccount.setValue(null);
-        this.setNextInventoryPostingGroupID();
-
-    }
+   
 
 }

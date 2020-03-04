@@ -1,0 +1,12 @@
+JournalEntryDetailID, Journal Entry Detail ID, String, ,, , Primary, , 100, false, false, 
+AccountGroup, Account Group, String, AccountGroups,, , , None, 100, true, false, CommonEnums
+JournalEntry, Journal Entry, String, JournalEntry,, , , , 100, false, false, 
+AccountID, Account ID, String, ,, , , , 100, false, false, 
+AccountName, Account Name, String, ,, , , Display, 100, false, false, 
+AccountType, Account Type, String, AccountTypes,, , , , 100, true, true, CommonEnums
+AccountAction, Account Action, String, AccountActions,, , , , 100, true, true, CommonEnums
+Quantity, Quantity, int
+UnitPrice, Unit Price, double
+Amount, Amount, double, ,, , , , 100, false, true, 
+Notes, Notes, String, ,, , , , 100, false, true, 
+Location, Location, String, LookupData

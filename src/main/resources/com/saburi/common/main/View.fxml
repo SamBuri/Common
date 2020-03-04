@@ -14,7 +14,7 @@
 <?import javafx.scene.control.cell.PropertyValueFactory?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Button?>
-<VBox id="SubCounty"  spacing="10"  xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.saburi.common.controllers.ViewController">
+<VBox fx:id = "mVBox" id="View"  spacing="10"  xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.saburi.common.controllers.ViewController">
     <children>
          <HBox spacing= "10">
                 <padding>
@@ -36,6 +36,7 @@
                         <items>
                             <MenuItem mnemonicParsing="false" fx:id ="cmiNew" id = "Create" text="New" disable="true" />
                             <MenuItem mnemonicParsing="false" fx:id ="cmiUpdate" id = "Update" text="Edit" disable="true" />
+                            <MenuItem mnemonicParsing="false" fx:id ="cmiPrint" id = "Print" text="Print" disable="true" visible = "false" />
                             <MenuItem mnemonicParsing="false" fx:id ="cmiDelete" id = "Delete" text="Delete" disable="true" />
                             <MenuItem mnemonicParsing="false" fx:id ="cmiSelectAll" id = "View" text="Select All" />
                         </items>

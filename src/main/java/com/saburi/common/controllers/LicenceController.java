@@ -117,17 +117,7 @@ public class LicenceController extends EditController {
         }
     }
 
-    private void clear() {
-        txtLicenceNo.clear();
-        txtDetails.clear();
-        cboLicenceType.setValue(null);
-        dtpStartDate.setValue(null);
-        dtpEndDate.setValue(null);
-        txtUserLimit.clear();
-        txtRecordLimit.clear();
-        txtBaseTable.clear();
-
-    }
+   
 
     @Override
     public void loadData() {

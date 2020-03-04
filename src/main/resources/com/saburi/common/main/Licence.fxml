@@ -16,7 +16,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox id="controllers.LicenceController"  spacing="5" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.saburi.common.controllers.LicenceController">
+<VBox fx:id = "mVBox" id="controllers.LicenceController"  spacing="5" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.saburi.common.controllers.LicenceController">
     <children>
         <HBox alignment="center" spacing="4.0">
             <Label id="Licence" fx:id="lblFIleName" text="File Name" />

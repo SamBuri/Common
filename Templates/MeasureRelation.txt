@@ -1,0 +1,5 @@
+MeasureRelationID, Measure Relation ID, String, ,, , Primary, , 40, false, false, 
+MeasureGroup, Measure Group, String, MeasureGroup,, OneToOne, Foreign, , 100, false, false, 
+UnitMeasure, Unit Measure, String, LookupData,, OneToOne, Foreign, Display, 100, false, false, 
+BaseSize, Base Size, float, ,, , , , 100, false, false, 
+DefaultUsage, Default Usage, String, UnitMeasureUsages,, , , , 100, true, true, CommonEnums

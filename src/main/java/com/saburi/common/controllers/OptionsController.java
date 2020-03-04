@@ -120,12 +120,4 @@ public class OptionsController extends EditController {
 
     }
 
-    private void clear() {
-        txtOptionID.clear();
-        txtOptionName.clear();
-        cboDataType.setValue(null);
-        txtOptionValue.clear();
-
-    }
-
 }

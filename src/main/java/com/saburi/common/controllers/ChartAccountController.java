@@ -18,10 +18,11 @@ import javafx.collections.FXCollections;
 import javafx.scene.control.MenuItem;
 import com.saburi.common.dbaccess.AccountCategoryDA;
 import com.saburi.common.entities.AccountCategory;
+import com.saburi.common.utils.CommonNavigate;
 import com.saburi.common.utils.CommonEnums.AccountActions;
 import com.saburi.common.utils.CommonEnums.AccountReports;
-import com.saburi.common.utils.CommonNavigate;
 import javafx.scene.control.CheckBox;
+import static com.saburi.common.utils.Utilities.formatNumber;
 
 public class ChartAccountController extends EditController {
 
@@ -29,9 +30,9 @@ public class ChartAccountController extends EditController {
     @FXML
     private ComboBox cboAccountType;
     @FXML
-    private ComboBox cboCategory;
+    private ComboBox cboAccountCategory;
     @FXML
-    private MenuItem cmiSelectCategory;
+    private MenuItem cmiSelectAccountCategory;
     @FXML
     private TextField txtAccountID;
     @FXML
@@ -41,15 +42,15 @@ public class ChartAccountController extends EditController {
     @FXML
     private ComboBox cboAccountReport;
     @FXML
+    private CheckBox chkContra;
+    @FXML
+    private CheckBox chkControlAccount;
+    @FXML
     private TextField txtOpeningBalance;
     @FXML
     private TextField txtClosingBalance;
     @FXML
-    private CheckBox chkContra;
-    @FXML
     private CheckBox chkReadOnly;
-    @FXML
-    private CheckBox chkControlAccount;
     @FXML
     private CheckBox chkHidden;
     private final AccountCategoryDA oAccountCategoryDA = new AccountCategoryDA();
@@ -58,20 +59,23 @@ public class ChartAccountController extends EditController {
     public void initialize(URL url, ResourceBundle rb) {
         try {
             cboAccountType.setItems(FXCollections.observableArrayList(AccountTypes.values()));
-            loadDBEntities(new AccountCategoryDA().getAccountCategorys(), cboCategory);
+            loadDBEntities(oAccountCategoryDA.getAccountCategorys(), cboAccountCategory);
             cboAccountAction.setItems(FXCollections.observableArrayList(AccountActions.values()));
             cboAccountReport.setItems(FXCollections.observableArrayList(AccountReports.values()));
             validateNumber(txtOpeningBalance);
             validateNumber(txtClosingBalance);
+            formatValue(txtOpeningBalance);
+            formatValue(txtClosingBalance);
             this.primaryKeyControl = txtAccountID;
             this.dbAccess = oChartAccountDA;
             this.restrainColumnConstraint = false;
-            this.minSize = 360;
+            //this.minSize = 360;
+            cboAccountCategory.setOnAction(e -> this.setNextAccountID());
             cboAccountType.setOnAction(e -> AccountTypeSelectected());
-            cboCategory.setOnAction(e -> this.setNextAccountID());
             chkContra.setOnAction(e -> setDefaultSelections());
-
-            selectItem(CommonNavigate.MAIN_CLASS,cmiSelectCategory, new AccountCategoryDA(), "View", "Category", 700, 400, cboCategory, true);
+            selectItem(CommonNavigate.MAIN_CLASS, cmiSelectAccountCategory, oAccountCategoryDA, "AccountCategory", "Account Category", cboAccountCategory, true);
+           enableNodes();
+           
         } catch (Exception e) {
             errorMessage(e);
         } finally {
@@ -81,20 +85,18 @@ public class ChartAccountController extends EditController {
     @Override
     protected void save() {
         try {
-            AccountTypes accountType = (AccountTypes) getSelectedValue(cboAccountType, "Account Type");
-            AccountCategory category = (AccountCategory) getEntity(cboCategory, "Category No");
+            this.editSuccessful = false;
+            AccountCategory accountCategory = (AccountCategory) getEntity(cboAccountCategory, "Account Category");
             String accountID = getText(txtAccountID, "Account ID");
             String accountName = getText(txtAccountName, "Account Name");
             AccountActions accountAction = (AccountActions) getSelectedValue(cboAccountAction, "Account Action");
             AccountReports accountReport = (AccountReports) getSelectedValue(cboAccountReport, "Account Report");
-            double openingBalance = getDouble(txtOpeningBalance);
-            double closingBalance = getDouble(txtClosingBalance);
             boolean contra = chkContra.isSelected();
-            boolean readOnly = chkReadOnly.isSelected();
             boolean controlAccount = chkControlAccount.isSelected();
+            boolean readOnly = chkReadOnly.isSelected();
             boolean hidden = chkHidden.isSelected();
 
-            ChartAccountDA chartAccountDA = new ChartAccountDA(accountType, category, accountID, accountName, accountAction, accountReport, openingBalance, closingBalance, contra, readOnly, controlAccount, hidden);
+            ChartAccountDA chartAccountDA = new ChartAccountDA(accountCategory, accountID, accountName, accountAction, accountReport, contra, controlAccount, readOnly, hidden);
             String buttonText = btnSave.getText();
             if (buttonText.equalsIgnoreCase(FormMode.Save.name())) {
                 chartAccountDA.save();
@@ -105,6 +107,7 @@ public class ChartAccountController extends EditController {
                 message("Updated Successfully");
             }
             this.dbAccess = chartAccountDA;
+            this.editSuccessful = true;
         } catch (Exception e) {
             errorMessage(e);
         } finally {
@@ -135,16 +138,16 @@ public class ChartAccountController extends EditController {
 
             ChartAccountDA chartAccountDA = oChartAccountDA.get(accountID);
             cboAccountType.setValue(chartAccountDA.getAccountType());
-            cboCategory.setValue(chartAccountDA.getCategory());
+            cboAccountCategory.setValue(chartAccountDA.getAccountCategory());
             txtAccountID.setText(chartAccountDA.getAccountID());
             txtAccountName.setText(chartAccountDA.getAccountName());
             cboAccountAction.setValue(chartAccountDA.getAccountAction());
             cboAccountReport.setValue(chartAccountDA.getAccountReport());
-            txtOpeningBalance.setText(chartAccountDA.getOpeningBalanceDisplay());
-            txtClosingBalance.setText(chartAccountDA.getClosingBalanceDisplay());
             chkContra.setSelected(chartAccountDA.isContra());
-            chkReadOnly.setSelected(chartAccountDA.isReadOnly());
             chkControlAccount.setSelected(chartAccountDA.isControlAccount());
+            txtOpeningBalance.setText(formatNumber(chartAccountDA.getOpeningBalance()));
+            txtClosingBalance.setText(formatNumber(chartAccountDA.getClosingBalance()));
+            chkReadOnly.setSelected(chartAccountDA.isReadOnly());
             chkHidden.setSelected(chartAccountDA.isHidden());
 
         } catch (Exception e) {
@@ -156,26 +159,34 @@ public class ChartAccountController extends EditController {
     private void setNextAccountID() {
         try {
             if (btnSave.getText().equalsIgnoreCase(FormMode.Save.name())) {
-                AccountCategory category = (AccountCategory) getEntity(cboCategory);
-                String categoryID = category != null ? category.getCategoryID() : "";
-                txtAccountID.setText(oChartAccountDA.getNextAccountID(oChartAccountDA.getNextIdHelper(category), categoryID));
+                AccountCategory accountCategory = (AccountCategory) getEntity(cboAccountCategory);
+
+                if (accountCategory == null) {
+                    return;
+                }
+
+                String accountCategoryID = accountCategory.getCategoryID();
+                txtAccountID.setText(oChartAccountDA.getNextAccountID(oChartAccountDA.getNextIdHelper(accountCategory), accountCategoryID));
             }
         } catch (Exception e) {
             errorMessage(e);
         }
     }
 
-    private void clear() {
+    protected void clear() {
+
         txtAccountID.clear();
         txtAccountName.clear();
-
+        cboAccountAction.setValue(null);
+        cboAccountReport.setValue(null);
+        chkContra.setSelected(false);
+        chkControlAccount.setSelected(false);
         txtOpeningBalance.clear();
         txtClosingBalance.clear();
-        chkContra.setSelected(false);
         chkReadOnly.setSelected(false);
-        chkControlAccount.setSelected(false);
         chkHidden.setSelected(false);
-        this.setNextAccountID();
+        setNextAccountID();
+        setDefaultSelections();
     }
 
     private void setDefaultSelections() {
@@ -208,8 +219,17 @@ public class ChartAccountController extends EditController {
 
     private void AccountTypeSelectected() {
         AccountTypes accountType = (AccountTypes) cboAccountType.getValue();
-        loadDBEntities(oAccountCategoryDA.getAccountCategoriesByAccountType(accountType), cboCategory);
+        loadDBEntities(oAccountCategoryDA.getAccountCategories(accountType), cboAccountCategory);
         setDefaultSelections();
 
     }
+
+    private void enableNodes() {
+        cboAccountAction.disableProperty().set(true);
+        cboAccountReport.disableProperty().set(true);
+        chkReadOnly.disableProperty().set(true);
+        chkHidden.disableProperty().set(btnSave.getText().equalsIgnoreCase(FormMode.Save.name()));
+
+    }
+
 }

@@ -51,6 +51,8 @@ public class UserRoleController extends EditController {
     private TableColumn<UserRoleDetailDA, Boolean> tbcUserRoleDetailCanRead;
     @FXML
     private TableColumn<UserRoleDetailDA, Boolean> tbcUserRoleDetailCanDelete;
+    @FXML
+    private TableColumn<UserRoleDetailDA, Boolean> tbcUserRoleDetailCanPrint;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -68,10 +70,13 @@ public class UserRoleController extends EditController {
             setUserRoleDetailCanUpdate();
             setUserRoleDetailCanRead();
             setUserRoleDetailCanDelete();
+            setUserRoleDetailCanPrint();
+
             final Callback<TableColumn<UserRoleDetailDA, Boolean>, TableCell<UserRoleDetailDA, Boolean>> createFactory = CheckBoxTableCell.forTableColumn(tbcUserRoleDetailCanCreate);
             final Callback<TableColumn<UserRoleDetailDA, Boolean>, TableCell<UserRoleDetailDA, Boolean>> readFactory = CheckBoxTableCell.forTableColumn(tbcUserRoleDetailCanRead);
             final Callback<TableColumn<UserRoleDetailDA, Boolean>, TableCell<UserRoleDetailDA, Boolean>> updateFactory = CheckBoxTableCell.forTableColumn(tbcUserRoleDetailCanUpdate);
             final Callback<TableColumn<UserRoleDetailDA, Boolean>, TableCell<UserRoleDetailDA, Boolean>> deleteFactory = CheckBoxTableCell.forTableColumn(tbcUserRoleDetailCanDelete);
+            final Callback<TableColumn<UserRoleDetailDA, Boolean>, TableCell<UserRoleDetailDA, Boolean>> printFactory = CheckBoxTableCell.forTableColumn(tbcUserRoleDetailCanPrint);
 
             tbcUserRoleDetailCanCreate.setCellValueFactory((TableColumn.CellDataFeatures<UserRoleDetailDA, Boolean> param) -> {
                 UserRoleDetailDA UserRoleDetailDA = param.getValue();
@@ -105,10 +110,19 @@ public class UserRoleController extends EditController {
                 return UserRoleDetailDA.getCanDelete();
             });
 
+            tbcUserRoleDetailCanPrint.setCellValueFactory((TableColumn.CellDataFeatures<UserRoleDetailDA, Boolean> param) -> {
+                UserRoleDetailDA UserRoleDetailDA = param.getValue();
+                UserRoleDetailDA.getCanPrint().addListener((ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) -> {
+                    UserRoleDetailDA.setCanPrint(newValue);
+                });
+                return UserRoleDetailDA.getCanPrint();
+            });
+
             tbcUserRoleDetailCanCreate.setCellFactory(createFactory);
             tbcUserRoleDetailCanRead.setCellFactory(readFactory);
             tbcUserRoleDetailCanUpdate.setCellFactory(updateFactory);
             tbcUserRoleDetailCanDelete.setCellFactory(deleteFactory);
+            tbcUserRoleDetailCanPrint.setCellFactory(printFactory);
         } catch (Exception e) {
             errorMessage(e);
         } finally {
@@ -229,6 +243,19 @@ public class UserRoleController extends EditController {
         });
     }
 
+    private void setUserRoleDetailCanPrint() {
+        tbcUserRoleDetailCanPrint.setCellFactory(EditCell.BooleanTableColumn());
+        tbcUserRoleDetailCanPrint.setOnEditCommit(event -> {
+            final boolean value = event.getNewValue() != null ? event.getNewValue()
+                    : event.getOldValue();
+            ((UserRoleDetailDA) event.getTableView().getItems()
+                    .get(event.getTablePosition().getRow()))
+                    .setCanPrint(value);
+            tblUserRoleDetails.refresh();
+            addRow(tblUserRoleDetails, new UserRoleDetailDA());
+        });
+    }
+
     private void loadAccessObject() {
         try {
             String roleName = getText(txtRoleName, "Role Name");
@@ -267,10 +294,9 @@ public class UserRoleController extends EditController {
         }
     }
 
-    private void clear() {
-        txtRoleName.clear();
-        txaDescription.clear();
-        tblUserRoleDetails.getItems().clear();
+    @Override
+    protected void clear() {
+        super.clear();
         addRow(tblUserRoleDetails, new UserRoleDetailDA());
 
     }

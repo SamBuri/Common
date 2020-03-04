@@ -62,6 +62,7 @@ public class CurrencyController extends EditController {
                 currencyDA.save();
                 message("Saved Successfully");
                 clear();
+                 this.setNextCurrencyID();
             } else if (buttonText.equalsIgnoreCase(FormMode.Update.name())) {
                 currencyDA.update();
                 message("Updated Successfully");
@@ -119,14 +120,6 @@ public class CurrencyController extends EditController {
         }
     }
 
-    private void clear() {
-        txtCurrencyID.clear();
-        txtCurrencyName.clear();
-        txtBuying.clear();
-        txtSelling.clear();
-        chkIsDefault.setSelected(false);
-        this.setNextCurrencyID();
-
-    }
+   
 
 }

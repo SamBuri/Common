@@ -85,6 +85,7 @@ public class CustomerPostingGroupController extends EditController {
                 customerPostingGroupDA.save();
                 message("Saved Successfully");
                 clear();
+                this.setNextCustomerPostingGroupID();
             } else if (buttonText.equalsIgnoreCase(FormMode.Update.name())) {
                 customerPostingGroupDA.update();
                 message("Updated Successfully");
@@ -140,16 +141,6 @@ public class CustomerPostingGroupController extends EditController {
         } catch (Exception e) {
             errorMessage(e);
         }
-    }
-
-    private void clear() {
-        txtCustomerPostingGroupID.clear();
-        cboCustomerGroup.setValue(null);
-        cboReceivableAccount.setValue(null);
-        cboServiceChargeAccount.setValue(null);
-        cboPaymentDiscountAccount.setValue(null);
-        this.setNextCustomerPostingGroupID();
-
     }
 
 }

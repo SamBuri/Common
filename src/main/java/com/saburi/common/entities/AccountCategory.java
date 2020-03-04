@@ -6,25 +6,34 @@ package com.saburi.common.entities;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import org.hibernate.envers.Audited;
+import org.hibernate.envers.RelationTargetAuditMode;
+import javax.validation.constraints.NotNull;
 import com.saburi.common.utils.CommonEnums.AccountTypes;
 import javax.persistence.Enumerated;
 import javax.persistence.Column;
+import javax.validation.constraints.Size;
 import javax.persistence.JoinColumn;
 import javax.persistence.ForeignKey;
 import javax.persistence.OneToOne;
 
 @Entity
+@Audited(targetAuditMode = RelationTargetAuditMode.NOT_AUDITED)
 public class AccountCategory extends DBEntity {
 
-    @Column(name = "idHelper", updatable = false)
+    @Column(updatable = false)
     private int idHelper;
+    @NotNull(message = "The field: Account Type cannot be null")
     @Enumerated
-    @Column(name = "accountType")
     private AccountTypes accountType;
     @Id
-    @Column(name = "categoryID", updatable = false, length = 20, nullable = false)
+    @NotNull(message = "The field: Category ID cannot be null")
+    @Size(max = 100, message = "The field: Category ID size cannot be greater than 100")
+    @Column(length = 100, updatable = false)
     private String categoryID;
-    @Column(name = "categoryName", length = 100, nullable = false)
+    @Size(max = 100, message = "The field: Category Name size cannot be greater than 100")
+    @NotNull(message = "The field: Category Name cannot be null")
+    @Column(length = 100)
     private String categoryName;
     @OneToOne
     @JoinColumn(name = "parentCategoryID", foreignKey = @ForeignKey(name = "fkParentCategoryIDAccountCategory"))

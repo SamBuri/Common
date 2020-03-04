@@ -1,0 +1,3 @@
+RoleName, Role Name, String, ,, , Primary, Display, 20, false, false, 
+Description, Description, String, ,, , , , 200, false, true, 
+UserRoleDetails, User Role Details, List, UserRoleDetail,ObjectName>Object Name>String#CanCreate>Create>boolean#CanUpdate>Update>boolean#CanRead>Read>boolean#CanDelete>Delete>boolean#CanPrint>Print>boolean, OneToMany, , , 100, false, true, 

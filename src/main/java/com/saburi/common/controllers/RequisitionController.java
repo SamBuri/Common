@@ -104,14 +104,7 @@ private void setNextRequisitionID(){
 txtRequisitionID.setText(oRequisitionDA.getNextRequisitionID(oRequisitionDA.getNextIdHelper()));
 }}catch(Exception e){errorMessage(e);}
 }
-private void clear(){
- txtRequisitionID.clear();
-dtpRequistionDate.setValue(null);
-cboStatus.setValue(null);
-cboItemGroup.setValue(null);
-this.setNextRequisitionID();
 
-}
 
 
 }

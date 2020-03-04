@@ -89,6 +89,7 @@ public class VATPostingGroupController extends EditController {
                 vATPostingGroupDA.save();
                 message("Saved Successfully");
                 clear();
+                this.setNextVATPostingGroupID();
             } else if (buttonText.equalsIgnoreCase(FormMode.Update.name())) {
                 vATPostingGroupDA.update();
                 message("Updated Successfully");
@@ -147,15 +148,6 @@ public class VATPostingGroupController extends EditController {
         }
     }
 
-    private void clear() {
-        txtVATPostingGroupID.clear();
-        cboVATBusinessGroup.setValue(null);
-        cboVATItemGroup.setValue(null);
-        txtVATPercent.clear();
-        cboVATSalesAccount.setValue(null);
-        cboVATPurchaseAccount.setValue(null);
-        this.setNextVATPostingGroupID();
-
-    }
+   
 
 }

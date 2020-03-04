@@ -75,14 +75,16 @@ public class SearchController implements Initializable {
                         Class mainClass =  searchItem.getMainClass();
                         SearchItemTypes searchItemType = searchItem.getSearchItemTypes();
                         boolean columnConstraint = searchItem.isConstrainColumns();
+                        boolean editbale = searchItem.isEditable();
+                        boolean printable = searchItem.isPrintable();
                         DBAccess dBAccess = searchItem.getDbAccess();
                         if (dBAccess != null) {
                             if (null == searchItemType) {
-                                controller.setInitData(mainClass, dBAccess, objectName, columnConstraint);
+                                controller.setInitData(mainClass, dBAccess, objectName, columnConstraint, editbale, printable);
                             } else {
                                 switch (searchItemType) {
                                     case Entinty:
-                                        controller.setInitData(mainClass, dBAccess, objectName, columnConstraint);
+                                        controller.setInitData(mainClass, dBAccess, objectName, columnConstraint, editbale, printable);
                                         break;
                                     case Revision:
                                         controller.setInitRevData(dBAccess, objectName, columnConstraint);

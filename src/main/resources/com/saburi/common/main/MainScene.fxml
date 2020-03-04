@@ -279,7 +279,7 @@
                         </SplitMenuButton>
                       
                         
-                        <SplitMenuButton id="Invoicing" fx:id="spmInvoicing" mnemonicParsing="false" text="Invoicing">
+                        <SplitMenuButton id="Sales" fx:id="spmSales" mnemonicParsing="false" text="Sales">
                             <items>
                                 
                                 <Menu fx:id="spmSaleOrder" id ="SaleOrder"  mnemonicParsing="false" text="Sale Orders">
@@ -293,14 +293,14 @@
                                 <Menu fx:id="spmInvoice" id ="Invoice"  mnemonicParsing="false" text="Invoice">
                                     
                                     <MenuItem fx:id="spmInvoiceAdd" id ="Create" mnemonicParsing="false" text="New" />
-                                    <MenuItem fx:id="spmInvoiceUpdate" id ="Update" mnemonicParsing="false" text="Edit" />
+                                    <MenuItem fx:id="spmInvoicePrint" id ="Print" mnemonicParsing="false" text="Print" />
                                     <MenuItem fx:id="spmInvoiceView" id ="Read" mnemonicParsing="false" text="View" />
                                    
                                 </Menu>
                                 
                                 <Menu fx:id="spmReceipt" id ="Receipt"  mnemonicParsing="false" text="Receipt">
                                     <MenuItem fx:id="spmReceiptAdd" id ="Create" mnemonicParsing="false" text="New" />
-                                    <MenuItem fx:id="spmReceiptUpdate" id ="Update" mnemonicParsing="false" text="Edit" />
+                                    <MenuItem fx:id="spmReceiptPrint" id ="Print" mnemonicParsing="false" text="print" />
                                     <MenuItem fx:id="spmReceiptView" id ="Read" mnemonicParsing="false" text="View" />
                                     
                                 </Menu>

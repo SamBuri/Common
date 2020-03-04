@@ -83,6 +83,7 @@ public class VendorPostingGroupController extends EditController {
                 vendorPostingGroupDA.save();
                 message("Saved Successfully");
                 clear();
+                this.setNextVendorPostingGroupID();
             } else if (buttonText.equalsIgnoreCase(FormMode.Update.name())) {
                 vendorPostingGroupDA.update();
                 message("Updated Successfully");
@@ -140,14 +141,6 @@ public class VendorPostingGroupController extends EditController {
         }
     }
 
-    private void clear() {
-        txtVendorPostingGroupID.clear();
-        cboVendorGroup.setValue(null);
-        cboPayableAccount.setValue(null);
-        cboServiceChargeAccount.setValue(null);
-        cboPaymentDiscountAccount.setValue(null);
-        this.setNextVendorPostingGroupID();
-
-    }
+   
 
 }

@@ -148,6 +148,7 @@ public class StaffController extends EditController {
                 staffDA.save();
                 message("Saved Successfully");
                 clear();
+                this.setNextStaffID();
             } else if (buttonText.equalsIgnoreCase(FormMode.Update.name())) {
                 staffDA.update();
                 message("Updated Successfully");
@@ -220,29 +221,6 @@ public class StaffController extends EditController {
         }
     }
 
-    private void clear() {
-        txtStaffID.clear();
-        imvPhoto.setImage(null);
-        txtFirstName.clear();
-        txtLastName.clear();
-        txtOtherNames.clear();
-        txtInitials.clear();
-        cboGender.setValue(null);
-        dtpBirthDate.setValue(null);
-        dtpJoinDate.setValue(null);
-        txtNationalID.clear();
-        cboCountry.setValue(null);
-        cboVillage.setValue(null);
-        cboStaffTitle.setValue(null);
-        cboQualification.setValue(null);
-        cboDepartment.setValue(null);
-        txtPhoneNo.clear();
-        txtEmailAddress.clear();
-        txaPhysicalAddress.clear();
-        txaSpecialSkills.clear();
-        chkActive.setSelected(false);
-        this.setNextStaffID();
-
-    }
+    
 
 }

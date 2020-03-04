@@ -1,0 +1,4 @@
+ObjectName, Object Name, String, ,, , Primary, , 40, false, false, 
+Caption, Caption, String, ,, , , Display, 100, false, false, 
+ObjectType, Object Tye, String, ObjectTypes,, OneToOne, Foreign, , 100, true, true, CommonEnums
+Description, Description, String, ,, , , , 100, false, true, 

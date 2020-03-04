@@ -1,0 +1,17 @@
+IdHelper, Id Helper, int, ,, , , ID_Helper, 20, false, false, 
+FinancialPeriod, Financial Period, String, FinancialPeriod,, OneToOne, Foreign, ID_Generator, 100, false, false, 
+JournalID, Journal ID, String, ,, , Primary, Display, 100, false, false, 
+EntryDate, Entry Date, LocalDate, ,, , , , 100, false, false, 
+Narration, Narration, String, ,, , , , 200, false, true, 
+DocumentType, Document Type, String, DocumentTypes,, OneToOne, Foreign, , 100, true, true, CommonEnums
+DocumentNo, Document No, String
+ReferenceNo, Reference No, String, ,, , , , 100, false, true, 
+Currency, Currency, String, Currency,, OneToOne, Foreign, , 100, false, true, 
+BaseAmount, Base Amount, double, ,, , , , 100, false, true, 
+ExchangeRate, Exchange Rate, double, ,, , , , 100, false, true, 
+Amount, Amount, double, ,, , , , 100, false, true, 
+AmountWords, Amount Words, String, ,, , , , 200, false, true, 
+PostStatus, Post Status, String, PostStatus,, OneToOne, Foreign, , 100, true, true, CommonEnums
+JournalType, Journal Type, String, JournalTypes,, OneToOne, Foreign, , 100, true, true, CommonEnums
+EntryMode, Entry Mode, String, EntryModes,, OneToOne, Foreign, , 100, true, true, CommonEnums
+JournalEntryDetails, Journal Entry Details, List, JournalEntryDetail,AccountGroup>Account Group>String>AccountGroups#AccountID>Account ID>String#AccountName>Account Name>String#AccountType>Account Type>String>AccountTypes#JournalType>Journal Type>String>JournalTypes#AccountAction>Account Action>String>AccountActions#Quantity,>Quantity>int#UnitPrice>Unit Price>double#Amount>Amount>double#Notes>Notes>String, OneToMany, , , 100, false, true, 

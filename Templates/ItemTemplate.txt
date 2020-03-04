@@ -1,0 +1,7 @@
+TemplateName, Template Name, String, ,, , Primary, Display, 40, false, false, 
+ItemCategory, Item Category, String, ItemCategory,, OneToOne, Foreign, , 100, false, true, 
+ItemCategoryGroup, Item Category Group, String, ItemCategoryGroups,, , , , 100, true, true, CommonEnums
+ItemGroup, Item Group, String, LookupData,, OneToOne, Foreign, , 100, false, true, CommonEnums
+VATItemGroup, VAT Item Group, String, LookupData,, OneToOne, Foreign, , 100, false, true, CommonEnums
+InventoryGroup, Inventory Group, String, LookupData,, OneToOne, Foreign, , 100, false, true, CommonEnums
+MeasureGroup, Measure Group, String, MeasureGroup,, OneToOne, Foreign, , 100, false, true, CommonEnums

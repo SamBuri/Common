@@ -57,11 +57,11 @@ public class PDFDocuments {
     public static final String PRINTED_FILE_NAME = "ThePrintedFile";
 
     public PDFDocuments(String fileName, Rectangle pageSize) throws FileNotFoundException, DocumentException {
-        this.fileName = fileName;
+        this.fileName = fileName.concat(".pdf");
         document = new Document(pageSize);
 
         try {
-            writer = PdfWriter.getInstance(document, new FileOutputStream(fileName));
+            writer = PdfWriter.getInstance(document, new FileOutputStream(this.fileName));
 //            document.open();
             writer.setPageEvent(new PdfHelper());
         } catch (FileNotFoundException | DocumentException ex) {
@@ -81,7 +81,7 @@ public class PDFDocuments {
         try {
 
 //            Runtime.getRuntime().exec("rundll32 url.dll,FileProtocolHandler " + fileName);
-            Desktop.getDesktop().open(new File(fileName));
+            Desktop.getDesktop().open(new File(this.fileName));
         } catch (IOException e) {
             throw e;
         }

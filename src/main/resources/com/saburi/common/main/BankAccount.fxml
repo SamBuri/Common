@@ -12,7 +12,7 @@
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.CheckBox?>
-<VBox id="BankAccount"  spacing="10"  xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.saburi.common.controllers.BankAccountController">
+<VBox fx:id = "mVBox" id="BankAccount"  spacing="10"  xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.saburi.common.controllers.BankAccountController">
 <children>
 
 <GridPane vgap ="4" hgap="10">
