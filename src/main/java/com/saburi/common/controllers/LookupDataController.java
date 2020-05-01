@@ -46,9 +46,11 @@ public class LookupDataController extends EditController {
             this.primaryKeyControl = txtLookupDataID;
             this.dbAccess = oLookupDataDA;
             this.restrainColumnConstraint = false;
-            //this.minSize = 360;
+            this.minSize = 360;
             cboLookupObject.setOnAction(e -> this.setNextLookupDataID());
             selectItem(CommonNavigate.MAIN_CLASS, cmiSelectLookupObject, oLookupObjectDA, "View", "LookupObject", 700, 400, cboLookupObject, true);
+            chkHidden.disableProperty().bind(btnSave.textProperty().isEqualToIgnoreCase(FormMode.Save.name()));
+           
         } catch (Exception e) {
             errorMessage(e);
         } finally {
@@ -113,7 +115,7 @@ public class LookupDataController extends EditController {
             chkReadOnly.setSelected(lookupDataDA.isReadOnly());
             chkHidden.setSelected(lookupDataDA.isHidden());
             chkIsDefault.setSelected(lookupDataDA.isIsDefault());
-
+           btnSave.disableProperty().set(lookupDataDA.isReadOnly());
         } catch (Exception e) {
             errorMessage(e);
         }
@@ -124,7 +126,7 @@ public class LookupDataController extends EditController {
         try {
             if (btnSave.getText().equalsIgnoreCase(FormMode.Save.name())) {
                 
-                LookupObject lookupObject = (LookupObject) getEntity(cboLookupObject, "Lookup Object");
+                LookupObject lookupObject = (LookupObject) getEntity(cboLookupObject);
                 if(lookupObject==null)return;
                 txtLookupDataID.setText(oLookupDataDA.getNextLookupDataID(oLookupDataDA.getNextIdHelper(lookupObject), lookupObject.getLookupObjectID()));
             }

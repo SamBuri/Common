@@ -1,0 +1,8 @@
+Operator, Operator, String, LogicalOperators
+SearchColumn, Search Column, String, SearchColumn
+ColumnName, ColumnName, String
+SearchType, Search Type, String, SearchTypes
+Value, Value, String
+SecondValue, Second Value, String
+Negate, Negate, boolean
+SearchCriteria, Search Criteria, List, SearchCriteria, ColumnName>Column Name>String#Value>Value>String#SecondValue>Second Value>String

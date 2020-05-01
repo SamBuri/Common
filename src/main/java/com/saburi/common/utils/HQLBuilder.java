@@ -15,19 +15,19 @@ import java.util.List;
 public class HQLBuilder {
 
     private Class type;
-    private final String className;
-    private final String queryText;
-    private final SearchColumn defaultSearchColumn;
+    private  String className;
+    private  String queryText;
+    private  SearchColumn defaultSearchColumn;
     List<SearchColumn> searchColumns= new ArrayList<>();
    
     
-    public HQLBuilder(Class type, SearchColumn defaultSearchColumn) {
-        this.type = type;
-        this.className = type.getSimpleName();
-        this.defaultSearchColumn = defaultSearchColumn;
-        this.queryText = "from " + className+" where "+defaultSearchColumn.getSQLString();
-        System.out.println(this.queryText);
-    }
+//    public HQLBuilder(Class type, SearchColumn defaultSearchColumn) {
+//        this.type = type;
+//        this.className = type.getSimpleName();
+//        this.defaultSearchColumn = defaultSearchColumn;
+//        this.queryText = "from " + className+" where "+defaultSearchColumn.getSQLString();
+//        System.out.println(this.queryText);
+//    }
     
     public String getClassName() {
         return className;
@@ -54,10 +54,10 @@ public class HQLBuilder {
         return searchColumns;
     }
 
-    public void setSearchColumns(List<SearchColumn> searchColumns) {
-        this.searchColumns = searchColumns;
-        searchColumns.forEach(s->s.getSQLString());
-        System.out.println(this.queryText);
-    }
+//    public void setSearchColumns(List<SearchColumn> searchColumns) {
+//        this.searchColumns = searchColumns;
+//        searchColumns.forEach(s->s.getSQLString());
+//        System.out.println(this.queryText);
+//    }
     
 }

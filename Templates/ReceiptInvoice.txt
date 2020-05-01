@@ -1,6 +1,0 @@
-Receipt, Receipt, String, Receipt,, OneToOne, Foreign, Display, 100, false, false, 
-Invoice, Invoice, String, Invoice,, OneToOne, Foreign, Display, 100, false, false, 
-ReceiptInvoiceID, ReceiptInvoiceID, String, ,, , Primary, , 100, false, false,
-InvoiceAmount, Invoice Amount, double 
-InvoiceType, Invoice Type, String, InvoiceTypes
-Amount, Amount, double, ,, , , , 100, false, false, 

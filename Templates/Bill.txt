@@ -1,9 +1,0 @@
-IdHelper, IdHelper, int, ,, , , ID_Helper, 100, false, false, 
-BillID, Bill ID, String, ,, , Primary, Display, 20, false, false, 
-SellTo, Sell To, String, Customer,, OneToOne, Foreign, , 100, false, true, 
-BillTo, Bill To, String, Customer,, OneToOne, Foreign, , 100, false, true, 
-BillDate, Bill Date, LocalDate, ,, , , , 100, false, true, 
-EntryPoint, Entry Point, String, EntryPoints,, , , , 100, true, true, CommonEnums
-Amount, Amount, double, ,, , , , 100, false, true, 
-AmountWords, Amount Words, String, ,, , , , 100, false, true, 
-BillDetails, Bill Details, List, BillDetails,Item>Item>String>Item#Quantity>Quantity>int#UnitPrice>Unit Price>double#Discount>Discount>double#Amount>Amount>double, OneToOne, Foreign, , 100, false, true, 

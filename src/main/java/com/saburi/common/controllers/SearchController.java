@@ -6,11 +6,9 @@
 package com.saburi.common.controllers;
 
 import com.saburi.common.dbaccess.DBAccess;
-import com.saburi.common.main.App;
 import com.saburi.common.utils.CommonEnums.SearchItemTypes;
 import com.saburi.common.utils.CommonNavigate;
 import static com.saburi.common.utils.FXUIUtils.errorMessage;
-import com.saburi.common.utils.Navigation;
 import com.saburi.common.utils.SearchItem;
 import java.io.IOException;
 import java.net.URL;
@@ -25,6 +23,9 @@ import javafx.scene.control.TreeCell;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
 import javafx.scene.layout.StackPane;
+import javafx.stage.Stage;
+import org.kordamp.desktoppanefx.scene.layout.DesktopPane;
+import org.kordamp.desktoppanefx.scene.layout.InternalWindow;
 
 /**
  *
@@ -37,6 +38,7 @@ public class SearchController implements Initializable {
     @FXML
     protected StackPane stpSearch;
     private final TreeItem root = new TreeItem();
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         try {
@@ -72,22 +74,35 @@ public class SearchController implements Initializable {
                         AbstractViewController controller = loader.<AbstractViewController>getController();
                         SearchItem searchItem = newValue.getValue();
                         String objectName = searchItem.getUiName();
-                        Class mainClass =  searchItem.getMainClass();
+                        String title = searchItem.getTitle();
+                        Class mainClass = searchItem.getMainClass();
                         SearchItemTypes searchItemType = searchItem.getSearchItemTypes();
                         boolean columnConstraint = searchItem.isConstrainColumns();
                         boolean editbale = searchItem.isEditable();
                         boolean printable = searchItem.isPrintable();
                         DBAccess dBAccess = searchItem.getDbAccess();
+                        InternalWindow window = DesktopPane.resolveInternalWindow(tvSearchItems);
+
                         if (dBAccess != null) {
-                            if (null == searchItemType) {
-                                controller.setInitData(mainClass, dBAccess, objectName, columnConstraint, editbale, printable);
+                            if (searchItemType == null) {
+                                controller.setEditable(editbale);
+                                controller.setPrintable(printable);
+                                controller.setInitData(mainClass, dBAccess, objectName, columnConstraint);
+                                window.getTitleBar().titleProperty().set("Search Engine->" + title);
+                                controller.setTitle(title);
                             } else {
                                 switch (searchItemType) {
                                     case Entinty:
-                                        controller.setInitData(mainClass, dBAccess, objectName, columnConstraint, editbale, printable);
+                                        controller.setEditable(editbale);
+                                        controller.setPrintable(printable);
+                                        controller.setInitData(mainClass, dBAccess, objectName, columnConstraint);
+                                        window.getTitleBar().titleProperty().set("Search Engine->" + title);
+                                        controller.setTitle(title);
                                         break;
                                     case Revision:
+                                        window.getTitleBar().titleProperty().set("Search Engine ->Revision History->" + title);
                                         controller.setInitRevData(dBAccess, objectName, columnConstraint);
+                                        controller.setTitle(title);
                                         break;
                                     default:
                                         break;

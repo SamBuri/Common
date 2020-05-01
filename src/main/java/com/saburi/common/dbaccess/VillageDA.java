@@ -7,21 +7,36 @@ package com.saburi.common.dbaccess;
 import com.saburi.common.entities.Village;
 import javafx.beans.property.*;
 import java.util.ArrayList;
+import com.saburi.common.entities.AppRevisionEntity;
 import java.util.List;
-import javafx.util.Pair;
 import com.saburi.common.utils.SearchColumn;
 import com.saburi.common.utils.SearchColumn.SearchDataTypes;
+import org.hibernate.envers.RevisionType;
+import static com.saburi.common.utils.Utilities.formatInteger;
+import com.saburi.common.entities.LookupData;
+import com.saburi.common.entities.County;
+import com.saburi.common.entities.SubCounty;
 import com.saburi.common.entities.Parish;
 
 public class VillageDA extends DBAccess {
 
-    private Village village;
-    private SimpleIntegerProperty idHelper = new SimpleIntegerProperty(this, "idHelper");
-    private SimpleStringProperty parishDisplay = new SimpleStringProperty(this, "parishDisplay");
-    private SimpleObjectProperty parishID = new SimpleObjectProperty(this, "parishID");
+    private Village village = new Village();
+    private final SimpleIntegerProperty idHelper = new SimpleIntegerProperty(this, "idHelper");
+    private final SimpleStringProperty idHelperDisplay = new SimpleStringProperty(this, "idHelperDisplay");
+    private final SimpleStringProperty districtDisplay = new SimpleStringProperty(this, "districtDisplay");
+    private final SimpleObjectProperty districtID = new SimpleObjectProperty(this, "districtID");
+    private LookupData district;
+    private final SimpleStringProperty countyDisplay = new SimpleStringProperty(this, "countyDisplay");
+    private final SimpleObjectProperty countyID = new SimpleObjectProperty(this, "countyID");
+    private County county;
+    private final SimpleStringProperty subCountyDisplay = new SimpleStringProperty(this, "subCountyDisplay");
+    private final SimpleObjectProperty subCountyID = new SimpleObjectProperty(this, "subCountyID");
+    private SubCounty subCounty;
+    private final SimpleStringProperty parishDisplay = new SimpleStringProperty(this, "parishDisplay");
+    private final SimpleObjectProperty parishID = new SimpleObjectProperty(this, "parishID");
     private Parish parish;
-    private SimpleStringProperty villageID = new SimpleStringProperty(this, "villageID");
-    private SimpleStringProperty villageName = new SimpleStringProperty(this, "villageName");
+    private final SimpleStringProperty villageID = new SimpleStringProperty(this, "villageID");
+    private final SimpleStringProperty villageName = new SimpleStringProperty(this, "villageName");
 
     public VillageDA() {
         createSearchColumns();
@@ -61,9 +76,61 @@ public class VillageDA extends DBAccess {
         return idHelper.get();
     }
 
+    public String getIdHelperDisplay() {
+        return idHelperDisplay.get();
+    }
+
     public void setIdHelper(int idHelper) {
         village.setIdHelper(idHelper);
         this.idHelper.set(idHelper);
+    }
+
+    public LookupData getDistrict() {
+        return district;
+    }
+
+    public Object getDistrictID() {
+        return districtID.get();
+    }
+
+    public String getDistrictDisplay() {
+        return districtDisplay.get();
+    }
+
+    public LookupDataDA getDistrictDA() {
+        return this.district != null ? new LookupDataDA(this.district) : null;
+    }
+
+    public County getCounty() {
+        return county;
+    }
+
+    public Object getCountyID() {
+        return countyID.get();
+    }
+
+    public String getCountyDisplay() {
+        return countyDisplay.get();
+    }
+
+    public CountyDA getCountyDA() {
+        return this.county != null ? new CountyDA(this.county) : null;
+    }
+
+    public SubCounty getSubCounty() {
+        return subCounty;
+    }
+
+    public Object getSubCountyID() {
+        return subCountyID.get();
+    }
+
+    public String getSubCountyDisplay() {
+        return subCountyDisplay.get();
+    }
+
+    public SubCountyDA getSubCountyDA() {
+        return this.subCounty != null ? new SubCountyDA(this.subCounty) : null;
     }
 
     public Parish getParish() {
@@ -79,24 +146,14 @@ public class VillageDA extends DBAccess {
     }
 
     public ParishDA getParishDA() {
-        if (this.parish == null) {
-            return new ParishDA();
-        } else {
-            return new ParishDA(this.parish);
-        }
-    }
-
-    public Pair<String, Object> getParishPair() {
-        if (this.getParishDA() == null) {
-            return new Pair<>("", "");
-        } else {
-            return this.getParishDA().keyValuePair();
-        }
+        return this.parish != null ? new ParishDA(this.parish) : null;
     }
 
     public void setParish(Parish parish) {
         village.setParish(parish);
         this.parish = parish;
+        this.parishID.set(parish.getId());
+        this.parishDisplay.set(parish.getDisplayKey());
     }
 
     public String getVillageID() {
@@ -141,17 +198,42 @@ public class VillageDA extends DBAccess {
 
     private void initialseProprties() {
         this.dBEntity = village;
-        this.idHelper = new SimpleIntegerProperty(village.getIdHelper());
+        this.idHelper.set(village.getIdHelper());
+        this.idHelperDisplay.set(formatInteger(village.getIdHelper()));
         this.parish = village.getParish();
-        this.parishID = new SimpleObjectProperty(parish.getId());
-        this.parishDisplay = new SimpleStringProperty(parish.getDisplayKey());
-        this.villageID = new SimpleStringProperty(village.getVillageID());
-        this.villageName = new SimpleStringProperty(village.getVillageName());
+        if (this.parish != null) {
+            this.parishID.set(parish.getId());
+            this.parishDisplay.set(parish.getDisplayKey());
+            this.subCounty = parish.getSubCounty();
+            if (this.subCounty != null) {
+                this.subCountyID.set(subCounty.getId());
+                this.subCountyDisplay.set(subCounty.getDisplayKey());
+                this.county = subCounty.getCounty();
+                if (this.county != null) {
+                    this.countyID.set(county.getId());
+                    this.countyDisplay.set(county.getDisplayKey());
+
+                    this.district = county.getDistrict();
+                    if (this.district != null) {
+                        this.districtID.set(district.getId());
+                        this.districtDisplay.set(district.getDisplayKey());
+                    }
+                }
+            }
+        }
+        this.villageID.set(village.getVillageID());
+        this.villageName.set(village.getVillageName());
         initCommonProprties();
     }
 
     private void createSearchColumns() {
-        this.searchColumns.add(new SearchColumn("parishID", "Parish ID", this.parishID.get(), SearchDataTypes.STRING, SearchColumn.SearchType.Equal));
+        this.searchColumns.add(new SearchColumn("districtID", "District ID", this.districtID.get(), SearchDataTypes.STRING, SearchColumn.SearchType.Equal, false));
+        this.searchColumns.add(new SearchColumn("districtDisplay", "District", this.districtDisplay.get(), SearchDataTypes.STRING));
+        this.searchColumns.add(new SearchColumn("countyID", "County ID", this.countyID.get(), SearchDataTypes.STRING, SearchColumn.SearchType.Equal, false));
+        this.searchColumns.add(new SearchColumn("countyDisplay", "County", this.countyDisplay.get(), SearchDataTypes.STRING));
+        this.searchColumns.add(new SearchColumn("subCountyID", "Sub County ID", this.subCountyID.get(), SearchDataTypes.STRING, SearchColumn.SearchType.Equal, false));
+        this.searchColumns.add(new SearchColumn("subCountyDisplay", "Sub County", this.subCountyDisplay.get(), SearchDataTypes.STRING));
+        this.searchColumns.add(new SearchColumn("parishID", "Parish ID", this.parishID.get(), SearchDataTypes.STRING, SearchColumn.SearchType.Equal, false));
         this.searchColumns.add(new SearchColumn("parishDisplay", "Parish", this.parishDisplay.get(), SearchDataTypes.STRING));
         this.searchColumns.add(new SearchColumn("villageID", "Village ID", this.villageID.get(), SearchDataTypes.STRING));
         this.searchColumns.add(new SearchColumn("villageName", "Village Name", this.villageName.get(), SearchDataTypes.STRING));
@@ -188,11 +270,17 @@ public class VillageDA extends DBAccess {
     }
 
     public boolean save() throws Exception {
+        if (!isValid()) {
+            return false;
+        }
         return super.persist(this.village);
 
     }
 
     public boolean update() throws Exception {
+        if (!isValid()) {
+            return false;
+        }
         return super.merge(this.village);
 
     }
@@ -206,6 +294,10 @@ public class VillageDA extends DBAccess {
         return (Village) super.find(Village.class, villageID);
     }
 
+    public Village getVillage() {
+        return this.village;
+    }
+
     public List<Village> getVillages() {
         return super.find(Village.class);
     }
@@ -213,15 +305,15 @@ public class VillageDA extends DBAccess {
     @Override
     public List<DBAccess> get() {
         List<DBAccess> list = new ArrayList<>();
-        List<Village> datas = super.find(Village.class);
-        datas.forEach((data) -> {
-            list.add(new VillageDA(data));
-        });
+        selectQuery(Village.class).forEach(o -> list.add(new VillageDA((Village) o)));
+        if (entityManager != null) {
+            entityManager.close();
+        }
         return list;
     }
 
     public VillageDA get(String villageID) throws Exception {
-        Village oVillage = (Village) super.find(Village.class, villageID);
+        Village oVillage = getVillage(villageID);
         if (oVillage == null) {
             throw new Exception("No Record with id: " + villageID);
         }
@@ -229,22 +321,24 @@ public class VillageDA extends DBAccess {
     }
 
     public List<VillageDA> get(String columName, Object value) {
-        List<Village> data = super.find(Village.class, columName, value);
         List<VillageDA> list = new ArrayList<>();
-        data.forEach(da -> list.add(new VillageDA(da)));
+        super.selectQuery(Village.class, columName, value).forEach(da -> list.add(new VillageDA((Village) da)));
+        if (entityManager != null) {
+            entityManager.close();
+        }
         return list;
     }
 
-    public List<Pair<String, Object>> keyValuePairs() {
-        List<Pair<String, Object>> pairs = new ArrayList<>();
-        this.get().forEach((t) -> pairs.add(t.keyValuePair()));
-        return pairs;
+    public List<VillageDA> toDaList(List<Village> villages) {
+        List<VillageDA> villageDAs = new ArrayList<>();
+        villages.forEach(s -> villageDAs.add(new VillageDA(s)));
+        return villageDAs;
     }
 
-    public List<Pair<String, Object>> keyValuePairs(String columName, Object value) {
-        List<Pair<String, Object>> pairs = new ArrayList<>();
-        this.get(columName, value).forEach((t) -> pairs.add(t.keyValuePair()));
-        return pairs;
+    public List<DBAccess> toDBAccessList(List<Village> villages) {
+        List<DBAccess> dbAccesses = new ArrayList<>();
+        villages.forEach(s -> dbAccesses.add(new VillageDA(s)));
+        return dbAccesses;
     }
 
     public int getMax(String columnName) {
@@ -265,6 +359,43 @@ public class VillageDA extends DBAccess {
 
     public List<Village> getVillages(String columName, Object value) {
         return super.find(Village.class, columName, value);
+    }
+
+    @Override
+    public List<DBAccess> getRevisions() {
+        try {
+
+            List<Object[]> list = getEntityRevisions(Village.class);
+            List<DBAccess> dBAccesses = new ArrayList<>();
+            list.forEach(e -> {
+
+                VillageDA villageDA = new VillageDA((Village) e[0]);
+                villageDA.revisionEntity = (AppRevisionEntity) e[1];
+                villageDA.oRevisionType = (RevisionType) e[2];
+                villageDA.initRevProprties();
+                villageDA.searchColumns.addAll(villageDA.getRevSearchColumns());
+                dBAccesses.add(villageDA);
+
+            });
+
+            return dBAccesses;
+        } catch (Exception e) {
+            throw e;
+        } finally {
+            if (entityManager == null) {
+                entityManager.close();
+            }
+        }
+
+    }
+
+    private boolean isValid() throws Exception {
+        List<Village> villages = super.find(Village.class, "parish", this.parish, "villageName", village.getVillageName());
+        villages.remove(this.village);
+        if (!villages.isEmpty()) {
+            throw new Exception("The village with name " + village.getVillageName() + " and parish " + parish.getParishName() + " already exists");
+        }
+        return true;
     }
 
 }

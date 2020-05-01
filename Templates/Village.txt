@@ -1,0 +1,5 @@
+IdHelper, Id Helper, int, ,, , , ID_Helper, 100, false, false, 
+Parish, Parish, String, Parish,, , , ID_Generator, 20, false, false, 
+VillageID, Village ID, String, ,, , Primary, , 20, false, false, 
+VillageName, Village Name, String, ,, , , Display, 100, false, false, 
+

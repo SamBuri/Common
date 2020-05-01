@@ -1,50 +1,99 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.GridPane?>
-<?import javafx.scene.layout.VBox?>
+
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.ContextMenu?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.MenuItem?>
-<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.SplitMenuButton?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
-<?import javafx.scene.control.ComboBox?>
-<?import javafx.scene.control.cell.PropertyValueFactory?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.Button?>
-<VBox fx:id = "mVBox" id="View"  spacing="10"  xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.saburi.common.controllers.ViewController">
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox id="View" fx:id="mVBox" prefHeight="511.0" spacing="2" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.saburi.common.controllers.ViewController">
     <children>
-         <HBox spacing= "10">
-                <padding>
-                    <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-                </padding>
-                <Label fx:id="lblSearch" minWidth ="100" id="View" GridPane.columnIndex ="0" GridPane.rowIndex ="0" text="Search" />
-                <ComboBox fx:id="cboSearchColumn" minWidth ="100" id="View" GridPane.columnIndex ="0" GridPane.rowIndex ="0" promptText ="Select Column" />
-                <ComboBox fx:id="cboSearchType" minWidth ="100" id="View" GridPane.columnIndex ="0" GridPane.rowIndex ="0" promptText ="Select" />
-                <TextField fx:id="txtSearch" minWidth ="100" id="View" GridPane.columnIndex ="1" GridPane.rowIndex ="0" promptText="Search" />
-                <TextField id="View" fx:id="txtSecondValue" minWidth="100" promptText="Second Value" visible ="false" GridPane.columnIndex="1" GridPane.rowIndex="0" />
-            </HBox>
-            <TableView fx:id="tblDBAccess" id = "View" VBox.vgrow="ALWAYS" minHeight="450" minWidth="600">
-                <padding>
-                    <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-                </padding>
+        <BorderPane fx:id="bpnUpper" prefHeight="38.0">
+            <left>
+                <VBox spacing="2">
+                    <HBox prefHeight="38.0" spacing="2" BorderPane.alignment="CENTER">
+                        
+                        <Label id="View" fx:id="lblSearch" minWidth="47.0" prefHeight="18.0" prefWidth="47.0" text="Search" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+                        <ComboBox id="View" fx:id="cboSearchColumn" prefHeight="26.0" prefWidth="158.0" promptText="Column" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+                        <ComboBox id="View" fx:id="cboSearchType" prefHeight="26.0" prefWidth="158.0" promptText="Select" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+                        <StackPane prefHeight="50.0">
+                            <children>
+                                <HBox fx:id="hbxDatePickers" prefHeight="100.0" spacing="2.0" visible="false">
+                                    <children>
+                                        <DatePicker fx:id="dtpFirst" prefHeight="26.0" prefWidth="128.0" />
+                                        <DatePicker fx:id="dtpSecond" prefHeight="26.0" prefWidth="128.0" />
+                                    </children>
+                                </HBox>
+                                <HBox fx:id="hbxTextFields" prefHeight="28.0" prefWidth="243.0" spacing="2.0">
+                                    <children>
+                                        <TextField id="View" fx:id="txtSearch" prefHeight="26.0" prefWidth="128.0" promptText="Search" />
+                                        <TextField id="View" fx:id="txtSecondValue" prefHeight="26.0" prefWidth="129.0" promptText="Second Value" visible="false" />
+                                    </children>
+                                </HBox>
+                                <HBox fx:id="hbxCheckBox" prefHeight="100.0" prefWidth="200.0" spacing="2.0" visible="false">
+                                    <children>
+                                        <CheckBox fx:id="chkValue" mnemonicParsing="false" />
+                                    </children>
+                                </HBox>
+                            </children>
+                        </StackPane>
+                    </HBox>
             
-                <contextMenu>
-                    <ContextMenu fx:id ="cmuView" id = "View">
-                        <items>
-                            <MenuItem mnemonicParsing="false" fx:id ="cmiNew" id = "Create" text="New" disable="true" />
-                            <MenuItem mnemonicParsing="false" fx:id ="cmiUpdate" id = "Update" text="Edit" disable="true" />
-                            <MenuItem mnemonicParsing="false" fx:id ="cmiPrint" id = "Print" text="Print" disable="true" visible = "false" />
-                            <MenuItem mnemonicParsing="false" fx:id ="cmiDelete" id = "Delete" text="Delete" disable="true" />
-                            <MenuItem mnemonicParsing="false" fx:id ="cmiSelectAll" id = "View" text="Select All" />
-                        </items>
-                    </ContextMenu>
-                </contextMenu>
-            </TableView>
+          
+                    <HBox prefHeight="38.0" spacing="2.0" BorderPane.alignment="CENTER">
+                        <children>
+                            
+                            
+                            <Button fx:id="btnClearFilters" disable="true" mnemonicParsing="false" text="Clear Filters" />
+                            <Label fx:id="lblReturnedRecords" text=" Record" textFill="#4f4d8f" />
+                            <SplitMenuButton fx:id="btnExport" alignment="CENTER_RIGHT" mnemonicParsing="false" text="Export">
+                                <items>
+                                    <MenuItem fx:id="mnuExcel" mnemonicParsing="false" text="Excel" />
+                                    <MenuItem fx:id="mnuText" mnemonicParsing="false" text="Text" />
+                                    <MenuItem fx:id="mnuCSV" mnemonicParsing="false" text="CSV" />
+                                    <MenuItem fx:id="mnuPDF" mnemonicParsing="false" text="PDF" />
+                                </items>
+                            </SplitMenuButton>
+                            <Button fx:id="btnMultipleFilters" mnemonicParsing="false" prefHeight="26.0" prefWidth="94.0" text="Multiple Filters" />
+                            <HBox fx:id="hbxAggregates" spacing="2.0">
+                                <children>
+                                    <ComboBox fx:id="cboAggregateColumn" prefHeight="26.0" prefWidth="130.0" promptText="Agg Column" />
+                                    <ComboBox fx:id="cboAggregate" prefHeight="26.0" promptText="Aggregate" />
+                                    <TextField fx:id="txtggregate" editable="false" prefHeight="26.0" prefWidth="114.0" text="0" />
+                                </children>
+                            </HBox>
+                        </children>
+                    </HBox>
+                </VBox>
+            </left>
+        </BorderPane>
+        <TableView id="View" fx:id="tblDBAccess" prefHeight ="300" minHeight ="300" VBox.vgrow="ALWAYS">
+           
+            <contextMenu>
+                <ContextMenu id="View" fx:id="cmuView">
+                    <items>
+                        <MenuItem id="Create" fx:id="cmiNew" disable="true" mnemonicParsing="false" text="New" />
+                        <MenuItem id="Update" fx:id="cmiUpdate" disable="true" mnemonicParsing="false" text="Edit" />
+                        <MenuItem id="Print" fx:id="cmiPrint" disable="true" mnemonicParsing="false" text="Print" visible="false" />
+                        <MenuItem id="Delete" fx:id="cmiDelete" disable="true" mnemonicParsing="false" text="Delete" />
+                        <MenuItem id="Copy" fx:id="cmiCopy" disable="false" mnemonicParsing="false" text="Copy" />
+                        <MenuItem id="View" fx:id="cmiSelectAll" mnemonicParsing="false" text="Select All" />
+                    </items>
+                </ContextMenu>
+            </contextMenu>
+        </TableView>
         
 
     </children>
 </VBox>
-

@@ -445,8 +445,8 @@ public class StaffDA extends DBAccess {
         this.searchColumns.add(new SearchColumn("otherNames", "Other Names", this.otherNames.get(), SearchDataTypes.STRING));
         this.searchColumns.add(new SearchColumn("initials", "Initials", this.initials.get(), SearchDataTypes.STRING));
         this.searchColumns.add(new SearchColumn("gender", "Gender", this.gender.get(), SearchDataTypes.STRING, SearchColumn.SearchType.Equal));
-        this.searchColumns.add(new SearchColumn("birthDate", "Birth Date", this.birthDate.get(), SearchDataTypes.STRING));
-        this.searchColumns.add(new SearchColumn("joinDate", "Join Date", this.joinDate.get(), SearchDataTypes.STRING));
+        this.searchColumns.add(new SearchColumn("birthDate", "Birth Date", this.birthDate.get(), birthDateDisplay.get(), SearchDataTypes.DATE));
+        this.searchColumns.add(new SearchColumn("joinDate", "Join Date", this.joinDate.get(), joinDateDisplay.get(), SearchDataTypes.DATE));
         this.searchColumns.add(new SearchColumn("nationalID", "National ID", this.nationalID.get(), SearchDataTypes.STRING));
         this.searchColumns.add(new SearchColumn("countryID", "Country ID", this.countryID.get(), SearchDataTypes.STRING, SearchColumn.SearchType.Equal, false));
         this.searchColumns.add(new SearchColumn("countryDisplay", "Country", this.countryDisplay.get(), SearchDataTypes.STRING));

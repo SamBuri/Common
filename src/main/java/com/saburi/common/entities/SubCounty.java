@@ -10,8 +10,11 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ForeignKey;
 import javax.persistence.OneToOne;
 import javax.persistence.Column;
+import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 
 @Entity
+@Table(uniqueConstraints = @UniqueConstraint(columnNames = {"countyID", "subCountyName"}, name = "uqCountyIDSubCountyNameSubCounty"))
 public class SubCounty extends DBEntity {
 
     @Column(name = "idHelper", updatable = false)

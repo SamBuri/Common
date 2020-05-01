@@ -1,0 +1,6 @@
+IdHelper, Id Helper, int, ,, , , ID_Helper, 100, false, false, 
+District, District, String, LookupData,, OneToOne, Foreign, , 100, false, false, 
+County, County, String, County,, OneToOne, Foreign, None, 100, false, false, 
+SubCounty, Sub County, String, SubCounty,, , , ID_Generator, 100, false, true, 
+ParishID, Parish ID, String, ,, , Primary, , 20, false, false, 
+ParishName, Parish Name, String, ,, , , Display, 100, false, false, 

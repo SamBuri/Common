@@ -7,21 +7,28 @@ package com.saburi.common.dbaccess;
 import com.saburi.common.entities.SubCounty;
 import javafx.beans.property.*;
 import java.util.ArrayList;
+import com.saburi.common.entities.AppRevisionEntity;
 import java.util.List;
-import javafx.util.Pair;
 import com.saburi.common.utils.SearchColumn;
 import com.saburi.common.utils.SearchColumn.SearchDataTypes;
+import org.hibernate.envers.RevisionType;
+import com.saburi.common.entities.LookupData;
+import static com.saburi.common.utils.Utilities.formatInteger;
 import com.saburi.common.entities.County;
 
 public class SubCountyDA extends DBAccess {
 
-    private SubCounty subCounty;
-    private SimpleIntegerProperty idHelper = new SimpleIntegerProperty(this, "idHelper");
-    private SimpleStringProperty countyDisplay = new SimpleStringProperty(this, "countyDisplay");
-    private SimpleObjectProperty countyID = new SimpleObjectProperty(this, "countyID");
+    private SubCounty subCounty = new SubCounty();
+    private final SimpleStringProperty districtDisplay = new SimpleStringProperty(this, "districtDisplay");
+    private final SimpleObjectProperty districtID = new SimpleObjectProperty(this, "districtID");
+    private LookupData district;
+    private final SimpleIntegerProperty idHelper = new SimpleIntegerProperty(this, "idHelper");
+    private final SimpleStringProperty idHelperDisplay = new SimpleStringProperty(this, "idHelperDisplay");
+    private final SimpleStringProperty countyDisplay = new SimpleStringProperty(this, "countyDisplay");
+    private final SimpleObjectProperty countyID = new SimpleObjectProperty(this, "countyID");
     private County county;
-    private SimpleStringProperty subCountyID = new SimpleStringProperty(this, "subCountyID");
-    private SimpleStringProperty subCountyName = new SimpleStringProperty(this, "subCountyName");
+    private final SimpleStringProperty subCountyID = new SimpleStringProperty(this, "subCountyID");
+    private final SimpleStringProperty subCountyName = new SimpleStringProperty(this, "subCountyName");
 
     public SubCountyDA() {
         createSearchColumns();
@@ -50,14 +57,35 @@ public class SubCountyDA extends DBAccess {
         createSearchColumns();
     }
 
-    public SubCountyDA(String persistenceUnit, County county, String subCountyID, String subCountyName) {
+    public SubCountyDA(String persistenceUnit, LookupData district, County county, String subCountyID, String subCountyName) {
+        super(persistenceUnit);
         this.subCounty = new SubCounty(getNextIdHelper(county), county, subCountyID, subCountyName);
         initialseProprties();
         createSearchColumns();
     }
 
+    public LookupData getDistrict() {
+        return county.getDistrict();
+    }
+
+    public Object getDistrictID() {
+        return districtID.get();
+    }
+
+    public String getDistrictDisplay() {
+        return districtDisplay.get();
+    }
+
+    public LookupDataDA getDistrictDA() {
+        return this.district != null ? new LookupDataDA(this.district) : null;
+    }
+
     public int getIdHelper() {
         return idHelper.get();
+    }
+
+    public String getIdHelperDisplay() {
+        return idHelperDisplay.get();
     }
 
     public void setIdHelper(int idHelper) {
@@ -78,24 +106,14 @@ public class SubCountyDA extends DBAccess {
     }
 
     public CountyDA getCountyDA() {
-        if (this.county == null) {
-            return new CountyDA();
-        } else {
-            return new CountyDA(this.county);
-        }
-    }
-
-    public Pair<String, Object> getCountyPair() {
-        if (this.getCountyDA() == null) {
-            return new Pair<>("", "");
-        } else {
-            return this.getCountyDA().keyValuePair();
-        }
+        return this.county != null ? new CountyDA(this.county) : null;
     }
 
     public void setCounty(County county) {
         subCounty.setCounty(county);
         this.county = county;
+        this.countyID.set(county.getId());
+        this.countyDisplay.set(county.getDisplayKey());
     }
 
     public String getSubCountyID() {
@@ -140,23 +158,31 @@ public class SubCountyDA extends DBAccess {
 
     private void initialseProprties() {
         this.dBEntity = subCounty;
-        this.idHelper = new SimpleIntegerProperty(subCounty.getIdHelper());
+        this.idHelper.set(subCounty.getIdHelper());
+        this.idHelperDisplay.set(formatInteger(subCounty.getIdHelper()));
         this.county = subCounty.getCounty();
-        this.countyID = new SimpleObjectProperty(county.getId());
-        this.countyDisplay = new SimpleStringProperty(county.getDisplayKey());
-        this.subCountyID = new SimpleStringProperty(subCounty.getSubCountyID());
-        this.subCountyName = new SimpleStringProperty(subCounty.getSubCountyName());
+        if (this.county != null) {
+            this.countyID.set(county.getId());
+            this.countyDisplay.set(county.getDisplayKey());
+            this.district = county.getDistrict();
+            if (this.district != null) {
+                this.districtID.set(district.getId());
+                this.districtDisplay.set(district.getDisplayKey());
+            }
+        }
+       this.subCountyID.set(subCounty.getSubCountyID());
+       this.subCountyName.set(subCounty.getSubCountyName());
         initCommonProprties();
-
     }
 
     private void createSearchColumns() {
-        this.searchColumns.add(new SearchColumn("countyID", "County ID", this.countyID.get(), SearchDataTypes.STRING, SearchColumn.SearchType.Equal));
+        this.searchColumns.add(new SearchColumn("districtID", "District ID", this.districtID.get(), SearchDataTypes.STRING, SearchColumn.SearchType.Equal, false));
+        this.searchColumns.add(new SearchColumn("districtDisplay", "District", this.districtDisplay.get(), SearchDataTypes.STRING));
+        this.searchColumns.add(new SearchColumn("countyID", "County ID", this.countyID.get(), SearchDataTypes.STRING, SearchColumn.SearchType.Equal, false));
         this.searchColumns.add(new SearchColumn("countyDisplay", "County", this.countyDisplay.get(), SearchDataTypes.STRING));
         this.searchColumns.add(new SearchColumn("subCountyID", "Sub County ID", this.subCountyID.get(), SearchDataTypes.STRING));
         this.searchColumns.add(new SearchColumn("subCountyName", "Sub County Name", this.subCountyName.get(), SearchDataTypes.STRING));
-        this.getSearchColumns().addAll(this.getDefaultSearchColumns());
-
+        this.searchColumns.addAll(this.getDefaultSearchColumns());
     }
 
     @Override
@@ -189,11 +215,17 @@ public class SubCountyDA extends DBAccess {
     }
 
     public boolean save() throws Exception {
+        if (!isValid()) {
+            return false;
+        }
         return super.persist(this.subCounty);
 
     }
 
     public boolean update() throws Exception {
+        if (!isValid()) {
+            return false;
+        }
         return super.merge(this.subCounty);
 
     }
@@ -207,6 +239,10 @@ public class SubCountyDA extends DBAccess {
         return (SubCounty) super.find(SubCounty.class, subCountyID);
     }
 
+    public SubCounty getSubCounty() {
+        return this.subCounty;
+    }
+
     public List<SubCounty> getSubCountys() {
         return super.find(SubCounty.class);
     }
@@ -215,11 +251,14 @@ public class SubCountyDA extends DBAccess {
     public List<DBAccess> get() {
         List<DBAccess> list = new ArrayList<>();
         selectQuery(SubCounty.class).forEach(o -> list.add(new SubCountyDA((SubCounty) o)));
+        if (entityManager != null) {
+            entityManager.close();
+        }
         return list;
     }
 
     public SubCountyDA get(String subCountyID) throws Exception {
-        SubCounty oSubCounty = (SubCounty) super.find(SubCounty.class, subCountyID);
+        SubCounty oSubCounty = getSubCounty(subCountyID);
         if (oSubCounty == null) {
             throw new Exception("No Record with id: " + subCountyID);
         }
@@ -227,22 +266,24 @@ public class SubCountyDA extends DBAccess {
     }
 
     public List<SubCountyDA> get(String columName, Object value) {
-        List<SubCounty> data = super.find(SubCounty.class, columName, value);
         List<SubCountyDA> list = new ArrayList<>();
-        data.forEach(da -> list.add(new SubCountyDA(da)));
+        super.selectQuery(SubCounty.class, columName, value).forEach(da -> list.add(new SubCountyDA((SubCounty) da)));
+        if (entityManager != null) {
+            entityManager.close();
+        }
         return list;
     }
 
-    public List<Pair<String, Object>> keyValuePairs() {
-        List<Pair<String, Object>> pairs = new ArrayList<>();
-        this.get().forEach((t) -> pairs.add(t.keyValuePair()));
-        return pairs;
+    public List<SubCountyDA> toDaList(List<SubCounty> subCountys) {
+        List<SubCountyDA> subCountyDAs = new ArrayList<>();
+        subCountys.forEach(s -> subCountyDAs.add(new SubCountyDA(s)));
+        return subCountyDAs;
     }
 
-    public List<Pair<String, Object>> keyValuePairs(String columName, Object value) {
-        List<Pair<String, Object>> pairs = new ArrayList<>();
-        this.get(columName, value).forEach((t) -> pairs.add(t.keyValuePair()));
-        return pairs;
+    public List<DBAccess> toDBAccessList(List<SubCounty> subCountys) {
+        List<DBAccess> dbAccesses = new ArrayList<>();
+        subCountys.forEach(s -> dbAccesses.add(new SubCountyDA(s)));
+        return dbAccesses;
     }
 
     public int getMax(String columnName) {
@@ -253,7 +294,7 @@ public class SubCountyDA extends DBAccess {
         return super.getMax(SubCounty.class, columnName, comparatorColumn, comparatorVaue);
     }
 
-    public final int getNextIdHelper(Object county) {
+    public final int getNextIdHelper(County county) {
         return this.getMax("idHelper", "county", county) + 1;
     }
 
@@ -265,12 +306,46 @@ public class SubCountyDA extends DBAccess {
         return super.find(SubCounty.class, columName, value);
     }
 
-    public String getDistrictID() {
-        return this.getCounty().getDistrict().getLookupDataID();
+    @Override
+    public List<DBAccess> getRevisions() {
+        try {
+
+            List<Object[]> list = getEntityRevisions(SubCounty.class);
+            List<DBAccess> dBAccesses = new ArrayList<>();
+            list.forEach(e -> {
+
+                SubCountyDA subCountyDA = new SubCountyDA((SubCounty) e[0]);
+                subCountyDA.revisionEntity = (AppRevisionEntity) e[1];
+                subCountyDA.oRevisionType = (RevisionType) e[2];
+                subCountyDA.initRevProprties();
+                subCountyDA.searchColumns.addAll(subCountyDA.getRevSearchColumns());
+                dBAccesses.add(subCountyDA);
+
+            });
+
+            return dBAccesses;
+        } catch (Exception e) {
+            throw e;
+        } finally {
+            if (entityManager == null) {
+                entityManager.close();
+            }
+        }
+
     }
 
-    public String getDistrict() {
-        return this.getCounty().getDistrict().getDisplayKey();
+    private boolean isValid() throws Exception {
+        List<SubCounty> subCounties = super.find(SubCounty.class, "county", this.county, "subCountyName", subCounty.getSubCountyName());
+        subCounties.remove(this.subCounty);
+        if (!subCounties.isEmpty()) {
+            throw new Exception("The Sub County with name " + subCounty.getSubCountyName() + " "
+                    + "and County " + county.getCountyName() + " already exists");
+        }
+        return true;
+    }
+    
+    public List<SubCounty> getSubCounties(County county) {
+        return getSubCountys("county", county);
     }
 
 }

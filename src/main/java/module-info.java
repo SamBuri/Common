@@ -8,7 +8,7 @@ open module com.saburi.Common {
     requires transitive javafx.controls;
     requires transitive javafx.graphics;
     requires transitive javafx.fxml;
-     requires transitive java.sql;
+    requires transitive java.sql;
     requires org.hibernate.orm.core;
     requires org.jboss.logging;
     requires javassist;
@@ -26,11 +26,8 @@ open module com.saburi.Common {
     requires org.hibernate.validator;
     requires java.validation;
     requires javax.el;
-    requires com.sun.xml.bind;
     requires com.sun.xml.txw2;
     requires com.sun.istack.runtime;
-    requires org.jvnet.staxex;
-    requires com.sun.xml.fastinfoset;
     requires mysql.connector.java;
     requires protobuf.java;
     requires itextpdf;
@@ -41,7 +38,7 @@ open module com.saburi.Common {
     requires org.apache.logging.log4j.core;
     requires javafx.swing;
     requires fontawesomefx;
-    
+
     exports com.saburi.common.main;
     exports com.saburi.common.entities;
     exports com.saburi.common.dbaccess;

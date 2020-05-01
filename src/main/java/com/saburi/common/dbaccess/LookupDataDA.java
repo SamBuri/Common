@@ -362,8 +362,9 @@ public class LookupDataDA extends DBAccess {
     }
 
     private boolean validateLookupData() throws Exception {
-
-        if (!getDefaultLookupDatas(this.lookupData.getLookupObject()).isEmpty() && this.lookupData.isIsDefault()) {
+        List<LookupData> defaultLookupDatas = getDefaultLookupDatas(this.lookupData.getLookupObject());
+        defaultLookupDatas.remove(this.lookupData);
+        if (!defaultLookupDatas.isEmpty() && this.lookupData.isIsDefault()) {
             throw new Exception("There is already a record set as default for Lookup object: " + lookupData.getLookupObject().getDisplayKey() + ". You can't have more than one");
 
         } else {

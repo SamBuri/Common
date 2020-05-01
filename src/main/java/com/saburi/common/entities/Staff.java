@@ -18,6 +18,9 @@ import java.time.LocalDate;
 import javax.persistence.JoinColumn;
 import javax.persistence.ForeignKey;
 import javax.persistence.OneToOne;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.Past;
+import javax.validation.constraints.PastOrPresent;
 
 @Entity
 @Audited(targetAuditMode = RelationTargetAuditMode.NOT_AUDITED)
@@ -26,32 +29,34 @@ public class Staff extends DBEntity {
     @Column(updatable = false)
     private int idHelper;
     @Id
-    @NotNull(message = "The field: Staff ID cannot be null")
-    @Size(max = 20, message = "The field: Staff ID size cannot be greater than 20")
+    @NotNull(message = "The field: Staff ID cannot be null\n")
+    @Size(max = 20, message = "The field: Staff ID size cannot be greater than 20\n")
     @Column(length = 20, updatable = false)
     private String staffID;
     @Lob
     private byte[] photo;
-    @Size(max = 20, message = "The field: First Name size cannot be greater than 20")
+    @Size(max = 20, message = "The field: First Name size cannot be greater than 20\n")
     @NotNull(message = "The field: First Name cannot be null")
     @Column(length = 20)
     private String firstName;
-    @Size(max = 20, message = "The field: Last Name size cannot be greater than 20")
-    @NotNull(message = "The field: Last Name cannot be null")
+    @Size(max = 20, message = "The field: Last Name size cannot be greater than 20\n")
+    @NotNull(message = "The field: Last Name cannot be null\n")
     @Column(length = 20)
     private String lastName;
-    @Size(max = 20, message = "The field: Other Names size cannot be greater than 20")
+    @Size(max = 20, message = "The field: Other Names size cannot be greater than 20\n")
     @Column(length = 20)
     private String otherNames;
-    @Size(max = 100, message = "The field: Initials size cannot be greater than 100")
+    @Size(max = 100, message = "The field: Initials size cannot be greater than 100\n")
     @Column(length = 100)
     private String initials;
     @Enumerated
     private Gender gender;
+    @Past(message = "Birth Date ${validateValue} must be in the past\n")
     private LocalDate birthDate;
+    @PastOrPresent(message = "Join Date ${validateValue}: must be in the past or present\n")
     private LocalDate joinDate;
-    @Size(max = 100, message = "The field: National ID size cannot be greater than 100")
-    @Column(length = 100)
+    @Size(max = 100, message = "The field: National ID size cannot be greater than 100\n")
+    @Column(length = 100, unique = true)
     private String nationalID;
     @OneToOne
     @JoinColumn(name = "countryID", foreignKey = @ForeignKey(name = "fkCountryIDStaff"))
@@ -69,10 +74,11 @@ public class Staff extends DBEntity {
     @JoinColumn(name = "departmentID", foreignKey = @ForeignKey(name = "fkDepartmentIDStaff"))
     private LookupData department;
     @Size(max = 100, message = "The field: Phone No size cannot be greater than 100")
-    @Column(length = 100)
+    @Column(length = 100, unique = true)
     private String phoneNo;
-    @Size(max = 100, message = "The field: Email Address size cannot be greater than 100")
-    @Column(length = 100)
+    @Email(message = "Invaild Email Address: ${validateValue}")
+    @Size(max = 100, message = "The field: Email Address  size cannot be greater than 100")
+    @Column(length = 100, unique = true)
     private String emailAddress;
     @Size(max = 200, message = "The field: Physical Address size cannot be greater than 200")
     @Column(length = 200)

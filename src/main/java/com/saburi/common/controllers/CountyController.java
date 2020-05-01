@@ -12,15 +12,14 @@ import com.saburi.common.utils.Utilities.FormMode;
 import static com.saburi.common.utils.FXUIUtils.warningOk;
 import com.saburi.common.dbaccess.CountyDA;
 import com.saburi.common.entities.LookupData;
-import com.saburi.common.utils.CommonNavigate;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.MenuItem;
 import com.saburi.common.utils.CommonObjectNames;
+import java.io.IOException;
 
 public class CountyController extends EditController {
 
-    
     private final CountyDA oCountyDA = new CountyDA();
     @FXML
     private ComboBox cboDistrict;
@@ -35,23 +34,19 @@ public class CountyController extends EditController {
     public void initialize(URL url, ResourceBundle rb) {
         try {
             this.minSize = 360;
+            this.primaryKeyControl = txtCountyID;
             loadLookupData(cboDistrict, CommonObjectNames.DISTRICT);
 
-            btnSave.setOnAction(e -> this.save());
-            btnClose.setOnAction(e -> close(btnClose));
-            btnSearch.setOnAction(e -> this.loadData());
-            btnDelete.setOnAction(e -> this.delete());
-            cboDistrict.setOnAction(e->this.setNextCountyID());
-            
-            selectLookupData(CommonNavigate.MAIN_CLASS, cmiSelectDistrict, CommonObjectNames.DISTRICT, "LookupData", "District", cboDistrict, true);
-            
-        } catch (Exception e) {
+            cboDistrict.setOnAction(e -> this.setNextCountyID());
+
+            selectLookupData(cmiSelectDistrict, CommonObjectNames.DISTRICT, "District", cboDistrict, true);
+
+        } catch (IOException e) {
             errorMessage(e);
         } finally {
         }
     }
 
-  
     @Override
     protected void save() {
         try {
@@ -101,7 +96,7 @@ public class CountyController extends EditController {
             String countyID = getText(txtCountyID, "County ID");
 
             CountyDA countyDA = oCountyDA.get(countyID);
-            cboDistrict.setValue(countyDA.getDistrictDA());
+            cboDistrict.setValue(countyDA.getDistrict());
             txtCountyID.setText(countyDA.getCountyID());
             txtCountyName.setText(countyDA.getCountyName());
 
@@ -114,11 +109,10 @@ public class CountyController extends EditController {
     private void setNextCountyID() {
         if (btnSave.getText().equalsIgnoreCase(FormMode.Save.name())) {
             LookupData district = (LookupData) getEntity(cboDistrict);
-            String districtID = district==null?"":district.getLookupDataID();
-            
+            String districtID = district == null ? "" : district.getLookupDataID();
+
             txtCountyID.setText(oCountyDA.getNextCountyID(oCountyDA.getNextIdHelper(district), districtID));
         }
     }
 
-   
 }

@@ -23,11 +23,13 @@ import com.saburi.common.dbaccess.DBAccess;
 import de.jensd.fx.glyphs.GlyphsDude;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
+import java.net.URL;
 import java.util.List;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TreeItem;
+import javafx.scene.image.Image;
 
 /**
  *
@@ -43,6 +45,8 @@ public class Navigation {
     public static String styleControls = App.class.getResource("StyleControls.css").toExternalForm();
     public static String persistenceUnit;
     public static String appTitle;
+    public static Image image;
+
     public static void setParents(DesktopPane desktopPane, StackPane stpMain) {
         Navigation.desktopPane = desktopPane;
         Navigation.stpMain = stpMain;
@@ -59,7 +63,19 @@ public class Navigation {
         return fxmlLoader.load();
     }
 
-  
+    public static URL getIconURL(Class type) {
+        return type.getClass().getResource("icon.ico");
+    }
+
+    public static Image getImage(Class type) {
+        try {
+            return new Image(type.getResourceAsStream("icon.png"));
+        } catch (Exception e) {
+            throw e;
+        }
+
+    }
+
     public static void loadEditUI(Class type, String uiName, String title, FormMode formMode) throws IOException {
         try {
             FXMLLoader loader = Navigation.getUILoader(type, uiName);
@@ -68,10 +84,17 @@ public class Navigation {
             controller.init(title, formMode);
             float size = controller.getMinSize();
             desktopPane.removeInternalWindow(uiName);
+            Node node = GlyphsDude.createIcon(FontAwesomeIcon.PLUS_CIRCLE);
+            if (formMode.equals(FormMode.Update)) {
+                node = GlyphsDude.createIcon(FontAwesomeIcon.EDIT);
+            } else if (formMode.equals(FormMode.Print)) {
+                node = GlyphsDude.createIcon(FontAwesomeIcon.PRINT);
+            }
 
-            InternalWindow window = new InternalWindow(uiName, GlyphsDude.createIcon(FontAwesomeIcon.BOOK), title, root);
+            InternalWindow window = new InternalWindow(uiName, node, title, root);
+
             if (size > 0) {
-                window.setMinWidth(size);
+                window.setPrefWidth(size);
             }
 
             Navigation.desktopPane.addInternalWindow(window);
@@ -81,7 +104,6 @@ public class Navigation {
         }
     }
 
-    
     public static void loadEditUI(Class type, FontAwesomeIcon icon, String uiName, String title, FormMode formMode) throws IOException {
         try {
             FXMLLoader loader = Navigation.getUILoader(type, uiName);
@@ -101,7 +123,6 @@ public class Navigation {
         }
     }
 
-   
     public static void loadEditUI(Class type, String uiName, String title, Object objectValue, TableView tableView, FormMode formMode, boolean isPopup) throws IOException {
         try {
 
@@ -111,7 +132,7 @@ public class Navigation {
             controller.setFormMode(formMode);
             controller.init(title, formMode);
             controller.setTableView(tableView);
-            if (formMode.equals(FormMode.Update)||formMode.equals(FormMode.Print)) {
+            if (formMode.equals(FormMode.Update) || formMode.equals(FormMode.Print)) {
                 controller.setEdit(objectValue, formMode);
             }
             if (isPopup) {
@@ -135,7 +156,6 @@ public class Navigation {
 
     }
 
-    
     public static void editMenuItemClick(Class type, MenuItem menuItem, FontAwesomeIcon icon, String uiName, String title, FormMode formMode) {
 
         CurrentUser.applyRights(uiName, menuItem);
@@ -151,7 +171,6 @@ public class Navigation {
 
     }
 
- 
     public static void editMenuItemClick(Class type, MenuItem menuItem, String uiName, String title, FormMode formMode) {
 
         CurrentUser.applyRights(uiName, menuItem);
@@ -180,8 +199,6 @@ public class Navigation {
 
     }
 
-   
-
     public static void editMenuItemClickIgnoreParent(Class type, MenuItem menuItem, String uiName, String title, FormMode formMode) {
 
         CurrentUser.applyRights(menuItem, false);
@@ -197,7 +214,6 @@ public class Navigation {
 
     }
 
- 
     public static void editMenuItemClickOptionalRight(Class type, MenuItem menuItem, String uiName, String title, FormMode formMode) {
 
         menuItem.setOnAction((event) -> {
@@ -211,7 +227,6 @@ public class Navigation {
 
     }
 
- 
     public static void loadUI(Class type, MenuItem menuItem, String uiName, String title, int width, boolean maximised) {
 
         CurrentUser.applyRights(uiName, menuItem);
@@ -226,8 +241,6 @@ public class Navigation {
         });
 
     }
-
-   
 
     public static void editMenuItemClick(Class type, MenuItem menuItem, String uiName, String title, FormMode formMode, boolean maximised) {
 
@@ -248,8 +261,6 @@ public class Navigation {
 
     }
 
-  
-
     public static void editMenuItemClickIgnoreParent(Class type, MenuItem menuItem, String uiName, String title, FormMode formMode, boolean maximised) {
 
         CurrentUser.applyRights(menuItem, false);
@@ -264,7 +275,6 @@ public class Navigation {
         });
 
     }
-
 
     public static void editMenuItemClick(Class type, Button button, Node node, String uiName, String title, FormMode formMode, boolean maximised) {
         if (formMode.equals(FormMode.Update)) {
@@ -285,8 +295,6 @@ public class Navigation {
 
     }
 
-    
-
     public static void loadEditUI(Class type, String uiName, String title, FormMode formMode, int size) throws IOException {
         try {
             FXMLLoader loader = Navigation.getUILoader(type, uiName);
@@ -302,7 +310,6 @@ public class Navigation {
         }
     }
 
-   
     public static void loadEditUI(Class type, String uiName, String title, FormMode formMode, boolean maximised) throws IOException {
         try {
             FXMLLoader loader = Navigation.getUILoader(type, uiName);
@@ -321,7 +328,6 @@ public class Navigation {
         }
     }
 
-
     public static void loadUI(Class type, String uiName, String title, int size, boolean maximised) throws IOException {
         try {
             FXMLLoader loader = Navigation.getUILoader(type, uiName);
@@ -337,7 +343,6 @@ public class Navigation {
             throw ex;
         }
     }
-
 
     public static void loadEditUI(Class type, String uiName, String title, FormMode formMode, Object objectValue, int size) throws IOException {
         try {
@@ -355,8 +360,6 @@ public class Navigation {
         }
     }
 
-
-
     public static void viewMenuItemClick(Class type, MenuItem menuItem, DBAccess oDBAccess, String objectName,
             String uiCaption, boolean restrainColumns, boolean maximised) {
         menuItem.setGraphic(GlyphsDude.createIcon(FontAwesomeIcon.TABLE));
@@ -373,7 +376,21 @@ public class Navigation {
 
     }
 
-  
+    public static void viewMenuItemClick(Class type, MenuItem menuItem, DBAccess oDBAccess, String objectName,
+            String uiCaption, boolean restrainColumns, boolean maximised, boolean editable, boolean printable) {
+        menuItem.setGraphic(GlyphsDude.createIcon(FontAwesomeIcon.TABLE));
+        CurrentUser.applyRights(objectName, menuItem);
+        menuItem.setOnAction((event) -> {
+            try {
+
+                view(type, oDBAccess, objectName, "View", uiCaption, restrainColumns, maximised, editable, printable);
+            } catch (IOException ex) {
+                errorMessage(ex);
+            }
+
+        });
+
+    }
 
     public static void viewMenuItemClickOptionalRight(Class type, MenuItem menuItem, DBAccess oDBAccess, String objectName,
             String uiCaption, boolean restrainColumns, boolean maximised) {
@@ -390,7 +407,6 @@ public class Navigation {
 
     }
 
-
     public static void viewMenuItemClickIgnoreParent(Class type, MenuItem menuItem, DBAccess oDBAccess, String objectName,
             String uiCaption, boolean restrainColumns, boolean maximised) {
         menuItem.setGraphic(GlyphsDude.createIcon(FontAwesomeIcon.TABLE));
@@ -406,8 +422,6 @@ public class Navigation {
         });
 
     }
-
-  
 
     public static void viewMenuItemClick(Class type, MenuItem menuItem, DBAccess oDBAccess, String objectName, String uiName,
             String uiCaption, boolean restrainColumns, boolean maximised) {
@@ -441,8 +455,6 @@ public class Navigation {
 
     }
 
-   
-
     public static FXMLLoader getUILoader(Class className, String ui) {
 
         try {
@@ -455,12 +467,36 @@ public class Navigation {
         }
     }
 
-    public static void view(Class mainClass,DBAccess oDBAccess, String ObjectName, String uiName, String title, boolean constrainColumns, boolean maximised) throws IOException {
+    public static void view(Class mainClass, DBAccess oDBAccess, String ObjectName, String uiName, String title, boolean constrainColumns, boolean maximised) throws IOException {
         try {
             String windowID = ObjectName.concat(uiName);
             FXMLLoader loader = CommonNavigate.getUILoader(uiName);
             Parent root = loader.load();
             AbstractViewController controller = loader.<AbstractViewController>getController();
+            controller.setInitData(mainClass, oDBAccess, ObjectName, constrainColumns);
+            controller.setTitle(title);
+            desktopPane.removeInternalWindow(windowID);
+            InternalWindow window = new InternalWindow(windowID, GlyphsDude.createIcon(FontAwesomeIcon.BOOK), title, root);
+            if (maximised) {
+                window.maximizeOrRestoreWindow();
+            }
+            resolveInternalWindow(window).center();
+            Navigation.desktopPane.addInternalWindow(window);
+
+        } catch (IOException ex) {
+            throw ex;
+        }
+    }
+
+    public static void view(Class mainClass, DBAccess oDBAccess, String ObjectName, String uiName, String title,
+            boolean constrainColumns, boolean maximised, boolean editable, boolean printable) throws IOException {
+        try {
+            String windowID = ObjectName.concat(uiName);
+            FXMLLoader loader = CommonNavigate.getUILoader(uiName);
+            Parent root = loader.load();
+            AbstractViewController controller = loader.<AbstractViewController>getController();
+            controller.setEditable(editable);
+            controller.setPrintable(printable);
             controller.setInitData(mainClass, oDBAccess, ObjectName, constrainColumns);
             desktopPane.removeInternalWindow(windowID);
             InternalWindow window = new InternalWindow(windowID, GlyphsDude.createIcon(FontAwesomeIcon.BOOK), title, root);
@@ -475,7 +511,6 @@ public class Navigation {
         }
     }
 
-    
     public static void loadSearchEngine(MenuItem menuItem, List<TreeItem> treeItems, boolean maximised) throws IOException {
         menuItem.setGraphic(GlyphsDude.createIcon(FontAwesomeIcon.SEARCH));
         String searchUI = "Search";

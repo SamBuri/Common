@@ -18,7 +18,10 @@ import java.io.IOException;
 import com.saburi.common.utils.CommonObjectNames;
 import com.saburi.common.dbaccess.CountyDA;
 import com.saburi.common.entities.County;
+import com.saburi.common.entities.LookupData;
 import com.saburi.common.utils.CommonNavigate;
+import java.util.ArrayList;
+import java.util.List;
 
 public class SubCountyController extends EditController {
 
@@ -36,6 +39,8 @@ public class SubCountyController extends EditController {
     @FXML
     private TextField txtSubCountyName;
 
+    private final CountyDA oCountyDA = new CountyDA();
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         try {
@@ -46,13 +51,20 @@ public class SubCountyController extends EditController {
             this.minSize = 360;
 
             loadLookupData(cboDistrict, CommonObjectNames.DISTRICT);
-//            loadCombo(new CountyDA().keyValuePairs(), cboCounty);
-            loadDBEntities(new CountyDA().getCountys(), cboCounty);
-//            cmiLoad.visibleProperty().set(this.formMode.equals(FormMode.Update));
 
+//            cmiLoad.visibleProperty().set(this.formMode.equals(FormMode.Update));
+            cboDistrict.setOnAction(e -> {
+                LookupData district = (LookupData) getEntity(cboDistrict);
+                if (district == null) {
+                    return;
+                }
+                loadDBEntities(oCountyDA.getCounties(district), cboCounty);
+            });
+
+            loadDBEntities(new ArrayList<County>(), cboCounty);
             cboCounty.setOnAction(e -> this.setNextSubCountyID());
 
-            selectLookupData(CommonNavigate.MAIN_CLASS, cmiSelectDistrict, CommonObjectNames.DISTRICT, "LookupData", "District", 700, 450, btnSave, restrainColumnConstraint);
+            selectLookupData(cmiSelectDistrict, CommonObjectNames.DISTRICT, "District", 700, 450, btnSave, restrainColumnConstraint);
             selectItem(CommonNavigate.MAIN_CLASS, cmiSelectCounty, new CountyDA(), "County", "County", 700, 450, cboCounty, true);
         } catch (IOException e) {
             errorMessage(e);
@@ -110,8 +122,13 @@ public class SubCountyController extends EditController {
             String subCountyID = getText(txtSubCountyID, "Sub County ID");
 
             SubCountyDA subCountyDA = oSubCountyDA.get(subCountyID);
-            cboDistrict.setValue(subCountyDA.getCountyDA().getDistrictPair());
-            cboCounty.setValue(subCountyDA.getCountyDA());
+            cboDistrict.setValue(subCountyDA.getDistrict());
+            County county = subCountyDA.getCounty();
+            List<County> counties = cboCounty.getItems();
+            if (!counties.contains(county)) {
+                cboCounty.getItems().add(county);
+            }
+            cboCounty.setValue(county);
             txtSubCountyID.setText(subCountyDA.getSubCountyID());
             txtSubCountyName.setText(subCountyDA.getSubCountyName());
 

@@ -46,10 +46,10 @@ public class JavaFXPDF extends PDFDocuments {
     public JavaFXPDF(String fileName, Rectangle pageSize) throws FileNotFoundException, DocumentException {
         super(fileName, pageSize);
     }
-    
+
     public JavaFXPDF(String fileName, Rectangle pageSize, Map<String, Object> headMap, int headerSeperator,
-            int startXpos, int startYpos, int hSpace, int vSpace, int lineBreak, int colDist, 
-            TableView<?> tableToPrint, List<PrintableColumn> printableColumns, 
+            int startXpos, int startYpos, int hSpace, int vSpace, int lineBreak, int colDist,
+            TableView<?> tableToPrint, List<PrintableColumn> printableColumns,
             String title, String[] signitories, String tableFooter) throws FileNotFoundException, DocumentException {
         super(fileName, pageSize);
         this.headMap = headMap;
@@ -88,8 +88,6 @@ public class JavaFXPDF extends PDFDocuments {
     public void modifyTitle() {
         this.title = this.title.concat(" (COPY)");
     }
-    
-    
 
     private int getFont(int columns) {
         int tfont = 7;
@@ -134,6 +132,13 @@ public class JavaFXPDF extends PDFDocuments {
             tableToPrint.cursorProperty().set(javafx.scene.Cursor.WAIT);
             int tfont = getFont(colmns);
             ArrayList list = new ArrayList();
+
+            List headers = new ArrayList();
+
+            tableColumns.forEach((column) -> {
+                headers.add(column.getText());
+            });
+
             for (int x = 0; x < rows; x++) {
 
                 for (TableColumn col : tableColumns) {
@@ -146,7 +151,7 @@ public class JavaFXPDF extends PDFDocuments {
             table.setSpacingBefore(30f);
             table.setSpacingAfter(0f);
 
-            for (Object o : getColumnHeader(list)) {
+            for (Object o : headers) {
 
                 PdfPCell sb = new PdfPCell(new Paragraph(o.toString(), new Font(Font.FontFamily.TIMES_ROMAN, tfont, Font.BOLD, BaseColor.RED)));
 //                sb.setColspan(2);

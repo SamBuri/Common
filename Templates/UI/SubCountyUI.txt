@@ -1,0 +1,5 @@
+District, District, String, LookupData,, OneToOne, Foreign, , 100, false, false, 
+IdHelper, Id Helper, int, ,, , , ID_Helper, 100, false, false, 
+County, County, String, County,, OneToOne, Foreign, ID_Generator, 100, false, false, 
+SubCountyID, Sub County ID, String, ,, , Primary, , 20, false, false, 
+SubCountyName, Sub County Name, String, ,, , , Display, 100, false, false, 

@@ -18,8 +18,10 @@ import static com.saburi.common.utils.FXUIUtils.errorMessage;
 import static com.saburi.common.utils.FXUIUtils.getSelectedItem;
 import com.saburi.common.utils.Utilities.FormMode;
 import java.io.IOException;
+import java.util.List;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Control;
@@ -112,7 +114,7 @@ public abstract class EditController implements Initializable {
                 } else if (formMode.equals(FormMode.Save)) {
                     tableView.getItems().add(0, dbAccess);
                 }
-                btnClose.fire();
+//                btnClose.fire();
             }
         });
         btnClose.setOnAction(e -> close(btnClose));
@@ -161,6 +163,10 @@ public abstract class EditController implements Initializable {
 
     protected void clear() {
         FXUIUtils.clear(mVBox);
+    }
+    
+    protected void clear(List<Node> nodes) {
+        FXUIUtils.clear(mVBox, nodes);
     }
 
     protected void disable() {

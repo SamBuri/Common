@@ -22,24 +22,11 @@
                         <Menu mnemonicParsing="false" fx:id ="mnuFile" text="File">
                             <items>
                                 <MenuItem mnemonicParsing="false" fx:id ="mnuFileClose" text="Close" />
-                                 <MenuItem mnemonicParsing="false" fx:id ="mnuFileLogout" text="Logout" />
+                                <MenuItem mnemonicParsing="false" fx:id ="mnuFileLogout" text="Logout" />
                             </items>
                             
                         </Menu>
                         
-                        <Menu id="Tools" mnemonicParsing="false" text="Tools">
-                            <items>
-                                <MenuItem id="CurrentFinancialPeriod" fx:id="mnuToolsCurrentFinancialPeriod" mnemonicParsing="false" text="Current Financial Period" />
-                            </items>
-                            <items>
-                                <Menu id="Options" fx:id="mnuOptions" mnemonicParsing="false" text="Options">
-                                    <MenuItem id="Update" fx:id="mnuOptionsUpdate" mnemonicParsing="false" text="Update" />
-                                    <MenuItem id="Read" fx:id="mnuOptionsView" mnemonicParsing="false" text="View" />
-                                </Menu>
-                            </items>
-
-
-                        </Menu>
                         
                         <Menu mnemonicParsing="false" text="Help">
                             <items>
@@ -54,10 +41,21 @@
                                     <MenuItem id="Update" fx:id="mnuSettingsLookupDataUpdate" mnemonicParsing="false" text="Edit" />
                                     <MenuItem id="Read" fx:id="mnuSettingsLookupDataView" mnemonicParsing="false" text="View" />
                                 </Menu>
-                            </items>
                             
+                                <Menu id="Company" fx:id="mnuCompany" mnemonicParsing="false" text="Company">
+                                    <MenuItem id="Create" fx:id="mnuCompanyAdd" mnemonicParsing="false" text="New" />
+                                    <MenuItem id="Update" fx:id="mnuCompanyUpdate" mnemonicParsing="false" text="Edit" />
+                                    <MenuItem id="Read" fx:id="mnuCompanyView" mnemonicParsing="false" text="View" />
+                                </Menu>
+                               
+                           
+                                <Menu id="Staff" fx:id="mnuStaff" mnemonicParsing="false" text="Staff">
+                                    <MenuItem id="Create" fx:id="mnuStaffAdd" mnemonicParsing="false" text="New" />
+                                    <MenuItem id="Update" fx:id="mnuStaffUpdate" mnemonicParsing="false" text="Edit" />
+                                    <MenuItem id="Read" fx:id="mnuStaffView" mnemonicParsing="false" text="View" />
+                                </Menu>
 
-                            <items>
+                           
                                 <Menu id="Security" fx:id="mnuSettingsGeogaphicalLocation" text="Geographical Location">
                                     <items>
                                         <Menu id="County" fx:id="mnuCounty" mnemonicParsing="false" text="County">
@@ -65,24 +63,19 @@
                                             <MenuItem id="Update" fx:id="mnuCountyUpdate" mnemonicParsing="false" text="Edit" />
                                             <MenuItem id="Read" fx:id="mnuCountyView" mnemonicParsing="false" text="View" />
                                         </Menu>
-                                    </items>
-                                    
-                                    <items>
-                                        <Menu id="SubCounty" fx:id="mnuSubCounty" mnemonicParsing="false" text="SubCounty">
+                                   
+                                        <Menu id="SubCounty" fx:id="mnuSubCounty" mnemonicParsing="false" text="Sub County">
                                             <MenuItem id="Create" fx:id="mnuSubCountyAdd" mnemonicParsing="false" text="New" />
                                             <MenuItem id="Update" fx:id="mnuSubCountyUpdate" mnemonicParsing="false" text="Edit" />
                                             <MenuItem id="Read" fx:id="mnuSubCountyView" mnemonicParsing="false" text="View" />
                                         </Menu>
-                                    </items>
-                                    <items>
+                                   
                                         <Menu id="Parish" fx:id="mnuParish" mnemonicParsing="false" text="Parish">
                                             <MenuItem id="Create" fx:id="mnuParishAdd" mnemonicParsing="false" text="New" />
                                             <MenuItem id="Update" fx:id="mnuParishUpdate" mnemonicParsing="false" text="Edit" />
                                             <MenuItem id="Read" fx:id="mnuParishView" mnemonicParsing="false" text="View" />
                                         </Menu>
-                                    </items>
-                                    
-                                    <items>
+                                  
                                         <Menu id="Village" fx:id="mnuVillage" mnemonicParsing="false" text="Village">
                                             <MenuItem id="Create" fx:id="mnuVillageAdd" mnemonicParsing="false" text="New" />
                                             <MenuItem id="Update" fx:id="mnuVillageUpdate" mnemonicParsing="false" text="Edit" />
@@ -91,138 +84,22 @@
                                     </items>
                                 </Menu>
                             
-                            </items>
                             
-                            <items>
-                                <Menu id="Staff" fx:id="mnuStaff" mnemonicParsing="false" text="Staff">
-                                    <MenuItem id="Create" fx:id="mnuStaffAdd" mnemonicParsing="false" text="New" />
-                                    <MenuItem id="Update" fx:id="mnuStaffUpdate" mnemonicParsing="false" text="Edit" />
-                                    <MenuItem id="Read" fx:id="mnuStaffView" mnemonicParsing="false" text="View" />
-                                </Menu>
-
-                            </items>
-                            
-                            <items>
-                                <Menu id="Company" fx:id="mnuCompany" mnemonicParsing="false" text="Company">
-                                    <MenuItem id="Create" fx:id="mnuCompanyAdd" mnemonicParsing="false" text="New" />
-                                    <MenuItem id="Update" fx:id="mnuCompanyUpdate" mnemonicParsing="false" text="Edit" />
-                                    <MenuItem id="Read" fx:id="mnuCompanyView" mnemonicParsing="false" text="View" />
-                                </Menu>
-                                
-                                <Menu fx:id="mnuVendor" mnemonicParsing="false" text="Vendor" id = "Vendor">
-                                    <MenuItem fx:id="mnuVendorAdd" id = "Create" mnemonicParsing="false" text="New" />
-                                    <MenuItem fx:id="mnuVendorUpdate" id = "Update" mnemonicParsing="false" text="Edit" />
-                                    <MenuItem fx:id="mnuVendorView" id = "Read" mnemonicParsing="false" text="View" />
-                                </Menu>
-                             
-                                <Menu id="Item" fx:id="mnuItems" mnemonicParsing="false" text="Item">
+                                <Menu id="Customisation" fx:id="mnuCustomisation" text="Customisation">
                                     <items>
-                                        <Menu fx:id="mnuMeasureGroup" mnemonicParsing="false" text="Measure Group" id = "MeasureGroup">
-                                            <MenuItem fx:id="mnuMeasureGroupAdd" id = "Create" mnemonicParsing="false" text="New" />
-                                            <MenuItem fx:id="mnuMeasureGroupUpdate" id = "Update" mnemonicParsing="false" text="Edit" />
-                                            <MenuItem fx:id="mnuMeasureGroupView" id = "Read" mnemonicParsing="false" text="View" />
+                                       
+                                        <Menu id="IDGenerator" fx:id="mnuGenerator" mnemonicParsing="false" text="ID Generator">
+                                            <MenuItem id="Update" fx:id="mnuIDGeneratorUpdate" mnemonicParsing="false" text="Edit" />
+                                            <MenuItem id="Read" fx:id="mnuGeneratorView" mnemonicParsing="false" text="View" />
                                         </Menu>
-                                        <Menu fx:id="mnuItemCategory" mnemonicParsing="false" text="Item Category" id = "ItemCategory">
-                                            <MenuItem fx:id="mnuItemCategoryAdd" id = "Create" mnemonicParsing="false" text="New" />
-                                            <MenuItem fx:id="mnuItemCategoryUpdate" id = "Update" mnemonicParsing="false" text="Edit" />
-                                            <MenuItem fx:id="mnuItemCategoryView" id = "Read" mnemonicParsing="false" text="View" />
-                                        </Menu>
-                                        <Menu fx:id="mnuItemTemplate" mnemonicParsing="false" text="Item Template" id = "ItemTemplate">
-                                            <MenuItem fx:id="mnuItemTemplateAdd" id = "Create" mnemonicParsing="false" text="New" />
-                                            <MenuItem fx:id="mnuItemTemplateUpdate" id = "Update" mnemonicParsing="false" text="Edit" />
-                                            <MenuItem fx:id="mnuItemTemplateView" id = "Read" mnemonicParsing="false" text="View" />
-                                        </Menu>
-                                        <Menu id="Item" fx:id="mnuItem" mnemonicParsing="false" text="Item">
-                                            <MenuItem id="Create" fx:id="mnuItemAdd" mnemonicParsing="false" text="New" />
-                                            <MenuItem id="Update" fx:id="mnuItemUpdate" mnemonicParsing="false" text="Edit" />
-                                            <MenuItem id="Read" fx:id="mnuItemView" mnemonicParsing="false" text="View" />
-                                        </Menu>
-                                    </items>
-                                </Menu>
-                           
-                                <Menu id="Finance" fx:id="mnuFinance" mnemonicParsing="false" text="Finance">
-                                    <items>
-                                        <Menu id="Currency" fx:id="mnuCurrency" mnemonicParsing="false" text="Currency">
-                                            <MenuItem id="Create" fx:id="mnuCurrencyAdd" mnemonicParsing="false" text="New" />
-                                            <MenuItem id="Update" fx:id="mnuCurrencyUpdate" mnemonicParsing="false" text="Edit" />
-                                            <MenuItem id="Read" fx:id="mnuCurrencyView" mnemonicParsing="false" text="View" />
-                                        </Menu>
-                                  
-                                        <Menu id="AccountCategory" fx:id="mnuAccountCategory" mnemonicParsing="false" text="Account Category">
-                                            <MenuItem id="Create" fx:id="mnuAccountCategoryAdd" mnemonicParsing="false" text="New" />
-                                            <MenuItem id="Update" fx:id="mnuAccountCategoryUpdate" mnemonicParsing="false" text="Edit" />
-                                            <MenuItem id="Read" fx:id="mnuAccountCategoryView" mnemonicParsing="false" text="View" />
-                                        </Menu>
-
-                                        <Menu id="ChartAccount" fx:id="mnuChartAccount" mnemonicParsing="false" text="Chart of Account">
-                                            <MenuItem id="Create" fx:id="mnuChartAccountAdd" mnemonicParsing="false" text="New" />
-                                            <MenuItem id="Update" fx:id="mnuChartAccountUpdate" mnemonicParsing="false" text="Edit" />
-                                            <MenuItem id="Read" fx:id="mnuChartAccountView" mnemonicParsing="false" text="View" />
-                                        </Menu>
-                                        
-                                        <Menu fx:id="mnuBankAccount" mnemonicParsing="false" text="Bank Account" id = "BankAccount">
-                                            <MenuItem fx:id="mnuBankAccountAdd" id = "Create" mnemonicParsing="false" text="New" />
-                                            <MenuItem fx:id="mnuBankAccountUpdate" id = "Update" mnemonicParsing="false" text="Edit" />
-                                            <MenuItem fx:id="mnuBankAccountView" id = "Read" mnemonicParsing="false" text="View" />
-                                        </Menu>
-
-                                        <Menu id="PostingGroups" fx:id="mnuPostings" mnemonicParsing="false" text="Posting Groups">
-                                            <items>
-                                                <Menu fx:id="mnuGeneralPostingGroup" mnemonicParsing="false" text="General Posting Group" id = "GeneralPostingGroup">
-                                                    <MenuItem fx:id="mnuGeneralPostingGroupAdd" id = "Create" mnemonicParsing="false" text="New" />
-                                                    <MenuItem fx:id="mnuGeneralPostingGroupUpdate" id = "Update" mnemonicParsing="false" text="Edit" />
-                                                    <MenuItem fx:id="mnuGeneralPostingGroupView" id = "Read" mnemonicParsing="false" text="View" />
-                                                </Menu>
-                                                <Menu fx:id="mnuCustomerPostingGroup" mnemonicParsing="false" text="Customer Posting Group" id = "CustomerPostingGroup">
-                                                    <MenuItem fx:id="mnuCustomerPostingGroupAdd" id = "Create" mnemonicParsing="false" text="New" />
-                                                    <MenuItem fx:id="mnuCustomerPostingGroupUpdate" id = "Update" mnemonicParsing="false" text="Edit" />
-                                                    <MenuItem fx:id="mnuCustomerPostingGroupView" id = "Read" mnemonicParsing="false" text="View" />
-                                                </Menu>
-                                                <Menu fx:id="mnuVendorPostingGroup" mnemonicParsing="false" text="Vendor Posting Group" id = "VendorPostingGroup">
-                                                    <MenuItem fx:id="mnuVendorPostingGroupAdd" id = "Create" mnemonicParsing="false" text="New" />
-                                                    <MenuItem fx:id="mnuVendorPostingGroupUpdate" id = "Update" mnemonicParsing="false" text="Edit" />
-                                                    <MenuItem fx:id="mnuVendorPostingGroupView" id = "Read" mnemonicParsing="false" text="View" />
-                                                </Menu>
-                                                <Menu fx:id="mnuVATPostingGroup" mnemonicParsing="false" text="VAT Posting Group" id = "VAT Posting Group">
-                                                    <MenuItem fx:id="mnuVATPostingGroupAdd" id = "Create" mnemonicParsing="false" text="New" />
-                                                    <MenuItem fx:id="mnuVATPostingGroupUpdate" id = "Update" mnemonicParsing="false" text="Edit" />
-                                                    <MenuItem fx:id="mnuVATPostingGroupView" id = "Read" mnemonicParsing="false" text="View" />
-                                                </Menu>
-                                                <Menu fx:id="mnuInventoryPostingGroup" mnemonicParsing="false" text="Inventory Posting Group" id = "InventoryPostingGroup">
-                                                    <MenuItem fx:id="mnuInventoryPostingGroupAdd" id = "Create" mnemonicParsing="false" text="New" />
-                                                    <MenuItem fx:id="mnuInventoryPostingGroupUpdate" id = "Update" mnemonicParsing="false" text="Edit" />
-                                                    <MenuItem fx:id="mnuInventoryPostingGroupView" id = "Read" mnemonicParsing="false" text="View" />
-                                                </Menu>
-                                            </items>
-                                        </Menu>
-                                    
-                                        <Menu id="FinancialPeriod" fx:id="mnuFinancialPeriod" mnemonicParsing="false" text="Financial Period">
-                                            <MenuItem id="Create" fx:id="mnuFinancialPeriodAdd" mnemonicParsing="false" text="New" />
-                                            <MenuItem id="Update" fx:id="mnuFinancialPeriodUpdate" mnemonicParsing="false" text="Edit" />
-                                            <MenuItem id="Read" fx:id="mnuFinancialPeriodView" mnemonicParsing="false" text="View" />
+                                        <Menu id="Options" fx:id="mnuOptions" mnemonicParsing="false" text="Options">
+                                            <MenuItem id="Update" fx:id="mnuOptionsUpdate" mnemonicParsing="false" text="Edit" />
+                                            <MenuItem id="Read" fx:id="mnuOptionsView" mnemonicParsing="false" text="View" />
                                         </Menu>
                                     </items>
 
                                 </Menu>
-                            </items>
                             
-                            
-                            <items>
-                                  
-                                <Menu id="id" fx:id="mnuSettingsAdvanced" text="Advanced">
-                                    <items>
-                                        <Menu id="IDGenerator" fx:id="mnuAdvancedIDGenerator" mnemonicParsing="false" text="ID Generator">
-                                            <MenuItem id="Update" fx:id="mnuAdvancedIDGeneratorUpdate" mnemonicParsing="false" text="Edit" />
-                                            <MenuItem id="Read" fx:id="mnuAdvancedIDGeneratorView" mnemonicParsing="false" text="View" />
-                                        </Menu>
-                                    </items>
-                                    
-                                </Menu>
-                                
-                            </items>
-                            
-                            
-                            <items>
                                 <Menu id="Security" fx:id="mnuSettingsSecurity" text="Security">
                                     <items>
                                         <Menu id="UserRole" fx:id="mnuSecurityUserRole" mnemonicParsing="false" text="User Role">
@@ -244,15 +121,11 @@
                                 
                             </items>
                             
-
                         </Menu>
                       
                         
                         <Menu mnemonicParsing="false" text="Reports">
-                            <items>
-                                <MenuItem id="GeneralLedger" fx:id="mnuGeneralLedger" mnemonicParsing="false" text="General Ledger" />
-                            </items>
-
+                           
                         </Menu>
                         <Menu mnemonicParsing="false" text="View">
                             <items>
@@ -269,52 +142,6 @@
                 </MenuBar>
                 <ToolBar id="tbaMain" prefHeight="35.0" prefWidth="712.0">
                     <items>
-                       
-                        <SplitMenuButton fx:id="spmCustomer" id ="Customer"  mnemonicParsing="false" text="Customer">
-                            <items>
-                                <MenuItem fx:id="spmCustomerAdd" id ="Create" mnemonicParsing="false" text="New" />
-                                <MenuItem fx:id="spmCustomerUpdate" id ="Update" mnemonicParsing="false" text="Edit" />
-                                <MenuItem fx:id="spmCustomerView" id ="Read" mnemonicParsing="false" text="View" />
-                            </items>
-                        </SplitMenuButton>
-                      
-                        
-                        <SplitMenuButton id="Sales" fx:id="spmSales" mnemonicParsing="false" text="Sales">
-                            <items>
-                                
-                                <Menu fx:id="spmSaleOrder" id ="SaleOrder"  mnemonicParsing="false" text="Sale Orders">
-                                    <items>
-                                        <MenuItem fx:id="spmSaleOrderAdd" id ="Create" mnemonicParsing="false" text="New" />
-                                        <MenuItem fx:id="spmSaleOrderUpdate" id ="Update" mnemonicParsing="false" text="Edit" />
-                                        <MenuItem fx:id="spmSaleOrderView" id ="Read" mnemonicParsing="false" text="View" />
-                                    </items>
-                                </Menu>
-                                
-                                <Menu fx:id="spmInvoice" id ="Invoice"  mnemonicParsing="false" text="Invoice">
-                                    
-                                    <MenuItem fx:id="spmInvoiceAdd" id ="Create" mnemonicParsing="false" text="New" />
-                                    <MenuItem fx:id="spmInvoicePrint" id ="Print" mnemonicParsing="false" text="Print" />
-                                    <MenuItem fx:id="spmInvoiceView" id ="Read" mnemonicParsing="false" text="View" />
-                                   
-                                </Menu>
-                                
-                                <Menu fx:id="spmReceipt" id ="Receipt"  mnemonicParsing="false" text="Receipt">
-                                    <MenuItem fx:id="spmReceiptAdd" id ="Create" mnemonicParsing="false" text="New" />
-                                    <MenuItem fx:id="spmReceiptPrint" id ="Print" mnemonicParsing="false" text="print" />
-                                    <MenuItem fx:id="spmReceiptView" id ="Read" mnemonicParsing="false" text="View" />
-                                    
-                                </Menu>
-                            </items>
-                            
-                        </SplitMenuButton>
-
-                        <SplitMenuButton id="JournalEntry" fx:id="spmJournalEntry" mnemonicParsing="false" text="Journal Entry">
-                            <items>
-                                <MenuItem id="Create" fx:id="spmJournalEntryAdd" mnemonicParsing="false" text="New" />
-                                <MenuItem id="Update" fx:id="spmJournalEntryUpdate" mnemonicParsing="false" text="Edit" />
-                                <MenuItem id="Read" fx:id="spmJournalEntryView" mnemonicParsing="false" text="View" />
-                            </items>
-                        </SplitMenuButton>
                        
 
                     </items>

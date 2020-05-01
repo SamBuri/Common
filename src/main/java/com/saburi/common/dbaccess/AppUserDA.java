@@ -30,7 +30,7 @@ public class AppUserDA extends DBAccess {
     private UserRole role;
 
     public AppUserDA() {
-
+        createSearchColumns();
     }
 
     public AppUserDA(String persistenceUnit) {
@@ -143,33 +143,28 @@ public class AppUserDA extends DBAccess {
 
     private void initialseProprties() {
         this.dBEntity = appUser;
-        this.loginID = new SimpleStringProperty(appUser.getLoginID());
-        this.firstName = new SimpleStringProperty(appUser.getFirstName());
-        this.lastName = new SimpleStringProperty(appUser.getLastName());
-        this.staffNo = new SimpleStringProperty(appUser.getStaffNo());
-        this.password = new SimpleStringProperty(appUser.getPassword());
+        this.loginID.set(appUser.getLoginID());
+        this.firstName.set(appUser.getFirstName());
+        this.lastName.set(appUser.getLastName());
+        this.staffNo.set(appUser.getStaffNo());
+        this.password.set(appUser.getPassword());
         this.role = appUser.getRole();
-        this.roleID = new SimpleObjectProperty(role.getId());
-        this.roleDisplay = new SimpleStringProperty(role.getDisplayKey());
-        this.userID = new SimpleStringProperty(appUser.getUserID());
-        this.userFullName = new SimpleStringProperty(appUser.getUserFullName());
-        this.clientMachine = new SimpleStringProperty(appUser.getClientMachine());
-        this.recordDateTime = new SimpleObjectProperty(appUser.getRecordDateTime());
-        this.recordDateTimeDisplay = new SimpleStringProperty(Utilities.formatDateTime(appUser.getRecordDateTime()));
-        this.lastUpdateDateTime = new SimpleObjectProperty(appUser.getLastUpdateDateTime());
-        this.lastUpdateDateTimeDisplay = new SimpleStringProperty(Utilities.formatDateTime(appUser.getLastUpdateDateTime()));
+        if (role != null) {
+            this.roleID.set(role.getId());
+            this.roleDisplay.set(role.getDisplayKey());
+        }
         initCommonProprties();
     }
 
     private void createSearchColumns() {
-        this.searchColumns.add(new SearchColumn("loginID", "Login ID", this.loginID.get(), SearchDataTypes.STRING));
+        this.searchColumns.add(new SearchColumn("loginID", "Login ID", this.loginID.get(), SearchDataTypes.STRING, SearchColumn.SearchType.Equal));
         this.searchColumns.add(new SearchColumn("firstName", "First Name", this.firstName.get(), SearchDataTypes.STRING));
         this.searchColumns.add(new SearchColumn("lastName", "Last Name", this.lastName.get(), SearchDataTypes.STRING));
         this.searchColumns.add(new SearchColumn("staffNo", "Staff No", this.staffNo.get(), SearchDataTypes.STRING));
-        this.searchColumns.add(new SearchColumn("password", "Password", this.password.get(), SearchDataTypes.STRING));
+        this.searchColumns.add(new SearchColumn("password", "Password", this.password.get(), SearchDataTypes.STRING, false));
         this.searchColumns.add(new SearchColumn("roleID", "Role ID", this.roleID.get(), SearchDataTypes.STRING, SearchColumn.SearchType.Equal));
         this.searchColumns.add(new SearchColumn("roleDisplay", "Role", this.roleDisplay.get(), SearchDataTypes.STRING));
-
+        this.searchColumns.addAll(this.getDefaultSearchColumns());
     }
 
     @Override
@@ -185,10 +180,6 @@ public class AppUserDA extends DBAccess {
     @Override
     public String getDisplayKey() {
         return this.appUser.getDisplayKey();
-    }
-
-    public Pair<String, Object> keyValuePair() {
-        return new Pair(this.appUser.getDisplayKey(), this.appUser.getId());
     }
 
     public static List<AppUserDA> getAppUserDAs(List<AppUser> appUsers) {
@@ -228,12 +219,13 @@ public class AppUserDA extends DBAccess {
         return super.find(AppUser.class);
     }
 
-    public List<AppUserDA> get1() {
-        List<AppUserDA> list = new ArrayList<>();
-        List<AppUser> datas = super.find(AppUser.class);
-        datas.forEach((data) -> {
-            list.add(new AppUserDA(data));
-        });
+    @Override
+    public List<DBAccess> get() {
+        List<DBAccess> list = new ArrayList<>();
+        selectQuery(AppUser.class).forEach(o -> list.add(new AppUserDA((AppUser) o)));
+        if (entityManager != null) {
+            entityManager.close();
+        }
         return list;
     }
 
@@ -250,18 +242,6 @@ public class AppUserDA extends DBAccess {
         List<AppUserDA> list = new ArrayList<>();
         data.forEach(da -> list.add(new AppUserDA(da)));
         return list;
-    }
-
-    public List<Pair<String, Object>> keyValuePairs() {
-        List<Pair<String, Object>> pairs = new ArrayList<>();
-        this.get().forEach((t) -> pairs.add(t.keyValuePair()));
-        return pairs;
-    }
-
-    public List<Pair<String, Object>> keyValuePairs(String columName, Object value) {
-        List<Pair<String, Object>> pairs = new ArrayList<>();
-        this.get(columName, value).forEach((t) -> pairs.add(t.keyValuePair()));
-        return pairs;
     }
 
     public int getMax(String columnName) {

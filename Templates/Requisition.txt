@@ -1,6 +1,0 @@
-IdHelper, Id Helper, int, ,, , , ID_Helper, 100, false, false, 
-RequisitionID, Requistion ID, String, ,, , Primary, Display, 100, false, false, 
-RequistionDate, Requisition Date, LocalDate, ,, , , , 100, false, true, 
-Status, Status, String, OpenStatus,, , , , 100, true, true, 
-ItemGroup, Item Group, String, LookupData,, OneToOne, Foreign, , 100, false, true, 
-

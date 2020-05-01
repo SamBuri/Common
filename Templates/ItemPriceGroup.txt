@@ -1,5 +1,0 @@
-Item, Item, String, Item,, , , , 100, false, false, 
-PriceGroup, Price Group, String, LookupData,, , , Display, 100, false, false, 
-ItemPriceGroupID, Item Price Group ID, String, ,, , Primary, , 20, false, false, 
-UnitPrice, UnitPrice, double, ,, , , , 100, false, true, 
-Discount, Discount, double, ,, , , , 100, false, true, 

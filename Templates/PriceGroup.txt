@@ -1,3 +1,0 @@
-IdHelper, IdHelper, int
-GroupID, Group ID, String
-GroupName, Group Name, String

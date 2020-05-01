@@ -115,7 +115,7 @@ public class AccessObjectDA extends DBAccess {
     private void createSearchColumns() {
         this.searchColumns.add(new SearchColumn("objectName", "Object Name", this.objectName.get(), SearchDataTypes.STRING));
         this.searchColumns.add(new SearchColumn("caption", "Caption", this.caption.get(), SearchDataTypes.STRING));
-        this.searchColumns.add(new SearchColumn("objectType", "Object Tye", this.objectType.get(), SearchDataTypes.STRING, SearchColumn.SearchType.Equal));
+        this.searchColumns.add(new SearchColumn("objectType", "Object Type", this.objectType.get(), SearchDataTypes.STRING, SearchColumn.SearchType.Equal));
         this.searchColumns.addAll(this.getDefaultSearchColumns());
     }
 

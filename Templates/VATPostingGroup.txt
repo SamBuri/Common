@@ -1,7 +1,0 @@
-IdHelper, Id Helper, int, ,, , , ID_Helper, 100, false, false, 
-VATPostingGroupID, VAT Posting Group ID, String, ,, , Primary, , 20, false, false, 
-VATBusinessGroup, VAT Business Group, String, LookupData,, , , Display, 100, false, false, CommonEnums
-VATItemGroup, VAT Item Group, String, LookupData,, , , Display, 100, false, false, CommonEnums
-VATPercent, VAT Percent, float, ,, , , , 100, false, true, 
-VATSalesAccount, VAT Sales Account, String, ChartAccount,, , , , 100, false, true, 
-VATPurchaseAccount, VAT Purchase Account, String, ChartAccount,, , , , 100, false, true, 

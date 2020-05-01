@@ -11,7 +11,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import com.saburi.common.dbaccess.LicenceDA;
-import com.saburi.common.utils.CommonEnums.LicenceTypes;
+import com.saburi.common.utils.CommonEnums.LicenseTypes;
 import com.saburi.common.utils.SaburiEncryptor;
 import com.saburi.common.utils.Utilities;
 import javafx.collections.FXCollections;
@@ -65,7 +65,7 @@ public class LicenceController extends EditController {
         try {
             validateIteger(txtUserLimit);
             validateIteger(txtRecordLimit);
-            cboLicenceType.setItems(FXCollections.observableArrayList(LicenceTypes.values()));
+            cboLicenceType.setItems(FXCollections.observableArrayList(LicenseTypes.values()));
             btnSearch.setOnAction(e -> this.loadData());
             btnDelete.setOnAction(e -> this.delete());
 

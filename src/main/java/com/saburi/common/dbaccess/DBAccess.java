@@ -45,7 +45,6 @@ import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
 import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
-//import jdk.nashorn.api.tree.BreakTree;
 import org.hibernate.Session;
 import org.hibernate.envers.AuditReader;
 import org.hibernate.envers.AuditReaderFactory;
@@ -138,8 +137,8 @@ public class DBAccess {
         this.defaultSearchColumns.add(new SearchColumn("userID", "User ID", this.userID.get(), SearchDataTypes.STRING, SearchColumn.SearchType.Equal));
         this.defaultSearchColumns.add(new SearchColumn("userFullName", "User Full Name", this.userFullName.get(), SearchDataTypes.STRING));
         this.defaultSearchColumns.add(new SearchColumn("clientMachine", "Client Machine", this.clientMachine.get(), SearchDataTypes.STRING));
-        this.defaultSearchColumns.add(new SearchColumn("recordDateTimeDisplay", "Record Date Time", this.recordDateTimeDisplay.get(), SearchDataTypes.STRING));
-        this.defaultSearchColumns.add(new SearchColumn("lastUpdateDateTimeDisplay", "Last Update Date Time", this.lastUpdateDateTimeDisplay.get(), SearchDataTypes.STRING));
+        this.defaultSearchColumns.add(new SearchColumn("recordDateTime", "Record Date Time", this.recordDateTime.get(), this.recordDateTimeDisplay.get(), SearchDataTypes.DATE));
+        this.defaultSearchColumns.add(new SearchColumn("lastUpdateDateTime", "Last Update Date Time", this.lastUpdateDateTime.get(), this.lastUpdateDateTimeDisplay.get(), SearchDataTypes.DATE));
         return this.defaultSearchColumns;
     }
 
@@ -734,6 +733,27 @@ public class DBAccess {
                     builder.desc(criteriaRoot.get(searchOrder.getColumnName()));
                 }
             }
+            TypedQuery<DBEntity> typedQuery = entityManager.createQuery(criteriaQuery);
+            entityList = typedQuery.getResultList();
+
+        } catch (Exception e) {
+            throw e;
+        } finally {
+            entityManager.close();
+        }
+        return entityList;
+    }
+
+    protected List findGreater(Class entity, String column, double value) {
+        List entityList = new ArrayList<>();
+
+        try {
+            entityManager = entityManagerFactory.createEntityManager();
+            CriteriaBuilder builder = entityManager.getCriteriaBuilder();
+            CriteriaQuery<DBEntity> criteriaQuery = builder.createQuery(entity);
+            Root<DBEntity> criteria = criteriaQuery.from(entity);
+
+            criteriaQuery.where(builder.and(builder.gt(criteria.get(column), value)));
             TypedQuery<DBEntity> typedQuery = entityManager.createQuery(criteriaQuery);
             entityList = typedQuery.getResultList();
 

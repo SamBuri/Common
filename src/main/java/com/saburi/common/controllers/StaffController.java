@@ -19,13 +19,15 @@ import com.saburi.common.utils.CommonEnums.Gender;
 import javafx.collections.FXCollections;
 import javafx.scene.control.DatePicker;
 import java.time.LocalDate;
-;
+import java.io.IOException;
 import javafx.scene.control.MenuItem;
 import com.saburi.common.entities.LookupData;
 import com.saburi.common.utils.CommonObjectNames;
 import com.saburi.common.dbaccess.VillageDA;
 import com.saburi.common.entities.Village;
 import com.saburi.common.utils.CommonNavigate;
+import com.saburi.common.utils.FXUIUtils;
+import java.util.Arrays;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.CheckBox;
 
@@ -91,7 +93,7 @@ public class StaffController extends EditController {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         try {
-            loadLookupData(cboCountry, CommonObjectNames.COUNTRY);
+            loadLookupData(cboCountry, CommonObjectNames.COUNTRY, true);
             loadLookupData(cboStaffTitle, CommonObjectNames.STAFFTITLE);
             loadLookupData(cboQualification, CommonObjectNames.QUALIFICATION);
             loadLookupData(cboDepartment, CommonObjectNames.DEPARTMENT);
@@ -106,12 +108,33 @@ public class StaffController extends EditController {
             btnCapturePhoto.setOnAction(e -> setCapturedImage(imvPhoto));
             btnClearPhoto.setOnAction(e -> imvPhoto.setImage(null));
             this.setNextStaffID();
-            selectLookupData(CommonNavigate.MAIN_CLASS, cmiSelectCountry, CommonObjectNames.COUNTRY, "LookupData", "Country", cboCountry, false);
+            selectLookupData(cmiSelectCountry, CommonObjectNames.COUNTRY,  "Country", cboCountry, false);
             selectItem(CommonNavigate.MAIN_CLASS, cmiSelectVillage, oVillageDA, "Village", "Village", cboVillage, true);
-            selectLookupData(CommonNavigate.MAIN_CLASS, cmiSelectStaffTitle, CommonObjectNames.STAFFTITLE, "LookupData", "Staff Title", cboStaffTitle, false);
-            selectLookupData(CommonNavigate.MAIN_CLASS, cmiSelectQualification, CommonObjectNames.QUALIFICATION, "LookupData", "Qualification", cboQualification, false);
-            selectLookupData(CommonNavigate.MAIN_CLASS, cmiSelectDepartment, CommonObjectNames.DEPARTMENT, "LookupData", "Department", cboDepartment, false);
-        } catch (Exception e) {
+            selectLookupData(cmiSelectStaffTitle, CommonObjectNames.STAFFTITLE,  "Staff Title", cboStaffTitle, false);
+            selectLookupData(cmiSelectQualification, CommonObjectNames.QUALIFICATION,  "Qualification", cboQualification, false);
+            selectLookupData(cmiSelectDepartment, CommonObjectNames.DEPARTMENT,  "Department", cboDepartment, false);
+            chkActive.disableProperty().set(btnSave.getText().equalsIgnoreCase(FormMode.Save.name()));
+            formatDatePicker(dtpJoinDate);
+            formatDatePicker(dtpBirthDate);
+            txtFirstName.focusedProperty().addListener((ov, t, t1) -> {
+                if(t){
+                    setInitials();
+                }
+            });
+            txtOtherNames.focusedProperty().addListener((ov, t, t1) -> {
+                if(t){
+                    setInitials();
+                }
+            });
+            txtLastName.focusedProperty().addListener((ov, t, t1) -> {
+                if(t){
+                    setInitials();
+                }
+            });
+            
+            chkActive.disableProperty().bind(btnSave.textProperty().isEqualToIgnoreCase(FormMode.Save.name()));
+
+        } catch (IOException e) {
             errorMessage(e);
         } finally {
         }
@@ -125,7 +148,7 @@ public class StaffController extends EditController {
             byte[] photo = getBytes(imvPhoto, "Photo");
             String firstName = getText(txtFirstName, "First Name");
             String lastName = getText(txtLastName, "Last Name");
-            String otherNames = getText(txtOtherNames, "Other Names");
+            String otherNames = getText(txtOtherNames);
             String initials = getText(txtInitials, "Initials");
             Gender gender = (Gender) getSelectedValue(cboGender, "Gender");
             LocalDate birthDate = getDate(dtpBirthDate, "Birth Date");
@@ -139,7 +162,7 @@ public class StaffController extends EditController {
             String phoneNo = getText(txtPhoneNo, "Phone No");
             String emailAddress = getText(txtEmailAddress, "Email Address");
             String physicalAddress = getText(txaPhysicalAddress, "Physical Address");
-            String specialSkills = getText(txaSpecialSkills, "Special Skills");
+            String specialSkills = getText(txaSpecialSkills);
             boolean active = chkActive.isSelected();
 
             StaffDA staffDA = new StaffDA(staffID, photo, firstName, lastName, otherNames, initials, gender, birthDate, joinDate, nationalID, country, village, staffTitle, qualification, department, phoneNo, emailAddress, physicalAddress, specialSkills, active);
@@ -147,7 +170,8 @@ public class StaffController extends EditController {
             if (buttonText.equalsIgnoreCase(FormMode.Save.name())) {
                 staffDA.save();
                 message("Saved Successfully");
-                clear();
+                clear(Arrays.asList(chkActive, cboCountry));
+                FXUIUtils.clear(imvPhoto);
                 this.setNextStaffID();
             } else if (buttonText.equalsIgnoreCase(FormMode.Update.name())) {
                 staffDA.update();
@@ -204,7 +228,7 @@ public class StaffController extends EditController {
             txaPhysicalAddress.setText(staffDA.getPhysicalAddress());
             txaSpecialSkills.setText(staffDA.getSpecialSkills());
             chkActive.setSelected(staffDA.isActive());
-
+//            chkActive.disableProperty().set(btnSave.getText().equalsIgnoreCase(FormMode.Save.name()));
         } catch (Exception e) {
             errorMessage(e);
         }
@@ -221,6 +245,15 @@ public class StaffController extends EditController {
         }
     }
 
-    
+    private void setInitials() {
+        String firstName = txtFirstName.getText();
+        String otherNames =txtOtherNames.getText();
+        String lastName =txtLastName.getText();
+        String fn= firstName.length()>0?firstName.substring(0, 1):"";
+        String on= otherNames.length()>0?otherNames.substring(0, 1):"";
+        String ln= lastName.length()>0?lastName.substring(0, 1):"";
+        String initals = fn.concat(ln).concat(on).toUpperCase();
+        txtInitials.setText(initals);
+    }
 
 }

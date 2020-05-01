@@ -23,39 +23,25 @@ public class CommonSearchTree {
     protected final TreeItem<SearchItem> triRevisions = new TreeItem<>(new SearchItem("Revision History"));
     protected final TreeItem<SearchItem> triSetup = new TreeItem<>(new SearchItem("Set up"));
     protected final TreeItem<SearchItem> triSetupRev = new TreeItem<>(new SearchItem("Set up"));
-    protected final TreeItem<SearchItem> triChartAccounts = new TreeItem<>(new SearchItem("Chart of Accounts"));
-    protected final TreeItem<SearchItem> triChartAccountsRev = new TreeItem<>(new SearchItem("Chart of Accounts"));
-    protected final TreeItem<SearchItem> triItem = new TreeItem<>(new SearchItem("Item"));
-    protected final TreeItem<SearchItem> triItemRev = new TreeItem<>(new SearchItem("Item"));
-    protected final TreeItem<SearchItem> triFinance = new TreeItem<>(new SearchItem("Finance"));
-    protected final TreeItem<SearchItem> triFinanceRev = new TreeItem<>(new SearchItem("Finance"));
-    protected final TreeItem<SearchItem> triPositingGroup = new TreeItem<>(new SearchItem("Posting Groups"));
-    protected final TreeItem<SearchItem> triPositingGroupRev = new TreeItem<>(new SearchItem("Posting Groups"));
+    protected final TreeItem<SearchItem> triSeccurity = new TreeItem<>(new SearchItem("Security"));
+    protected final TreeItem<SearchItem> triSeccurityRev = new TreeItem<>(new SearchItem("Seccurity"));
+    protected final TreeItem<SearchItem> triCustomisation = new TreeItem<>(new SearchItem("Customisation"));
+    protected final TreeItem<SearchItem> triCustomisationRev = new TreeItem<>(new SearchItem("Customisation"));
     protected final TreeItem<SearchItem> triGeographicalLocation = new TreeItem<>(new SearchItem("Geographical Location"));
     protected final TreeItem<SearchItem> triGeographicalLocationRev = new TreeItem<>(new SearchItem("Geographical Location"));
     protected final TreeItem<SearchItem> triGeneral = new TreeItem<>(new SearchItem("General"));
     protected final TreeItem<SearchItem> triGeneralRev = new TreeItem<>(new SearchItem("General"));
-    protected final TreeItem<SearchItem> triAccounting = new TreeItem<>(new SearchItem("Accounting"));
-    protected final TreeItem<SearchItem> triAccountingRev = new TreeItem<>(new SearchItem("Accounting"));
-    protected final TreeItem<SearchItem> triSales = new TreeItem<>(new SearchItem("Sales"));
-    protected final TreeItem<SearchItem> triSalesRev = new TreeItem<>(new SearchItem("Sales"));
+
     protected List<SearchItem> commonSearchObjects = new ArrayList<>();
     protected List<TreeItem> treeItems;
     private final Class mainClass = App.class;
     private final List<SearchItem> sItems = Arrays.asList(
             //           Setup
-            new SearchItem(mainClass, new AccountCategoryDA(), "AccountCategory", "Account Categories", false, triChartAccounts),
-            new SearchItem(mainClass, new AccountCategoryDA(), Revision, "AccountCategory", "Account Categories", false, triChartAccountsRev),
-            new SearchItem(mainClass, new ChartAccountDA(), "ChartAccount", "Chart Accounts", false, triChartAccounts),
-            new SearchItem(mainClass, new ChartAccountDA(), Revision, "ChartAccount", "Chart Accounts", false, triChartAccountsRev),
-            new SearchItem(mainClass, new BankAccountDA(), "BankAccount", "Bank Account", true, triSetup),
-            new SearchItem(mainClass, new BankAccountDA(), Revision, "BankAccount", "Bank Account", true, triSetupRev),
-            new SearchItem(mainClass, new LookupDataDA(), "LookupData", "LookupData", true, triSetup),
+
+            new SearchItem(mainClass, new LookupDataDA(), "LookupData", "Lookup Data", true, triSetup),
             new SearchItem(mainClass, new LookupDataDA(), Revision, "LookupData", "LookupData", true, triSetupRev),
             new SearchItem(mainClass, new StaffDA(), "Staff", "Staff", false, triSetup),
             new SearchItem(mainClass, new StaffDA(), Revision, "Staff", "Staff", false, triSetupRev),
-            new SearchItem(mainClass, new VendorDA(), "Vendor", "Vendor", false, triSetup),
-            new SearchItem(mainClass, new VendorDA(), Revision, "Vendor", "Vendor", false, triSetupRev),
             new SearchItem(mainClass, new CountyDA(), "County", "County", true, triGeographicalLocation),
             new SearchItem(mainClass, new SubCountyDA(), "SubCounty", "Sub County", true, triGeographicalLocation),
             new SearchItem(mainClass, new ParishDA(), "Parish", "Parish", true, triGeographicalLocation),
@@ -64,60 +50,22 @@ public class CommonSearchTree {
             new SearchItem(mainClass, new SubCountyDA(), Revision, "SubCounty", "Sub County", true, triGeographicalLocationRev),
             new SearchItem(mainClass, new ParishDA(), Revision, "Parish", "Parish", true, triGeographicalLocationRev),
             new SearchItem(mainClass, new VillageDA(), Revision, "Village", "Village", true, triGeographicalLocationRev),
-            new SearchItem(mainClass, new CustomerPostingGroupDA(), "CustomerPostingGroup", "Customer Posting Group", true, triPositingGroup),
-            new SearchItem(mainClass, new CustomerPostingGroupDA(), Revision, "CustomerPostingGroup", "Customer Posting Group", true, triPositingGroupRev),
-            new SearchItem(mainClass, new InventoryPostingGroupDA(), "InventoryPostingGroup", "Inventory Posting Group", true, triPositingGroup),
-            new SearchItem(mainClass, new InventoryPostingGroupDA(), Revision, "InventoryPostingGroup", "Inventory Posting Group", true, triPositingGroupRev),
-            new SearchItem(mainClass, new GeneralPostingGroupDA(), "GeneralPostingGroup", "General Posting Group", false, triPositingGroup),
-            new SearchItem(mainClass, new GeneralPostingGroupDA(), Revision, "GeneralPostingGroup", "General Posting Group", false, triPositingGroupRev),
-            new SearchItem(mainClass, new VATPostingGroupDA(), "VATPostingGroup", "VAT Posting Group", true, triPositingGroup),
-            new SearchItem(mainClass, new VATPostingGroupDA(), Revision, "VATPostingGroup", "VAT Posting Group", true, triPositingGroupRev),
-            new SearchItem(mainClass, new VendorPostingGroupDA(), "VendorPostingGroup", "Vendor Posting Group", true, triPositingGroup),
-            new SearchItem(mainClass, new VendorPostingGroupDA(), Revision, "VendorPostingGroup", "Vendor Posting Group", true, triPositingGroupRev),
-            new SearchItem(mainClass, new MeasureGroupDA(), "MeasureGroup", "Measure Group", true, triItem),
-            new SearchItem(mainClass, new MeasureGroupDA(), Revision, "MeasureGroup", "Measure Group", true, triItemRev),
-            new SearchItem(mainClass, new MeasureRelationDA(), "MeasureRelation", "Measure Relation", true, triItem),
-            new SearchItem(mainClass, new MeasureRelationDA(), Revision, "MeasureRelation", "Measure Relation", true, triItemRev),
-            new SearchItem(mainClass, new ItemCategoryDA(), "ItemCategory", "Item Category", true, triItem),
-            new SearchItem(mainClass, new ItemCategoryDA(), Revision, "ItemCategory", "Item Category", true, triItemRev),
-            new SearchItem(mainClass, new ItemTemplateDA(), "ItemTemplate", "Item Template", true, triItem),
-            new SearchItem(mainClass, new ItemTemplateDA(), Revision, "ItemTemplate", "Item Template", true, triItemRev),
-            new SearchItem(mainClass, new ItemDA(), "Item", "Item", true, triItem),
-            new SearchItem(mainClass, new ItemDA(), Revision, "Item", "Item", true, triItemRev),
-            //            Set up
+            //            Security
+            new SearchItem(mainClass, new UserRoleDA(), "UserRole", "User Roles", true, triSeccurity),
+            new SearchItem(mainClass, new UserRoleDA(), Revision, "UserRole", "User Roles", true, triSeccurityRev),
+            new SearchItem(mainClass, new UserRoleDetailDA(), "UserRoleDetail", "User Role Details", true, triSeccurity),
+            new SearchItem(mainClass, new UserRoleDetailDA(), Revision, "UserRoleDetail", "User Role Details", true, triSeccurityRev),
+            new SearchItem(mainClass, new AppUserDA(), "AppUser", "Users", true, triSeccurity),
+            new SearchItem(mainClass, new AppUserDA(), Revision, "AppUser", "Users", true, triSeccurityRev),
+            //           Security
 
-            //             Accounting
-
-            new SearchItem(mainClass, new BankLedgerDA(), "BankLedger", "Bank Ledger", false, triAccounting),
-            new SearchItem(mainClass, new BankLedgerDA(), Revision, "BankLedger", "Bank Ledger", false, triAccountingRev),
-            new SearchItem(mainClass, new CustomerLedgerDA(), "CustomerLedger", "Customer Ledger", false, triAccounting),
-            new SearchItem(mainClass, new CustomerLedgerDA(), Revision, "CustomerLedger", "Customer Ledger", false, triAccountingRev),
-            new SearchItem(mainClass, new GeneralLedgerDA(), "GeneralLedger", "General Ledger", false, triAccounting),
-            new SearchItem(mainClass, new GeneralLedgerDA(), Revision, "GeneralLedger", "General Ledger", false, triAccountingRev),
-            new SearchItem(mainClass, new VendorLedgerDA(), "VendorLedger", "Vendor Ledger", false, triAccounting),
-            new SearchItem(mainClass, new VendorLedgerDA(), Revision, "VendorLedger", "Vendor Ledger", false, triAccountingRev),
-            new SearchItem(mainClass, new JournalEntryDA(), "JournalEntry", "Journal Entries", false, triAccounting),
-            new SearchItem(mainClass, new JournalEntryDetailDA(), "JournalEntry", "Journal Entry Details", false, triAccounting),
-            //            Accounting
-
-            //            Invoicing
-            new SearchItem(mainClass, new SaleOrderDA(), "SaleOrder", "Sale Orders", false, triSales),
-            new SearchItem(mainClass, new SaleOrderDA(), Revision, "SaleOrder", "Sale Orders", false, triSalesRev),
-            new SearchItem(mainClass, new SaleOrderDetailDA(), "SaleOrderDetail", "Sale Order Details", false, triSales),
-            new SearchItem(mainClass, new SaleOrderDetailDA(), Revision, "SaleOrderDetail", "Sale Order Details", false, triSalesRev),
-            new SearchItem(mainClass, new InvoiceDA(), "Invoice", "Invoice", false, triSales, false, true),
-            new SearchItem(mainClass, new InvoiceDA(), Revision, "Invoice", "Invoice", false, triSalesRev),
-            new SearchItem(mainClass, new InvoiceDetailsDA(), "InvoiceDetails", "Invoice Details", false, triSales, false, false),
-            new SearchItem(mainClass, new InvoiceDetailsDA(), Revision, "InvoiceDetails", "Invoice Details", false, triSalesRev),
-            new SearchItem(mainClass, new ReceiptDA(), "Receipt", "Receipt", false, triSales, false, true),
-            new SearchItem(mainClass, new ReceiptDA(), Revision, "Receipt", "Receipt", false, triSalesRev),
-            new SearchItem(mainClass, new ReceiptInvoiceDA(), "ReceiptInvoice", "Receipt Invoice", true, triSales, false, false),
-            new SearchItem(mainClass, new ReceiptInvoiceDA(), Revision, "ReceiptInvoice", "Receipt Invoice", false, triSalesRev),
-            //            Invoicing End
-            //            General
-            new SearchItem(mainClass, new CustomerDA(), "Customer", "Customer", false),
-            new SearchItem(mainClass, new CustomerDA(), Revision, "Customer", "Customer", false)
-    //            General End
+            //            Customisation
+            new SearchItem(mainClass, new OptionsDA(), "Options", "Options", true, triCustomisation),
+            new SearchItem(mainClass, new OptionsDA(), Revision, "Options", "Options", true, triCustomisationRev),
+            new SearchItem(mainClass, new IDGeneratorDA(), "IDGenerator", "ID Generators", true, triCustomisation),
+            new SearchItem(mainClass, new IDGeneratorDA(), Revision, "IDGenerator", "ID Generators", true, triCustomisationRev)
+    //            Customisation
+    //            Set up
     );
 
     public List<SearchItem> getSearchObjects() {
@@ -158,23 +106,16 @@ public class CommonSearchTree {
 
     public List<TreeItem> getTreeItems() {
         triEntities.setExpanded(true);
-        triItem.setExpanded(true);
-        triItemRev.setExpanded(true);
+
         triGeneral.setExpanded(true);
         triGeneralRev.setExpanded(true);
-        triSales.setExpanded(true);
-        triSalesRev.setExpanded(true);
         triEntities.setExpanded(true);
         triRevisions.setExpanded(false);
-
+        triSetup.getChildren().addAll(triGeographicalLocation, triCustomisation, triSeccurity);
+        triSetupRev.getChildren().addAll(triGeographicalLocationRev, triCustomisationRev, triSeccurityRev);
         sItems.forEach(e -> addTreeItem(e));
-        triFinance.getChildren().addAll(triChartAccounts, triPositingGroup);
-        triFinanceRev.getChildren().addAll(triChartAccountsRev, triPositingGroupRev);
-        triSetup.getChildren().addAll(triGeographicalLocation, triFinance, triItem);
-        triSetupRev.getChildren().addAll(triGeographicalLocationRev, triFinanceRev, triItemRev);
-        triEntities.getChildren().addAll(triSetup, triGeneral, triSales, triAccounting);
-        triRevisions.getChildren().addAll(triSetupRev, triGeneralRev, triSalesRev, triAccountingRev);
-
+        triEntities.getChildren().addAll(triSetup, triGeneral);
+        triRevisions.getChildren().addAll(triSetupRev, triGeneralRev);
         this.treeItems = Arrays.asList(triEntities, triRevisions);
         return this.treeItems;
     }

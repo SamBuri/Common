@@ -1,5 +1,0 @@
-IdHelper, Id Helper, int, ,, , , ID_Helper, 20, false, false, 
-MeasureGroupID, Measure Group ID, String, ,, , Primary, , 20, false, false, 
-MeasureGroupName, Measure Group Name, String, ,, , Unique, Display, 40, false, false, 
-BaseUnitMeasure, Base Unit Measure, String, LookupData,, OneToOne, Foreign, , 100, false, false, CommonEnums
-MeasureRelations, Measure Relations, List, MeasureRelation,UnitMeasure>Unit Measure>String>LookupData#BaseSize>Base Size>int#DefaultUsage>Default Usage>String>UnitMeasureUsages, OneToMany, , , 100, false, true, 

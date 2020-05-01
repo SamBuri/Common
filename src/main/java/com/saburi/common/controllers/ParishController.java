@@ -14,13 +14,26 @@ import com.saburi.common.dbaccess.ParishDA;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.MenuItem;
+import com.saburi.common.entities.LookupData;
+import com.saburi.common.utils.CommonNavigate;
+import com.saburi.common.utils.CommonObjectNames;
+import com.saburi.common.dbaccess.CountyDA;
+import com.saburi.common.entities.County;
 import com.saburi.common.dbaccess.SubCountyDA;
 import com.saburi.common.entities.SubCounty;
-import com.saburi.common.utils.CommonNavigate;
+import java.util.List;
 
 public class ParishController extends EditController {
 
     private final ParishDA oParishDA = new ParishDA();
+    @FXML
+    private ComboBox cboDistrict;
+    @FXML
+    private MenuItem cmiSelectDistrict;
+    @FXML
+    private ComboBox cboCounty;
+    @FXML
+    private MenuItem cmiSelectCounty;
     @FXML
     private ComboBox cboSubCounty;
     @FXML
@@ -29,21 +42,39 @@ public class ParishController extends EditController {
     private TextField txtParishID;
     @FXML
     private TextField txtParishName;
+    private final CountyDA oCountyDA = new CountyDA();
+    private final SubCountyDA oSubCountyDA = new SubCountyDA();
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         try {
-//            this.minSize = 360;
-            loadDBEntities(new SubCountyDA().getSubCountys(), cboSubCounty);
+            loadLookupData(cboDistrict, CommonObjectNames.DISTRICT);
+            loadDBEntities(cboCounty);
+            loadDBEntities(cboSubCounty);
 
             this.primaryKeyControl = txtParishID;
             this.dbAccess = oParishDA;
             this.restrainColumnConstraint = false;
-            this.popuprestrainConstraint = false;
+            //this.minSize = 360;
+            cboDistrict.setOnAction(e -> {
+                LookupData district = (LookupData) getEntity(cboDistrict);
+                if (district == null) {
+                    return;
+                }
+                loadDBEntities(oCountyDA.getCounties(district), cboCounty);
+            });
 
+            cboCounty.setOnAction(e -> {
+                County county = (County) getEntity(cboCounty);
+                if (county == null) {
+                    return;
+                }
+                loadDBEntities(oSubCountyDA.getSubCounties(county), cboSubCounty);
+            });
             cboSubCounty.setOnAction(e -> this.setNextParishID());
-            selectItem(CommonNavigate.MAIN_CLASS, cmiSelectSubCounty, new SubCountyDA(), "SubCounty", "Sub County", 400, 450, cboSubCounty, false);
-
+            selectLookupData(cmiSelectDistrict, CommonObjectNames.DISTRICT, "District", cboDistrict, false);
+            selectItem(CommonNavigate.MAIN_CLASS, cmiSelectCounty, oCountyDA, "County", "County", cboCounty, true);
+            selectItem(CommonNavigate.MAIN_CLASS, cmiSelectSubCounty, oSubCountyDA, "SubCounty", "Sub County", cboSubCounty, true);
         } catch (Exception e) {
             errorMessage(e);
         } finally {
@@ -54,6 +85,7 @@ public class ParishController extends EditController {
     protected void save() {
         try {
             this.editSuccessful = false;
+
             SubCounty subCounty = (SubCounty) getEntity(cboSubCounty, "Sub County");
             String parishID = getText(txtParishID, "Parish ID");
             String parishName = getText(txtParishName, "Parish Name");
@@ -86,7 +118,6 @@ public class ParishController extends EditController {
             }
             if (parishDA.delete()) {
                 message("Deleted Successfully");
-                this.clear();
             }
         } catch (Exception e) {
             errorMessage(e);
@@ -99,9 +130,21 @@ public class ParishController extends EditController {
             String parishID = getText(txtParishID, "Parish ID");
 
             ParishDA parishDA = oParishDA.get(parishID);
-            cboSubCounty.setValue(parishDA.getSubCountyDA());
+            cboDistrict.setValue(parishDA.getDistrict());
+            cboSubCounty.setValue(parishDA.getSubCounty());
             txtParishID.setText(parishDA.getParishID());
             txtParishName.setText(parishDA.getParishName());
+            County county = parishDA.getCounty();
+            List<County> counties = cboCounty.getItems();
+            if (!counties.contains(county)) {
+                cboCounty.getItems().add(county);
+            }
+            cboCounty.setValue(parishDA.getCounty());
+            SubCounty subCounty = parishDA.getSubCounty();
+            List<SubCounty> subCounties = cboSubCounty.getItems();
+            if (!subCounties.contains(subCounty)) {
+                cboSubCounty.getItems().add(subCounty);
+            }
 
         } catch (Exception e) {
             errorMessage(e);
@@ -112,15 +155,15 @@ public class ParishController extends EditController {
     private void setNextParishID() {
         try {
             if (btnSave.getText().equalsIgnoreCase(FormMode.Save.name())) {
-
                 SubCounty subCounty = (SubCounty) getEntity(cboSubCounty);
-                String subCountyID = subCounty == null ? "" : subCounty.getSubCountyID();
-                txtParishID.setText(oParishDA.getNextParishID(oParishDA.getNextIdHelper(subCounty), subCountyID));
+                if (subCounty == null) {
+                    return;
+                }
+                txtParishID.setText(oParishDA.getNextParishID(oParishDA.getNextIdHelper(subCounty), subCounty.getId().toString()));
             }
         } catch (Exception e) {
             errorMessage(e);
         }
     }
 
-   
 }

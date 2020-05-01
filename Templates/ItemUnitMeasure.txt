@@ -1,4 +1,0 @@
-Item, Item, String, Item
-UnitMeasure, Unit Measure, String, LookupData
-Conversion, Conversion, float
-Default, Default, boolean

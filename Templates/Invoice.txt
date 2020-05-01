@@ -1,8 +1,0 @@
-IdHelper, Id Helper, int, ,, , , ID_Helper, 100, false, false, 
-InvoiceID, Invoice ID, String, ,, , Primary, Display, 20, false, false, 
-InvoiceDate, Invoice Date, LocalDate, ,, , , , 100, false, true, 
-InvoiceType, Invoice Type, String, InvoiceTypes,, OneToOne, Foreign, , 100, true, true, CommonEnums
-BillTo, Bill To, String, Customer,, OneToOne, Foreign, , 100, false, true, 
-Amount, Amount, double, ,, , , , 100, false, true, 
-AmountWords, Amount Words, String, ,, , , , 200, false, true, 
-InvoiceDetails, Invoice Details, List, InvoiceDetails,Item>Item>String>Item#BaseQuantity>Base Quantity>int#UnitMeasure>Unit Measure>String#MeasureSize>Measure Size>int#Quantity>Quantity>int#UnitPrice>Unit Price>double#Discount>Discount>double#Amount>Amount>double#Location>Location>String, OneToMany, Foreign, , 100, false, true, 

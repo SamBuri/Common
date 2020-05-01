@@ -7,19 +7,19 @@
     <packaging>jar</packaging>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <maven.compiler.source>13</maven.compiler.source>
-        <maven.compiler.target>13</maven.compiler.target>
+        <maven.compiler.source>14</maven.compiler.source>
+        <maven.compiler.target>14</maven.compiler.target>
     </properties>
     <dependencies>
         <dependency>
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-controls</artifactId>
-            <version>13</version>
+            <version>15-ea+2</version>
         </dependency>
         <dependency>
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-fxml</artifactId>
-            <version>13</version>
+            <version>15-ea+2</version>
         </dependency>
         
         
@@ -120,7 +120,7 @@
         <dependency>
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-swing</artifactId>
-            <version>13</version>
+            <version>15-ea+2</version>
             <type>jar</type>
         </dependency>
         <dependency>
@@ -144,8 +144,9 @@
                     </dependency>
                 </dependencies>
                 <version>3.8.0</version>
+                
                 <configuration>
-                    <release>11</release>
+                    <release>14</release>
                 </configuration>
             </plugin>
             
@@ -213,14 +214,14 @@
             <plugin>
                 <groupId>org.openjfx</groupId>
                 <artifactId>javafx-maven-plugin</artifactId>
-                <version>0.0.3</version>
+                <version>0.0.4</version>
                 <configuration>
-                    <mainClass>com.saburi.common.main.App</mainClass>
+                    <mainClass>com.saburi.common.main.Main</mainClass>
                 </configuration>
             </plugin>
             
             
-<!--            
+            <!--            
             <plugin>
                 <groupId>org.moditect</groupId>
                

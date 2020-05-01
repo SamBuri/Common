@@ -1,53 +1,67 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.GridPane?>
-<?import javafx.scene.layout.VBox?>
+
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.control.ContextMenu?>
-<?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ContextMenu?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.TextField?>
-<VBox fx:id = "mVBox" id="IDGenerator"  spacing="10"  xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.saburi.common.controllers.IDGeneratorController">
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox id="IDGenerator" fx:id="mVBox" spacing="2" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.saburi.common.controllers.IDGeneratorController">
     <children>
 
-        <GridPane vgap ="8" hgap="40">
+        <GridPane hgap="5" vgap="2">
             <padding>
                 <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
             </padding>
             <Label id="IDGenerator" fx:id="lblObjectName" minWidth="100" text="Object Name" GridPane.columnIndex="0" GridPane.rowIndex="0" />
-            <TextField fx:id = "txtObjectName" id = "IDGenerator"  GridPane.rowIndex = "0" GridPane.columnIndex = "1" minWidth="100" promptText = "Enter Object Name">
+            <TextField id="IDGenerator" fx:id="txtObjectName" minWidth="100" prefHeight="26.0" prefWidth="139.0" promptText="Enter Object Name" GridPane.columnIndex="1" GridPane.rowIndex="0">
                 <contextMenu>
-                    <ContextMenu fx:id ="cmuSelectObjectName" id = "IDGenerator">
+                    <ContextMenu id="IDGenerator" fx:id="cmuSelectObjectName">
                         <items>
-                            <MenuItem mnemonicParsing="false" fx:id ="cmiLoad" id = "IDGenerator" text="Load" />   
+                            <MenuItem id="IDGenerator" fx:id="cmiLoad" mnemonicParsing="false" text="Load" />   
                         </items>
                     </ContextMenu>
                 </contextMenu>
             </TextField>  
             <Label id="IDGenerator" fx:id="lblPadChar" minWidth="100" text="Pad Char" GridPane.columnIndex="0" GridPane.rowIndex="1" />
-            <TextField fx:id = "txtPadChar" id = "IDGenerator"  GridPane.rowIndex = "1" GridPane.columnIndex = "1" minWidth="100" promptText = "Enter Pad Char"/> 
+            <TextField id="IDGenerator" fx:id="txtPadChar" minWidth="100" promptText="Enter Pad Char" GridPane.columnIndex="1" GridPane.rowIndex="1" /> 
             <Label id="IDGenerator" fx:id="lblPadLength" minWidth="100" text="PadLength" GridPane.columnIndex="0" GridPane.rowIndex="2" />
-            <TextField fx:id = "txtPadLength" id = "IDGenerator"  GridPane.rowIndex = "2" GridPane.columnIndex = "1" minWidth="100" promptText = "Enter PadLength"/> 
+            <TextField id="IDGenerator" fx:id="txtPadLength" minWidth="100" promptText="Enter PadLength" GridPane.columnIndex="1" GridPane.rowIndex="2" /> 
             <Label id="IDGenerator" fx:id="lblSeperator" minWidth="100" text="Separator" GridPane.columnIndex="0" GridPane.rowIndex="3" />
-            <TextField fx:id = "txtSeperator" id = "IDGenerator"  GridPane.rowIndex = "3" GridPane.columnIndex = "1" minWidth="100" promptText = "Enter Separator"/> 
+            <TextField id="IDGenerator" fx:id="txtSeperator" minWidth="100" promptText="Enter Separator" GridPane.columnIndex="1" GridPane.rowIndex="3" /> 
             <Label id="IDGenerator" fx:id="lblSeporatorPosition" minWidth="100" text="Separator Position" GridPane.columnIndex="0" GridPane.rowIndex="4" />
-            <TextField fx:id = "txtSeporatorPosition" id = "IDGenerator"  GridPane.rowIndex = "4" GridPane.columnIndex = "1" minWidth="100" promptText = "Enter Separator Position"/> 
+            <TextField id="IDGenerator" fx:id="txtSeporatorPosition" minWidth="100" promptText="Enter Separator Position" GridPane.columnIndex="1" GridPane.rowIndex="4" /> 
             <Label id="IDGenerator" fx:id="lblStartWith" minWidth="100" text="Start With" GridPane.columnIndex="0" GridPane.rowIndex="5" />
-            <TextField fx:id = "txtStartWith" id = "IDGenerator"  GridPane.rowIndex = "5" GridPane.columnIndex = "1" minWidth="100" promptText = "Enter Start With"/>
+            <TextField id="IDGenerator" fx:id="txtStartWith" minWidth="100" promptText="Enter Start With" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+         <columnConstraints>
+            <ColumnConstraints />
+            <ColumnConstraints />
+         </columnConstraints>
+         <rowConstraints>
+            <RowConstraints />
+            <RowConstraints />
+            <RowConstraints />
+            <RowConstraints />
+            <RowConstraints />
+            <RowConstraints />
+         </rowConstraints>
         </GridPane>
         <AnchorPane>
             <VBox spacing="2" AnchorPane.bottomAnchor="27.0" AnchorPane.leftAnchor="7.0">
-                <Button id="IDGenerator" fx:id="btnSearch"  prefWidth="80.0" text="Search" visible="false" />
-                <Button id="IDGenerator" fx:id="btnSave"  prefHeight="25.0" prefWidth="80.0" text="Save" />
+                <Button id="IDGenerator" fx:id="btnSearch" prefWidth="80.0" text="Search" visible="false" />
+                <Button id="IDGenerator" fx:id="btnSave" prefHeight="25.0" prefWidth="80.0" text="Save" />
             </VBox>
             <VBox spacing="2" AnchorPane.bottomAnchor="27.0" AnchorPane.rightAnchor="7.0">
-                <Button id="IDGenerator" fx:id="btnDelete"  prefWidth="80.0" text="Delete" visible="false" />
-                <Button id="IDGenerator" fx:id="btnClose"  prefHeight="25.0" prefWidth="80.0" text="Close" />
+                <Button id="IDGenerator" fx:id="btnDelete" prefWidth="80.0" text="Delete" visible="false" />
+                <Button id="IDGenerator" fx:id="btnClose" prefHeight="25.0" prefWidth="80.0" text="Close" />
             </VBox>
         </AnchorPane>
     </children>
 
 </VBox>
-

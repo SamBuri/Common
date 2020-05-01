@@ -19,7 +19,7 @@ import java.util.ResourceBundle;
  *
  * @author ClinicMaster13
  */
-public class ParentSceneController extends MainSceneController{
+public class ParentSceneController extends CommonSceneController{
 
 
     /**

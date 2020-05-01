@@ -1,4 +1,0 @@
-PromotionID, Promotion ID, String, ,, , Primary, , 20, false, false, 
-Registration, Registration, String, Registration,, , , Display, 100, false, false, 
-PromotedToStream, Promoted To Stream, String, Streams,, , , , 100, false, false, 
-PromotionDate, Promotion Date, LocalDate, ,, , , , 100, false, true, 

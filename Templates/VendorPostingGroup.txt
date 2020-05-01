@@ -1,6 +1,0 @@
-IdHelper, Id Helper, int, ,, , , ID_Helper, 100, false, false, 
-VendorPostingGroupID, Vendor Posting GroupID, String, ,, , Primary, , 20, false, false, 
-VendorGroup, Vendor Group, String, LookupData,, , , Display, 100, false, false, CommonEnums
-PayableAccount, Payable Account, String, ChartAccount,, , , , 100, false, true, 
-ServiceChargeAccount, Service Charge Account, String, ChartAccount,, , , , 100, false, true, 
-PaymentDiscountAccount, Payment Discount Account, String, ChartAccount,, , , , 100, false, true, 

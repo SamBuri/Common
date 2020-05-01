@@ -191,13 +191,18 @@ public class CountyDA extends DBAccess {
     }
 
     public boolean save() throws Exception {
-        return super.persist(this.county);
+        if (isValid()) {
+            return super.persist(this.county);
+        }
+        return true;
 
     }
 
     public boolean update() throws Exception {
-        return super.merge(this.county);
-
+        if (isValid()) {
+            return super.merge(this.county);
+        }
+           return false;
     }
 
     public boolean delete() {
@@ -239,18 +244,7 @@ public class CountyDA extends DBAccess {
         return list;
     }
 
-    public List<Pair<String, Object>> keyValuePairs() {
-        List<Pair<String, Object>> pairs = new ArrayList<>();
-        this.get().forEach((t) -> pairs.add(t.keyValuePair()));
-        return pairs;
-    }
-
-    public List<Pair<String, Object>> keyValuePairs(String columName, Object value) {
-        List<Pair<String, Object>> pairs = new ArrayList<>();
-        this.get(columName, value).forEach((t) -> pairs.add(t.keyValuePair()));
-        return pairs;
-    }
-
+ 
     public int getMax(String columnName) {
         return super.getMax(County.class, columnName);
     }
@@ -269,6 +263,19 @@ public class CountyDA extends DBAccess {
 
     public List<County> getCountys(String columName, Object value) {
         return super.find(County.class, columName, value);
+    }
+
+    private boolean isValid() throws Exception {
+        List<County> counties = super.find(County.class, "district", this.district, "countyName", county.getCountyName());
+        counties.remove(this.county);
+        if (!counties.isEmpty()) {
+            throw new Exception("The county with name " + county.getCountyName() + " and district " + district.getLookupDataName() + " already exists");
+        }
+        return true;
+    }
+    
+     public List<County> getCounties(LookupData district) {
+        return getCountys("district", district);
     }
 
 }

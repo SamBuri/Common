@@ -13,16 +13,23 @@ import com.saburi.common.entities.DBEntity;
 import com.saburi.common.entities.LookupData;
 import static com.saburi.common.utils.Utilities.isNullOrEmpty;
 import com.saburi.common.controllers.CaptureController;
+import com.saburi.common.utils.SearchColumn.SearchDataTypes;
+import static com.saburi.common.utils.Utilities.openFile;
 import java.awt.image.BufferedImage;
+import java.io.BufferedWriter;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Predicate;
@@ -35,6 +42,7 @@ import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
 import javafx.embed.swing.SwingFXUtils;
+import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
@@ -60,7 +68,12 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.Clipboard;
+import javafx.scene.input.ClipboardContent;
 import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyCodeCombination;
+import javafx.scene.input.KeyCombination;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -72,6 +85,7 @@ import javafx.stage.StageStyle;
 import javafx.stage.Window;
 import javafx.util.Callback;
 import javafx.util.Pair;
+import javafx.util.StringConverter;
 import javax.imageio.ImageIO;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -126,13 +140,15 @@ public class FXUIUtils {
         try {
 
             DirectoryChooser directoryChooser = new DirectoryChooser();
-//                FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("TXT files (*.txt)", "*.txt");
-//                directoryChooser.getExtensionFilters().add(extFilter);
             directoryChooser.setTitle("Choose Location");
-            File file = directoryChooser.showDialog(null);
+            File file = directoryChooser.showDialog(textField.getScene().getWindow());
+            if (file == null) {
+                return;
+            }
             String path = file.getAbsolutePath();
             textField.setText(path);
         } catch (Exception e) {
+            errorMessage(e);
         }
     }
 
@@ -147,6 +163,7 @@ public class FXUIUtils {
             String path = file.getAbsolutePath();
             textField.setText(path);
         } catch (Exception e) {
+            errorMessage(e);
         }
     }
 
@@ -201,6 +218,37 @@ public class FXUIUtils {
             }
         });
 
+    }
+
+    public static void formatDatePicker(DatePicker datePicker) {
+        try {
+            String pattern = "dd MMM yyyy";
+
+            datePicker.setPromptText(pattern.toLowerCase());
+            datePicker.setEditable(false);
+            datePicker.setConverter(new StringConverter<LocalDate>() {
+                DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern(pattern);
+
+                @Override
+                public String toString(LocalDate date) {
+                    if (date != null) {
+                        return dateFormatter.format(date);
+                    } else {
+                        return "";
+                    }
+                }
+
+                @Override
+                public LocalDate fromString(String string) {
+                    if (string != null && !string.isEmpty()) {
+                        return LocalDate.parse(string, dateFormatter);
+                    } else {
+                        return null;
+                    }
+                }
+            });
+        } catch (Exception e) {
+        }
     }
 
     public static void setTableAUtoFill(TableView tableView) {
@@ -266,13 +314,10 @@ public class FXUIUtils {
     }
 
     public static void errorMessage(Exception e) {
-        Alert alert = new Alert(Alert.AlertType.ERROR, e.getMessage());
+        Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle("Error!");
         alert.setHeaderText(null);
-
-        Throwable cause = e.getCause();
-        String message = cause == null ? e.getMessage() : cause.getMessage();
-        alert.setContentText(message);
+        alert.setContentText(e.getMessage());
         alert.show();
         e.printStackTrace();
         LOGGER.error(e, e);
@@ -610,7 +655,7 @@ public class FXUIUtils {
                 if (empty) {
                     setText("");
                 } else {
-                    setText(item.getDisplayValue());
+                    setText(item.getCaption());
                 }
             }
         };
@@ -622,6 +667,28 @@ public class FXUIUtils {
         combo.getItems().clear();
         combo.getItems().add(null);
         combo.getItems().addAll(dBEntities);
+        combo.setValue(null);
+        Callback<ListView<DBEntity>, ListCell<DBEntity>> factory
+                = (lv)
+                -> new ListCell<DBEntity>() {
+            @Override
+            protected void updateItem(DBEntity item,
+                    boolean empty) {
+                super.updateItem(item, empty);
+                if (empty) {
+                    setText("");
+                } else {
+                    setText(item == null ? "" : item.getDisplayKey());
+                }
+            }
+        };
+        combo.setCellFactory(factory);
+        combo.setButtonCell(factory.call(null));
+    }
+
+    public static void loadDBEntities(ComboBox<DBEntity> combo) {
+        combo.getItems().clear();
+        combo.getItems().add(null);
         combo.setValue(null);
         Callback<ListView<DBEntity>, ListCell<DBEntity>> factory
                 = (lv)
@@ -704,7 +771,7 @@ public class FXUIUtils {
 
     }
 
-    public static void setTableEditable(TableView table) {
+    public static void setTableEditable(TableView table, boolean allowDelete) {
         table.setEditable(true);
         // allows the individual cells to be selected
         table.getSelectionModel().cellSelectionEnabledProperty().set(true);
@@ -725,9 +792,15 @@ public class FXUIUtils {
                 selectPrevious(table);
                 event.consume();
             } else if (event.getCode() == KeyCode.DELETE) {
-                table.getItems().removeAll(table.getSelectionModel().getSelectedItems());
+                if (allowDelete) {
+                    table.getItems().removeAll(table.getSelectionModel().getSelectedItems());
+                }
             }
         });
+    }
+
+    public static void setTableEditable(TableView table) {
+        setTableEditable(table, true);
     }
 
     public static void editFocusedCell(TableView<Class> table) {
@@ -786,6 +859,117 @@ public class FXUIUtils {
         }
     }
 
+    public static void addRow(TableView tableView, Object object, boolean condition) {
+
+        TablePosition pos = tableView.getFocusModel().getFocusedCell();
+        if (pos.getRow() != tableView.getItems().size() - 1) {
+            return;
+        }
+
+        if (condition) {
+
+            tableView.getItems().add(object);
+        }
+    }
+
+    public static void copySelectionToClipboard(TableView<?> table) {
+
+        StringBuilder clipboardString = new StringBuilder();
+
+        ObservableList<TablePosition> positionList = table.getSelectionModel().getSelectedCells();
+
+        int prevRow = -1;
+
+        for (TablePosition position : positionList) {
+
+            int row = position.getRow();
+            int col = position.getColumn();
+
+            Object cell = (Object) table.getColumns().get(col).getCellData(row);
+
+            // null-check: provide empty string for nulls
+            if (cell == null) {
+                cell = "";
+            }
+
+            // determine whether we advance in a row (tab) or a column
+            // (newline).
+            if (prevRow == row) {
+
+                clipboardString.append('\t');
+
+            } else if (prevRow != -1) {
+
+                clipboardString.append('\n');
+
+            }
+
+            // create string from cell
+            String text = cell.toString();
+
+            // add new item to clipboard
+            clipboardString.append(text);
+
+            // remember previous
+            prevRow = row;
+        }
+
+        // create clipboard content
+        final ClipboardContent clipboardContent = new ClipboardContent();
+        clipboardContent.putString(clipboardString.toString());
+
+        // set clipboard content
+        Clipboard.getSystemClipboard().setContent(clipboardContent);
+    }
+
+    public static class TableKeyEventHandler implements EventHandler<KeyEvent> {
+
+        KeyCodeCombination copyKeyCodeCompination = new KeyCodeCombination(KeyCode.C, KeyCombination.CONTROL_ANY);
+
+        @Override
+        public void handle(final KeyEvent keyEvent) {
+
+            if (copyKeyCodeCompination.match(keyEvent)) {
+
+                if (keyEvent.getSource() instanceof TableView) {
+
+                    // copy to clipboard
+                    copySelectionToClipboard((TableView<?>) keyEvent.getSource());
+
+                    // event is handled, consume it
+                    keyEvent.consume();
+
+                }
+
+            }
+
+        }
+
+    }
+
+    public static void installCopyPasteHandler(TableView<?> table) {
+
+        // install copy/paste keyboard handler
+        table.setOnKeyPressed(new TableKeyEventHandler());
+
+    }
+
+    public static String validate(String value, String string) throws Exception {
+
+        if (isNullOrEmpty(value)) {
+            throw new Exception("You must enter: " + string + "!");
+        }
+        return value;
+    }
+
+    public static DBEntity validate(DBEntity value, String string) throws Exception {
+
+        if (value != null) {
+            throw new Exception("You must enter: " + string + "!");
+        }
+        return value;
+    }
+
     public static String getText(TextField field, String string) throws Exception {
         String enteredString = field.getText();
         if (isNullOrEmpty(enteredString)) {
@@ -800,12 +984,12 @@ public class FXUIUtils {
     }
 
     public static String getText(ComboBox box, String string) throws Exception {
-        String enteredString = box.getValue().toString().trim();
-        if (isNullOrEmpty(enteredString)) {
+        Object value = box.getValue();
+        if (value == null) {
             box.requestLayout();
             throw new Exception("You must enter: " + string + "!");
         }
-        return enteredString;
+        return String.valueOf(value);
     }
 
     public static String getTextValue(ComboBox box, String string) throws Exception {
@@ -877,6 +1061,15 @@ public class FXUIUtils {
     public static LocalDate getDate(DatePicker picker, String string) throws Exception {
         LocalDate enteredDate = picker.getValue();
         if (enteredDate == null) {
+            picker.requestFocus();
+            throw new Exception("You must enter: " + string + "!");
+        }
+        return enteredDate;
+    }
+
+    public static LocalDate getDate(DatePicker picker, String string, boolean condition) throws Exception {
+        LocalDate enteredDate = picker.getValue();
+        if (enteredDate == null && condition) {
             picker.requestFocus();
             throw new Exception("You must enter: " + string + "!");
         }
@@ -1109,10 +1302,29 @@ public class FXUIUtils {
             throw new Exception("You must enter: " + string + "!");
         } else if (!Utilities.isDouble(enteredString)) {
             field.requestFocus();
-            throw new Exception("Invalid Double value: " + enteredString + " for " + string + "!");
+            throw new Exception("Invalid Numeric value: " + enteredString + " for " + string + "!");
         } else {
             return Utilities.defortNumber(enteredString);
         }
+
+    }
+
+    public static double getDouble(TextField field, String string, boolean condition) throws Exception {
+        String enteredString = (field.getText().trim());
+        if (isNullOrEmpty(enteredString)) {
+            if (condition) {
+                field.requestFocus();
+                throw new Exception("You must enter: " + string + "!");
+            }
+            return 0;
+        } else {
+            if (!Utilities.isDouble(enteredString)) {
+                field.requestFocus();
+                throw new Exception("Invalid Numeric value: " + enteredString + " for " + string + "!");
+            }
+
+        }
+        return Utilities.defortNumber(enteredString);
 
     }
 
@@ -1123,7 +1335,7 @@ public class FXUIUtils {
             throw new Exception("You must enter: " + string + "!");
         } else if (!Utilities.isDouble(enteredString)) {
             box.requestFocus();
-            throw new Exception("Invalid Double value: " + enteredString + " for " + string + "!");
+            throw new Exception("Invalid Numeric value: " + enteredString + " for " + string + "!");
         } else {
             return Utilities.defortNumber(enteredString);
         }
@@ -1136,7 +1348,7 @@ public class FXUIUtils {
             throw new Exception("You must enter: " + string + "!");
         } else if (!Utilities.isDouble(enteredString)) {
             field.requestFocus();
-            throw new Exception("Invalid Double vslue: " + enteredString + " for " + string + "!");
+            throw new Exception("Invalid Numeric vslue: " + enteredString + " for " + string + "!");
         } else {
             return Utilities.defortNumber(enteredString);
         }
@@ -1149,7 +1361,7 @@ public class FXUIUtils {
             throw new Exception("You must enter: " + string + "!");
         } else if (!Utilities.isDouble(value)) {
 
-            throw new Exception("Invalid Double value: " + value + " for " + string + "!");
+            throw new Exception("Invalid Numeric value: " + value + " for " + string + "!");
         } else {
             return Utilities.defortNumber(value.toString());
         }
@@ -1177,7 +1389,7 @@ public class FXUIUtils {
         } else {
             BufferedImage bImage = SwingFXUtils.fromFXImage(imageView.getImage(), null);
             byte[] image;
-            try (ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream()) {
+            try ( ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream()) {
                 ImageIO.write(bImage, "png", byteArrayOutputStream);
                 image = byteArrayOutputStream.toByteArray();
             }
@@ -1194,7 +1406,7 @@ public class FXUIUtils {
             return null;
         }
         BufferedImage bImage = SwingFXUtils.fromFXImage(image, null);
-        try (ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream()) {
+        try ( ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream()) {
             ImageIO.write(bImage, "png", byteArrayOutputStream);
             bytes = byteArrayOutputStream.toByteArray();
 
@@ -1210,111 +1422,11 @@ public class FXUIUtils {
 
     }
 
-    public static void searchColumnSelected(ComboBox<SearchColumn> cboSearchColumn, ComboBox cboSearchType) {
-        SearchColumn searchColumn = cboSearchColumn.getValue();
-        if (searchColumn == null) {
-            return;
-        }
-        ObservableList searchTypes = FXCollections.observableList(searchColumn.getSearchTypes());
-        cboSearchType.setItems(searchTypes);
-        cboSearchType.setValue(searchColumn.getDefaultSearchType());
-
-    }
-
-    public static void setContainsSearch(FilteredList filteredList, ComboBox cboSearchType,
-            ComboBox<SearchColumn> cboSearchColumn, TextField txtSearch, TableView table) {
-        SearchColumn selectedSearchColumn = cboSearchColumn.getValue();
-
-        String searchType = getText(cboSearchType);
-
-        txtSearch.textProperty().addListener((obervableValue, oldValue, newValue) -> {
-            if (!(searchType.equalsIgnoreCase(SearchColumn.SearchType.Contains.name()) || searchType.isBlank())) {
-                return;
-            }
-            filteredList.setPredicate((Predicate<DBAccess>) dbAccess -> {
-
-                String lowerNewValue = txtSearch.getText().trim();
-                List<SearchColumn> searchColumns = dbAccess.getSearchColumns();
-                if (newValue.isBlank()) {
-                    return true;
-                } else {
-                    if (isNullOrEmpty(selectedSearchColumn.getName())) {
-                        if (searchColumns.stream().anyMatch((searchColumn) -> (searchColumn.getValue().toString().equalsIgnoreCase(newValue)))) {
-                            return true;
-                        }
-                    } else {
-
-                        if (searchColumns.stream().filter((searchColumn) -> (searchColumn.getName().equalsIgnoreCase(selectedSearchColumn.getName()))).anyMatch((searchColumn) -> (searchColumn.getValue().toString().equalsIgnoreCase(lowerNewValue)))) {
-                            return true;
-                        }
-
-                    }
-                }
-                return false;
-            });
-
-        });
-
+    public static SortedList<DBAccess> setFilteredItemstoTable(TableView tableView, FilteredList filteredList) {
         SortedList<DBAccess> sortedList = new SortedList<>(filteredList);
-        sortedList.comparatorProperty().bind(table.comparatorProperty());
-        table.setItems(sortedList);
-
-    }
-
-    public static void setSearch(FilteredList filteredList, ComboBox cboSearchType,
-            ComboBox<SearchColumn> cboSearchColumn, TextField txtSearch, TextField txtSecondValue, TableView table) {
-        String searchType = getText(cboSearchType);
-//        if (searchType.equalsIgnoreCase(SearchColumn.SearchType.Contains.name()) || isNullOrEmpty(searchType)) {
-//            return;
-//        }
-
-        String enteredText = txtSearch.getText();
-        String enteredText1 = txtSecondValue.getText();
-
-        SearchColumn selectedColumn = cboSearchColumn.getValue();
-
-        if (searchType.equalsIgnoreCase(SearchColumn.SearchType.Equal.name())) {
-
-            filteredList.setPredicate(selectedColumn.equalsPrediacte(selectedColumn, enteredText));
-
-        }
-        if (searchType.equalsIgnoreCase(SearchColumn.SearchType.Contains.name())) {
-
-            filteredList.setPredicate(selectedColumn.containsPrediacte(selectedColumn, enteredText));
-
-        } else if (searchType.equalsIgnoreCase(SearchColumn.SearchType.Between.name())) {
-
-            filteredList.setPredicate(selectedColumn.betweenPredicate(selectedColumn, enteredText, enteredText1));
-        } else if (searchType.equalsIgnoreCase(SearchColumn.SearchType.Begins.name())) {
-            filteredList.setPredicate(selectedColumn.beginsPrediacte(selectedColumn, enteredText));
-        } else if (searchType.equalsIgnoreCase(SearchColumn.SearchType.Ends.name())) {
-            filteredList.setPredicate(selectedColumn.endsPrediacte(selectedColumn, enteredText));
-        } else if (searchType.equalsIgnoreCase(SearchColumn.SearchType.Length_Equal.name())) {
-            try {
-                filteredList.setPredicate(selectedColumn.lengthLessEqualPredicate(selectedColumn, getInt(txtSearch, "Search Value")));
-            } catch (Exception ex) {
-                errorMessage(ex);
-            }
-
-        } else if (searchType.equalsIgnoreCase(SearchColumn.SearchType.Length_Greater.name())) {
-            try {
-                filteredList.setPredicate(selectedColumn.lengthLessGreaterPredicate(selectedColumn, getInt(txtSearch, "Search Value")));
-            } catch (Exception ex) {
-                errorMessage(ex);
-            }
-
-        } else if (searchType.equalsIgnoreCase(SearchColumn.SearchType.Length_Less.name())) {
-            try {
-                filteredList.setPredicate(selectedColumn.lengthLessPrediacte(selectedColumn, getInt(txtSearch, "Search Value")));
-            } catch (Exception ex) {
-                errorMessage(ex);
-            }
-
-        }
-
-        SortedList<DBAccess> sortedList = new SortedList<>(filteredList);
-        sortedList.comparatorProperty().bind(table.comparatorProperty());
-        table.setItems(sortedList);
+        sortedList.comparatorProperty().bind(tableView.comparatorProperty());
+        tableView.setItems(sortedList);
+        return sortedList;
     }
 
     public static void setCapturedImage(ImageView imageView) {
@@ -1371,7 +1483,8 @@ public class FXUIUtils {
             FXMLLoader loader = CommonNavigate.getUILoader(viewUI);
             Parent root = loader.load();
             ViewController controller = loader.<ViewController>getController();
-            controller.setInitData(mainClass, dbAccess, uiName, constrainColumns, true);
+            controller.setPopUp(true);
+            controller.setInitData(mainClass, dbAccess, uiName, constrainColumns);
 
             Scene scene = new Scene(root);
             scene.getStylesheets().add(Navigation.styleControls);
@@ -1485,7 +1598,11 @@ public class FXUIUtils {
             FXMLLoader loader = CommonNavigate.getUILoader(viewUI);
             Parent root = loader.load();
             ViewController controller = loader.<ViewController>getController();
-            controller.setInitData(mainClass, dbAccess, dBAccesses, objectName, constrainColumns, true);
+            controller.setList(dBAccesses);
+            controller.setPopUp(true);
+            controller.setTitle(title);
+            controller.setInitData(mainClass, dbAccess, objectName, constrainColumns);
+
             Scene scene = new Scene(root, widith, height);
             scene.getStylesheets().add(Navigation.styleControls);
             Stage stage = new Stage();
@@ -1540,6 +1657,12 @@ public class FXUIUtils {
     }
 
     public static void selectItem(Class mainClass, MenuItem menuItem, DBAccess dbAccess, List<? extends DBAccess> dBAccesses,
+            String uiName, String title, Node node, boolean constrainColumns) {
+        selectItem(mainClass, menuItem, dbAccess, dBAccesses, uiName, title, 0, 0, node, constrainColumns
+        );
+    }
+
+    public static void selectItem(Class mainClass, MenuItem menuItem, DBAccess dbAccess, List<? extends DBAccess> dBAccesses,
             String uiName, String title, float widith, float height,
             Node node, boolean constrainColumns) {
         menuItem.setOnAction(e -> {
@@ -1559,9 +1682,10 @@ public class FXUIUtils {
             FXMLLoader loader = CommonNavigate.getUILoader("View");
             Parent root = loader.load();
             ViewController controller = loader.<ViewController>getController();
-            controller.setInitData(mainClass, dbAccess, dBAccesses, searchColumns, uiName, constrainColumns);
-
+            controller.setList(dBAccesses);
+            controller.setSearchColumns(searchColumns);
             controller.setPopUp(true);
+            controller.setInitData(mainClass, dbAccess, uiName, constrainColumns);
             Scene scene = new Scene(root, widith, height);
             scene.getStylesheets().add(Navigation.styleControls);
             Stage stage = new Stage();
@@ -1608,14 +1732,14 @@ public class FXUIUtils {
         });
     }
 
-    public static DBAccess getSelectedLookupData(Class mainClass, int objectID, String uiName, String title, float widith, float height,
+    public static DBAccess getSelectedLookupData(int objectID, String title, float widith, float height,
             Node node, boolean constrainColumns) throws IOException {
         try {
 
             LookupDataDA lookupDataDA = new LookupDataDA();
             List<LookupDataDA> list = LookupDataDA.getLookupDataDAs(lookupDataDA.getLookupDataByObjectID(objectID));
 
-            return getSelectedItem(mainClass, lookupDataDA, list, uiName, title, widith, height, node, constrainColumns);
+            return getSelectedItem(CommonNavigate.MAIN_CLASS, lookupDataDA, list, "LookupData", title, widith, height, node, constrainColumns);
 
         } catch (IOException e) {
             throw e;
@@ -1624,8 +1748,10 @@ public class FXUIUtils {
         }
 
     }
+    
+    
 
-    public static void selectLookupData(Class mainClass, MenuItem menuItem, int objectID, String uiName, String title, Node node,
+    public static void selectLookupData( MenuItem menuItem, int objectID, String title, Node node,
             boolean constrainColumns) throws IOException {
         try {
 
@@ -1633,7 +1759,7 @@ public class FXUIUtils {
             menuItem.setOnAction(e -> {
                 try {
                     List<? extends DBAccess> list = LookupDataDA.getLookupDataDAs(lookupDataDA.getLookupDataByObjectID(objectID));
-                    selectedItem(mainClass, lookupDataDA, list, uiName, title, node, constrainColumns);
+                    selectedItem(CommonNavigate.MAIN_CLASS, lookupDataDA, list, "LookupData", title, node, constrainColumns);
 
                 } catch (IOException ex) {
                     errorMessage(ex);
@@ -1645,6 +1771,8 @@ public class FXUIUtils {
         }
 
     }
+
+    
 
     public static void selectLookupData(Class mainClass, MenuItem menuItem, int objectID, String uiName, String title, float widith, float height,
             Node node, boolean constrainColumns) throws IOException {
@@ -1662,6 +1790,17 @@ public class FXUIUtils {
             });
 
         } catch (Exception e) {
+            throw e;
+        }
+
+    }
+
+    public static void selectLookupData(MenuItem menuItem, int objectID, String title, float widith, float height,
+            Node node, boolean constrainColumns) throws IOException {
+        try {
+
+            selectLookupData(CommonNavigate.MAIN_CLASS, menuItem, objectID, "LookupData", title, widith, height, node, constrainColumns);
+        } catch (IOException e) {
             throw e;
         }
 
@@ -1694,7 +1833,7 @@ public class FXUIUtils {
         try {
 
             Scene scene = new Scene(root);
-            scene.getStylesheets().add("/css/StyleControls.css");
+            scene.getStylesheets().add(Navigation.styleControls);
             Stage stage = new Stage();
             stage.setTitle(title);
             stage.setScene(scene);
@@ -1717,7 +1856,8 @@ public class FXUIUtils {
             FXMLLoader loader = CommonNavigate.getUILoader(viewUI);
             Parent root = loader.load();
             ViewController controller = loader.<ViewController>getController();
-            controller.setInitData(mainClass, dbAccess, objectName, constrainColumns, true);
+            controller.setPopUp(true);
+            controller.setInitData(mainClass, dbAccess, objectName, constrainColumns);
             Scene scene = new Scene(root, widith, height);
             scene.getStylesheets().add(Navigation.styleControls);
             Stage stage = new Stage();
@@ -1752,6 +1892,9 @@ public class FXUIUtils {
             } else if (node instanceof TableView) {
                 TableView tableView = (TableView) node;
                 tableView.getItems().clear();
+            } else if (node instanceof ImageView) {
+                ImageView imageView = (ImageView) node;
+                imageView.setImage(null);
             }
         });
     }
@@ -1767,11 +1910,13 @@ public class FXUIUtils {
                 HBox hBox = (HBox) node;
                 hBox.getChildren().forEach(n -> clear(n));
             } else if (node instanceof TableView) {
-                if (!exclusions.contains(node)) {
-                    TableView tableView = (TableView) node;
-                    tableView.getItems().clear();
-                }
+                TableView tableView = (TableView) node;
+                tableView.getItems().clear();
+            } else if (node instanceof ImageView) {
+                ImageView imageView = (ImageView) node;
+                imageView.setImage(null);
             }
+
         });
     }
 
@@ -1794,7 +1939,11 @@ public class FXUIUtils {
         } else if (node instanceof TableView) {
             TableView tableView = (TableView) node;
             tableView.getItems().clear();
+        } else if (node instanceof ImageView) {
+            ImageView imageView = (ImageView) node;
+            imageView.setImage(null);
         }
+
     }
 
     public static void enable(Node node, boolean enabled) {
@@ -1834,6 +1983,79 @@ public class FXUIUtils {
                 tableView.setEditable(enabled);
             }
         });
+    }
+
+    public static void makeText(TableView<?> table, String FileName) {
+        makeFile(table, FileName.concat(".txt"), "\t");
+    }
+
+    public static void makeCSV(TableView<?> table, String FileName) {
+        makeFile(table, FileName.concat(".csv"), "\t");
+    }
+
+    public static void makeExcel(TableView<?> table, String FileName) {
+        makeFile(table, FileName.concat(".xls"), "\t");
+    }
+
+    public static void makeFile(TableView<?> table, String name, String seperator) {
+        BufferedWriter writer = null;
+        var columns = table.getColumns();
+        int rows = table.getItems().size();
+        try {
+            writer = new BufferedWriter(new FileWriter(new File(name)));
+
+            for (TableColumn column : columns) {
+                writer.write(column.getText() + seperator);
+            }
+            writer.write("\n");
+
+            for (int x = 0; x < rows; x++) {
+
+                for (TableColumn col : columns) {
+                    writer.write(getValue(col.getCellObservableValue(x)) + seperator);
+                }
+                writer.write("\n");
+            }
+
+            writer.close();
+            openFile(name);
+        } catch (FileNotFoundException ex) {
+
+            errorMessage(ex);
+        } catch (IOException ex) {
+
+            errorMessage(ex);
+        } finally {
+            if (writer != null) {
+                try {
+                    writer.close();
+                } catch (IOException ex) {
+                    errorMessage(ex);
+                }
+            }
+        }
+    }
+
+    public static Object getValue(ObservableValue value) {
+        try {
+            if (isNotNull(value)) {
+                return value.getValue();
+            }
+        } catch (Exception e) {
+        }
+
+        return " ";
+    }
+
+    public static boolean isNotNull(ObservableValue value) {
+        try {
+
+            value.getValue();
+            return true;
+        } catch (Exception e) {
+            return false;
+
+        }
     }
 
 }

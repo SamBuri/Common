@@ -138,7 +138,10 @@ public class UserRoleController extends EditController {
             List<UserRoleDetailDA> userRoleDetailsDAs = tblUserRoleDetails.getItems();
             userRoleDetailsDAs.removeIf((p) -> p.getAccessObject() == null);
             UserRoleDA userRoleDA = new UserRoleDA(roleName, description);
-
+             userRoleDetailsDAs.forEach(ur->{
+                 ur.setUserRole(userRoleDA.getUserRole());
+             })
+                     ;
             userRoleDA.setUserRoleDetailsDAs(userRoleDetailsDAs);
             String buttonText = btnSave.getText();
             if (buttonText.equalsIgnoreCase(FormMode.Save.name())) {
@@ -260,6 +263,7 @@ public class UserRoleController extends EditController {
         try {
             String roleName = getText(txtRoleName, "Role Name");
             UserRole userRole = oUserRoleDA.getUserRole(roleName);
+            userRole= userRole==null?new UserRole(roleName, txaDescription.getText()):userRole;
             ObservableList<UserRoleDetailDA> selectedItems = tblUserRoleDetails.getSelectionModel().getSelectedItems();
             if (selectedItems.isEmpty() || selectedItems.size() > 1) {
                 return;

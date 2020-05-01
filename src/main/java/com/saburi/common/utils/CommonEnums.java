@@ -14,9 +14,21 @@ public class CommonEnums {
     public static enum DataTypes {
         NUMBER, STRING, BOOLEAN, DATE
     }
-    
+
     public static enum NumericDataTypes {
         INTEGER, FLOAT, DOUBLE
+    }
+
+    public static enum AggregateFunctions {
+        Sum, Average, Minimum, Maximum
+    }
+
+    public static enum PredicateTypes {
+        AND, OR
+    }
+
+    public static enum LogicalOperators {
+        OR, AND
     }
 
     public enum Rights {
@@ -39,35 +51,12 @@ public class CommonEnums {
         Active, In_Active
     };
 
-    public enum AccountActions {
-        Debit, Credit
-    };
-
-    public enum AccountReports {
-        Balance_Sheet, Financial_Statement
-    };
-
-    public enum AccountTypes {
-        Asset, Liability, Equity, Income, Expense
-    };
-
-    public enum BusinessTypes {
-        Product, Service, Mixed
-    };
-
-    public enum DocumentTypes {
-        Invoice, Receipt, Credit_Memo, Refund
-    };
-
-    public enum PostStatus {
-        Posted, Pending
-    };
-
+    
     public enum YesNo {
         Yes, No
     };
 
-    public enum LicenceTypes {
+    public enum LicenseTypes {
         Secondary, Primary, SaacoLine
     }
 
@@ -75,44 +64,15 @@ public class CommonEnums {
         Entinty, Revision
     }
 
-    public enum InvoiceStatus {
-        Pending, Invoiced, Cancelled
+      public enum ApprovalModes {
+        Auto, Manual
     }
-
-    public enum InvoiceTypes {
-        Direct, Ordered
+      
+      public enum EntryModes {
+        Manual, System
     }
-
-    public enum EntryPoints {
-        Billing, Invoicing, Receipting, Registration
-    }
-
-    public enum PayModes {
-        Cash, Bank
-    }
-
-    public enum BankAccountTypes {
-        Cash, Bank
-    }
-
-    public enum EntryModes {
-        Mannual, System
-    }
-
-    public enum ItemCategoryGroups {
-        Inventory, Service
-    }
-
-    public enum UnitMeasureUsages {
-        Invoicing, Purchasing
-    }
-
-    public enum AccountGroups {
-        COA, Customer, Vender, Bank, Item
-    }
-
-    public enum JournalTypes {
-       General, Sales, Purchases, Bank, Items
-    }
+      
+      public enum BusinessTypes{Product, Service, Mixed}
+      
 
 }

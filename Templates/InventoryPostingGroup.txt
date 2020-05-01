@@ -1,5 +1,0 @@
-IdHelper, Id Helper, int, ,, , , ID_Helper, 100, false, false, 
-InventoryPostingGroupID, Inventory Posting Group ID, String, ,, , Primary, , 100, false, false, 
-Location, Location, String, LookupData,, OneToOne, Foreign, Display, 100, false, false, CommonEnums
-InventoryGroup, Inventory Group, String, LookupData,, OneToOne, Foreign, Display, 100, false, false, CommonEnums
-Account, Account, String, ChartAccount,, OneToOne, Foreign, , 100, false, true, 

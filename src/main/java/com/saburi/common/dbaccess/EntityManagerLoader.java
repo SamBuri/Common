@@ -32,8 +32,12 @@ public class EntityManagerLoader {
       
              entityManagerFactory = Persistence.createEntityManagerFactory(Navigation.persistenceUnit, properties);
         } catch (Exception e) {
-            LOGGER.error(e,e);
-            throw e;
+            try {
+                LOGGER.error(e,e);
+                throw new Exception("Failed to connect to the database. Please check if your computer is connected to the network"+e.getLocalizedMessage());
+            } catch (Exception ex) {
+                LOGGER.error(ex,ex);
+            }
            
         }
        

@@ -10,6 +10,7 @@ import javax.persistence.Column;
 import com.saburi.common.utils.CommonEnums.BusinessTypes;
 import javax.persistence.Enumerated;
 import javax.persistence.Lob;
+import javax.validation.constraints.Email;
 import javax.validation.constraints.Size;
 
 @Entity
@@ -30,6 +31,7 @@ public class Company extends DBEntity {
     private String physicalAddress;
     @Column(name = "phone", length = 30)
     private String phone;
+    @Email(message = "Invaild Email Address: ${validateValue}")
     @Column(name = "email", length = 100)
     private String email;
     @Column(name = "webSite", length = 100)

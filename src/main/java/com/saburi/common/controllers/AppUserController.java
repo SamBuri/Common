@@ -39,7 +39,7 @@ public class AppUserController extends EditController {
     public void initialize(URL url, ResourceBundle rb) {
         try {
 
-            this.minSize = 360;
+            this.minSize = 300;
             loadDBEntities(new UserRoleDA().getUserRoles(), cboRole);
 
         } catch (Exception e) {
