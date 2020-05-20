@@ -103,7 +103,7 @@ public class StaffController extends EditController {
             this.primaryKeyControl = txtStaffID;
             this.dbAccess = oStaffDA;
             this.restrainColumnConstraint = false;
-            //this.minSize = 360;
+            //this.prefSize = 360;
             btnBrowsePhoto.setOnAction(e -> browseImage(imvPhoto));
             btnCapturePhoto.setOnAction(e -> setCapturedImage(imvPhoto));
             btnClearPhoto.setOnAction(e -> imvPhoto.setImage(null));

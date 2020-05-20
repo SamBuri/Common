@@ -63,7 +63,7 @@ public class VillageController extends EditController {
             this.primaryKeyControl = txtVillageID;
             this.dbAccess = oVillageDA;
             this.restrainColumnConstraint = false;
-            //this.minSize = 360;
+            //this.prefSize = 360;
             cboParish.setOnAction(e -> this.setNextVillageID());
             selectLookupData( cmiSelectDistrict, CommonObjectNames.DISTRICT,  "District", cboDistrict, false);
             selectItem(CommonNavigate.MAIN_CLASS, cmiSelectCounty, oCountyDA, "County", "County", cboCounty, true);

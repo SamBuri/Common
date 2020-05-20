@@ -38,7 +38,7 @@ public class IDGeneratorController extends EditController {
             this.primaryKeyControl = txtObjectName;
             this.dbAccess = oIDGeneratorDA;
             this.restrainColumnConstraint = false;
-            this.minSize = 280;
+            this.prefSize = 280;
         } catch (Exception e) {
             errorMessage(e);
         } finally {

@@ -35,6 +35,7 @@ import java.util.Optional;
 import java.util.function.Predicate;
 import javafx.scene.control.skin.TableViewSkin;
 import javafx.application.Platform;
+import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
@@ -76,6 +77,7 @@ import javafx.scene.input.KeyCombination;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
@@ -206,6 +208,19 @@ public class FXUIUtils {
         });
 
     }
+    
+    public static void formatValueLoat(TextField field) {
+        field.focusedProperty().addListener((ov, t, t1) -> {
+            if (t) {
+                try {
+                    field.setText(Utilities.formatNumber(getFloat(field)));
+                } catch (Exception ex) {
+                    errorMessage(ex);
+                }
+            }
+        });
+
+    }
 
     public static void formatInteger(TextField field) {
         field.focusedProperty().addListener((ov, t, t1) -> {
@@ -222,10 +237,9 @@ public class FXUIUtils {
 
     public static void formatDatePicker(DatePicker datePicker) {
         try {
-            String pattern = "dd MMM yyyy";
+            String pattern = "dd/MM/yyyy";
 
             datePicker.setPromptText(pattern.toLowerCase());
-            datePicker.setEditable(false);
             datePicker.setConverter(new StringConverter<LocalDate>() {
                 DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern(pattern);
 
@@ -247,6 +261,16 @@ public class FXUIUtils {
                     }
                 }
             });
+
+            datePicker.focusedProperty().addListener(new ChangeListener<Boolean>() {
+                @Override
+                public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+                    if (!newValue) {
+                        datePicker.setValue(datePicker.getConverter().fromString(datePicker.getEditor().getText()));
+                    }
+                }
+            });
+
         } catch (Exception e) {
         }
     }
@@ -315,9 +339,10 @@ public class FXUIUtils {
 
     public static void errorMessage(Exception e) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle("Error!");
         alert.setHeaderText(null);
         alert.setContentText(e.getMessage());
+        alert.getDialogPane().setMaxHeight(Region.USE_PREF_SIZE);
+        alert.setResizable(true);
         alert.show();
         e.printStackTrace();
         LOGGER.error(e, e);
@@ -327,8 +352,10 @@ public class FXUIUtils {
 
     public static void errorMessage(String message) {
         Alert alert = new Alert(Alert.AlertType.ERROR, message);
-        alert.setTitle("Error!");
         alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.getDialogPane().setMaxHeight(Region.USE_PREF_SIZE);
+        alert.setResizable(true);
         alert.setContentText(message);
         alert.show();
         LOGGER.error(message);
@@ -338,7 +365,7 @@ public class FXUIUtils {
     public static void errorMessage(String title, Exception e) {
         Alert alert = new Alert(Alert.AlertType.ERROR, e.getMessage());
         alert.setTitle(title);
-        alert.setHeaderText(null);
+//        alert.setHeaderText(null);
         alert.setContentText(e.getMessage());
         e.printStackTrace();
         alert.show();
@@ -352,6 +379,8 @@ public class FXUIUtils {
         alert.setTitle(title);
         alert.setHeaderText(null);
         alert.setContentText(e.getLocalizedMessage());
+        alert.getDialogPane().setMaxHeight(Region.USE_PREF_SIZE);
+        alert.setResizable(true);
         e.printStackTrace();
         alert.show();
         LOGGER.error(e, e);
@@ -519,6 +548,9 @@ public class FXUIUtils {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setContentText(message.toString());
         alert.setHeaderText(null);
+        alert.getDialogPane().setMaxHeight(Region.USE_PREF_SIZE);
+        alert.setResizable(true);
+
         alert.show();
     }
 
@@ -527,6 +559,8 @@ public class FXUIUtils {
         alert.setContentText(message.toString());
         alert.setHeaderText(null);
         alert.initOwner(window);
+        alert.getDialogPane().setMaxHeight(Region.USE_PREF_SIZE);
+        alert.setResizable(true);
         alert.show();
     }
 
@@ -535,6 +569,8 @@ public class FXUIUtils {
         alert.setTitle(title);
         alert.setHeaderText(null);
         alert.setContentText(message.toString());
+        alert.getDialogPane().setMaxHeight(Region.USE_PREF_SIZE);
+        alert.setResizable(true);
         alert.show();
     }
 
@@ -543,6 +579,8 @@ public class FXUIUtils {
         alert.setTitle(title);
         alert.setHeaderText(headerText);
         alert.setContentText(message);
+        alert.getDialogPane().setMaxHeight(Region.USE_PREF_SIZE);
+        alert.setResizable(true);
         return alert.showAndWait();
     }
 
@@ -551,6 +589,8 @@ public class FXUIUtils {
         alert.setTitle(title);
         alert.setHeaderText(null);
         alert.setContentText(message);
+        alert.getDialogPane().setMaxHeight(Region.USE_PREF_SIZE);
+        alert.setResizable(true);
         return alert.showAndWait();
     }
 
@@ -559,6 +599,8 @@ public class FXUIUtils {
         alert.setTitle(title);
         alert.setHeaderText(headerText);
         alert.setContentText(message);
+        alert.getDialogPane().setMaxHeight(Region.USE_PREF_SIZE);
+        alert.setResizable(true);
         return alert.showAndWait().get() == ButtonType.OK;
     }
 
@@ -567,6 +609,8 @@ public class FXUIUtils {
         alert.setTitle(title);
         alert.setHeaderText(null);
         alert.setContentText(message);
+        alert.getDialogPane().setMaxHeight(Region.USE_PREF_SIZE);
+        alert.setResizable(true);
         return alert.showAndWait().get() == ButtonType.OK;
     }
 
@@ -843,20 +887,38 @@ public class FXUIUtils {
         return table.getVisibleLeafColumn(newColumnIndex);
     }
 
-    public static void addRow(TableView tableView, Object object) {
+    public static void addRowOnce(TableView tableView, Object object) {
 
-        Object lastID = null;
         TablePosition pos = tableView.getFocusModel().getFocusedCell();
-        List items = tableView.getItems();
-        int size = items.size();
-        Object lastObject = items.isEmpty() ? null : tableView.getItems().get(size - 1);
-        if (lastObject instanceof DBAccess) {
-            lastID = ((DBAccess) lastObject).getId();
-        }
-        if (pos.getRow() == size - 1 || lastID != null) {
+
+        if (pos.getRow() == tableView.getItems().size() - 1) {
 
             tableView.getItems().add(object);
         }
+
+    }
+
+    public static void addRow(TableView tableView,
+            Object object) {
+
+        TablePosition pos = tableView.getFocusModel().getFocusedCell();
+        List items = tableView.getItems();
+        int size = items.size();
+        if (size == 0) {
+            tableView.getItems().add(object);
+            return;
+        }
+        int last = size - 1;
+   
+            Object o = tableView.getItems().get(last);
+            DBAccess dBAccess = (DBAccess) o;
+            
+
+        if (pos.getRow() == last||dBAccess.getId() != null) {
+
+            tableView.getItems().add(object);
+        }
+
     }
 
     public static void addRow(TableView tableView, Object object, boolean condition) {
@@ -1748,10 +1810,8 @@ public class FXUIUtils {
         }
 
     }
-    
-    
 
-    public static void selectLookupData( MenuItem menuItem, int objectID, String title, Node node,
+    public static void selectLookupData(MenuItem menuItem, int objectID, String title, Node node,
             boolean constrainColumns) throws IOException {
         try {
 
@@ -1771,8 +1831,6 @@ public class FXUIUtils {
         }
 
     }
-
-    
 
     public static void selectLookupData(Class mainClass, MenuItem menuItem, int objectID, String uiName, String title, float widith, float height,
             Node node, boolean constrainColumns) throws IOException {

@@ -46,7 +46,7 @@ public class LookupDataController extends EditController {
             this.primaryKeyControl = txtLookupDataID;
             this.dbAccess = oLookupDataDA;
             this.restrainColumnConstraint = false;
-            this.minSize = 360;
+            this.prefSize = 360;
             cboLookupObject.setOnAction(e -> this.setNextLookupDataID());
             selectItem(CommonNavigate.MAIN_CLASS, cmiSelectLookupObject, oLookupObjectDA, "View", "LookupObject", 700, 400, cboLookupObject, true);
             chkHidden.disableProperty().bind(btnSave.textProperty().isEqualToIgnoreCase(FormMode.Save.name()));

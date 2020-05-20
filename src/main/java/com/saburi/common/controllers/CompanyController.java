@@ -49,7 +49,7 @@ public class CompanyController extends EditController {
             this.primaryKeyControl = txtCompanyID;
             this.dbAccess = oCompanyDA;
             this.restrainColumnConstraint = false;
-//            this.minSize = 450;
+//            this.prefSize = 450;
             btnBrowseLogo.setOnAction(e -> browseImage(imvLogo));
             btnCaptureLogo.setOnAction(e -> setCapturedImage(imvLogo));
             btnClearLogo.setOnAction(e -> imvLogo.setImage(null));

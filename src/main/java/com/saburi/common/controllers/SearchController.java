@@ -131,8 +131,14 @@ public class SearchController implements Initializable {
     }
 
     public void setTreeItems(List<TreeItem> treeItems) {
-        treeItems.forEach(tri -> root.getChildren().add(tri));
+        treeItems.forEach(tri -> {
+            root.getChildren().add(tri);
+        });
         tvSearchItems.setRoot(root);
+    }
+
+    private void disale() {
+
     }
 
 }

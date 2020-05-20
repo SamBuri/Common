@@ -48,7 +48,7 @@ public class SubCountyController extends EditController {
             this.dbAccess = oSubCountyDA;
             this.restrainColumnConstraint = false;
             this.primaryKeyControl = txtSubCountyID;
-            this.minSize = 360;
+            this.prefSize = 360;
 
             loadLookupData(cboDistrict, CommonObjectNames.DISTRICT);
 
@@ -151,6 +151,7 @@ public class SubCountyController extends EditController {
         }
     }
 
+    @Override
     public void clear() {
         cboDistrict.setValue(null);
         cboCounty.setValue(null);

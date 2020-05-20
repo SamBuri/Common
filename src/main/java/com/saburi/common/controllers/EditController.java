@@ -52,7 +52,7 @@ public abstract class EditController implements Initializable {
     protected boolean restrainColumnConstraint = false;
     protected float viewWidth = 700;
     protected float viewHight = 400;
-    protected float minSize;
+    protected float prefSize;
     protected float preferredWitdh;
     protected float preferredHeight;
     protected boolean popuprestrainConstraint = false;
@@ -98,7 +98,7 @@ public abstract class EditController implements Initializable {
         if (formMode.equals(FormMode.Update)) {
             CurrentUser.applyRights(btnSave, Rights.Update);
             clearPrimaryKey();
-        } else if ( formMode.equals(FormMode.Print)) {
+        } else if (formMode.equals(FormMode.Print)) {
             CurrentUser.applyRights(btnSave, Rights.Print);
             clearPrimaryKey();
             disable();
@@ -122,7 +122,13 @@ public abstract class EditController implements Initializable {
             this.loadData();
             CurrentUser.applyRights(btnSave, Rights.Update);
         });
-        btnDelete.setOnAction(e -> this.delete());
+        btnDelete.setOnAction(e -> {
+            if (tableView != null && editSuccessful) {
+                this.delete();
+                this.clear();
+                tableView.getItems().remove(dbAccess);
+            }
+        });
         cmiLoad.setOnAction(e -> {
             try {
                 DBAccess selectedItem = getSelectedItem(this.mainClass, dbAccess, this.viewUI, title, viewWidth, viewHight, primaryKeyControl, restrainColumnConstraint);
@@ -164,7 +170,7 @@ public abstract class EditController implements Initializable {
     protected void clear() {
         FXUIUtils.clear(mVBox);
     }
-    
+
     protected void clear(List<Node> nodes) {
         FXUIUtils.clear(mVBox, nodes);
     }
@@ -185,8 +191,8 @@ public abstract class EditController implements Initializable {
         return preferredHeight;
     }
 
-    public float getMinSize() {
-        return minSize;
+    public float getPrefSize() {
+        return prefSize;
     }
 
     public DBAccess getDbAccess() {
@@ -203,12 +209,12 @@ public abstract class EditController implements Initializable {
 
     private void clearPrimaryKey() {
         if (primaryKeyControl instanceof TextField) {
-                TextField textField = (TextField) primaryKeyControl;
-                textField.clear();
-            } else if (primaryKeyControl instanceof ComboBox) {
-                ComboBox textField = (ComboBox) primaryKeyControl;
-                textField.setValue(null);
-            }
+            TextField textField = (TextField) primaryKeyControl;
+            textField.clear();
+        } else if (primaryKeyControl instanceof ComboBox) {
+            ComboBox textField = (ComboBox) primaryKeyControl;
+            textField.setValue(null);
+        }
     }
 
 }

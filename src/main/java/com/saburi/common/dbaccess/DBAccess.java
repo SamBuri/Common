@@ -780,7 +780,7 @@ public class DBAccess {
         }
     }
 
-    protected List find(Class entity, List<SearchColumn> SearchColumns) {
+    protected List find(Class entity, List<SearchColumn> searchColumns) {
         List entityList = new ArrayList<>();
 
         try {
@@ -1601,6 +1601,25 @@ public class DBAccess {
             criteriaQuery.where(builder.and(builder.equal(root.get(compColumn), compValue)));
             Object result = entityManager.createQuery(criteriaQuery).getSingleResult();
             return result == null ? 0 : (int) result;
+        } catch (Exception e) {
+            throw e;
+        } finally {
+            entityManager.close();
+        }
+
+    }
+    
+    protected double getSum(Class className, String columnName, String compColumn, Object compValue) {
+        entityManager = entityManagerFactory.createEntityManager();
+        try {
+
+            CriteriaBuilder builder = entityManager.getCriteriaBuilder();
+            CriteriaQuery<Object> criteriaQuery = builder.createQuery(className);
+            Root<Object> root = criteriaQuery.from(className);
+            criteriaQuery.select(builder.sum(root.get(columnName)));
+            criteriaQuery.where(builder.and(builder.equal(root.get(compColumn), compValue)));
+            Object result = entityManager.createQuery(criteriaQuery).getSingleResult();
+            return result == null ? 0 : (double) result;
         } catch (Exception e) {
             throw e;
         } finally {

@@ -23,7 +23,6 @@ public abstract class DBEntity implements Serializable {
 //    @Column(columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP", updatable = false)
     @Column(updatable = false)
     private final LocalDateTime recordDateTime = LocalDateTime.now();
-    ;
     protected String userID;
     protected String userFullName;
     private final String clientMachine = getHostName();

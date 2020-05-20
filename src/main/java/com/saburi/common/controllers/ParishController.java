@@ -55,7 +55,7 @@ public class ParishController extends EditController {
             this.primaryKeyControl = txtParishID;
             this.dbAccess = oParishDA;
             this.restrainColumnConstraint = false;
-            //this.minSize = 360;
+            //this.prefSize = 360;
             cboDistrict.setOnAction(e -> {
                 LookupData district = (LookupData) getEntity(cboDistrict);
                 if (district == null) {

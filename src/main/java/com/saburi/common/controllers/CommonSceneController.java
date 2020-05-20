@@ -69,6 +69,7 @@ public abstract class CommonSceneController implements Initializable {
             lblStatusBar.getScene().getWindow().hide();
             LoginHelper.showStage("Login");
         });
+        
         lblStatusBar.setText(CurrentUser.getSimpleUserData());
 
         editMenuItemClick(mnuSettingsLookupDataAdd, "LookupData", "Lookup Data", FormMode.Save);

@@ -33,7 +33,7 @@ public class CountyController extends EditController {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         try {
-            this.minSize = 360;
+            this.prefSize = 360;
             this.primaryKeyControl = txtCountyID;
             loadLookupData(cboDistrict, CommonObjectNames.DISTRICT);
 

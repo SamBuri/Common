@@ -1,2 +1,0 @@
-cd C:\Users\Hp\Documents\NetBeansProjects\Common
-jpackage --type exe -i target\modules --name Finance --main-class com.saburi.common.main.Main --main-jar  Common-1.0-SNAPSHOT.jar --app-version 1.0 --description "Finance System" --vendor "Sam Buriima" --icon Files\icon.ico --license-file Files\License.txt --win-dir-chooser --win-menu --win-per-user-install --win-shortcut --copyright "Saburi"

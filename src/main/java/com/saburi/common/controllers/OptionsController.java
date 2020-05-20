@@ -36,7 +36,7 @@ public class OptionsController extends EditController {
             this.primaryKeyControl = txtOptionID;
             this.dbAccess = oOptionsDA;
             this.restrainColumnConstraint = false;
-            this.minSize = 360;
+            this.prefSize = 360;
         } catch (Exception e) {
             errorMessage(e);
         } finally {

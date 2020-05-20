@@ -65,7 +65,7 @@ public class UserRoleController extends EditController {
             this.primaryKeyControl = txtRoleName;
             this.dbAccess = oUserRoleDA;
             this.restrainColumnConstraint = false;
-            //this.minSize = 360;
+            //this.prefSize = 360;
             setUserRoleDetailCanCreate();
             setUserRoleDetailCanUpdate();
             setUserRoleDetailCanRead();

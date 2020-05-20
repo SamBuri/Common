@@ -82,7 +82,7 @@ public class Navigation {
             Parent root = loader.load();
             EditController controller = loader.<EditController>getController();
             controller.init(title, formMode);
-            float size = controller.getMinSize();
+            float size = controller.getPrefSize();
             desktopPane.removeInternalWindow(uiName);
             Node node = GlyphsDude.createIcon(FontAwesomeIcon.PLUS_CIRCLE);
             if (formMode.equals(FormMode.Update)) {
@@ -111,7 +111,7 @@ public class Navigation {
             EditController controller = loader.<EditController>getController();
             FontAwesomeIconView node = new FontAwesomeIconView(icon);
             controller.init(title, formMode);
-            float size = controller.getMinSize();
+            float size = controller.getPrefSize();
             InternalWindow window = new InternalWindow(uiName, node, title, root);
             if (size > 0) {
                 window.setMinWidth(size);
@@ -138,7 +138,7 @@ public class Navigation {
             if (isPopup) {
                 FXUIUtils.showDialog(root, title, tableView);
             } else {
-                float size = controller.getMinSize();
+                float size = controller.getPrefSize();
                 desktopPane.removeInternalWindow(uiName);
                 InternalWindow window = new InternalWindow(uiName, GlyphsDude.createIcon(FontAwesomeIcon.BOOK), title, root);
 

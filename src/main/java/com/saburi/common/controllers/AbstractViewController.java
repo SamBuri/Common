@@ -14,11 +14,13 @@ import com.saburi.common.utils.CommonEnums.LogicalOperators;
 import com.saburi.common.utils.CommonNavigate;
 import static com.saburi.common.utils.CurrentUser.applyRights;
 import com.saburi.common.utils.FXUIUtils;
+import static com.saburi.common.utils.FXUIUtils.copySelectionToClipboard;
 import static com.saburi.common.utils.FXUIUtils.errorMessage;
 import static com.saburi.common.utils.FXUIUtils.formatDatePicker;
 import static com.saburi.common.utils.FXUIUtils.getDate;
 import static com.saburi.common.utils.FXUIUtils.getDouble;
 import static com.saburi.common.utils.FXUIUtils.getText;
+import static com.saburi.common.utils.FXUIUtils.installCopyPasteHandler;
 import static com.saburi.common.utils.FXUIUtils.loadSearchColumnCombo;
 import static com.saburi.common.utils.FXUIUtils.makeCSV;
 import static com.saburi.common.utils.FXUIUtils.makeExcel;
@@ -230,11 +232,11 @@ public abstract class AbstractViewController implements Initializable {
         this.tableView.setItems(FXCollections.observableArrayList());
         this.tableView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
         tableView.getSelectionModel().setCellSelectionEnabled(true);
-        FXUIUtils.installCopyPasteHandler(tableView);
+        installCopyPasteHandler(tableView);
         cmiNew.setOnAction(e -> setUpdate(this.mainClass, this.uiEdit, FormMode.Save));
         cmiUpdate.setOnAction(e -> setUpdate(this.mainClass, this.uiEdit, FormMode.Update));
         cmiPrint.setOnAction(e -> setUpdate(this.mainClass, this.uiEdit, FormMode.Print));
-        cmiCopy.setOnAction(e -> FXUIUtils.copySelectionToClipboard(tableView));
+        cmiCopy.setOnAction(e -> copySelectionToClipboard(tableView));
         cmiDelete.setOnAction(e -> this.delete());
         cmiSelectAll.setOnAction(e -> tableView.getSelectionModel().selectAll());
         cboAggregateColumn.setOnAction(e -> calculateAggregates());
@@ -268,11 +270,13 @@ public abstract class AbstractViewController implements Initializable {
         this.dtpFirst.setOnKeyPressed(e -> {
 
             if (e.getCode() == KeyCode.ENTER) {
+                  dtpFirst.setValue(dtpFirst.getConverter().fromString(dtpFirst.getEditor().getText()));
                 setSearchCriteria();
             }
         });
         this.dtpSecond.setOnKeyPressed(e -> {
             if (e.getCode() == KeyCode.ENTER) {
+                  dtpSecond.setValue(dtpSecond.getConverter().fromString(dtpSecond.getEditor().getText()));
                 setSearchCriteria();
             }
         });

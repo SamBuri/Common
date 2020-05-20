@@ -230,37 +230,46 @@ public class Utilities {
         return roundHalfUp(getFloat(total) / list.size(), 2);
     }
 
-    public static String formatNumber(double money) {
+    public static String formatNumber(double number) {
         DecimalFormat formatter = new DecimalFormat("#,###.00");
-        return formatter.format(money);
+        return formatter.format(number);
     }
-
-    public static String formatInteger(double money) {
+    
+     public static String formatNumber(float number) {
+        DecimalFormat formatter = new DecimalFormat("#,###.0");
+        return formatter.format(number);
+    }
+      public static String formatNumber(int number) {
         DecimalFormat formatter = new DecimalFormat("#,###");
-        return formatter.format(money);
+        return formatter.format(number);
     }
 
-    public static double defortNumber(String money) {
-
-        return Double.parseDouble(money.replaceAll("(?<=\\d),(?=\\d)|\\$", ""));
-
+    public static String formatInteger(double number) {
+        DecimalFormat formatter = new DecimalFormat("#,###");
+        return formatter.format(number);
     }
 
-    public static float defortFloat(String money) {
+    public static double defortNumber(String number) {
 
-        return Float.parseFloat(money.replaceAll("(?<=\\d),(?=\\d)|\\$", ""));
-
-    }
-
-    public static int defortInteger(String money) {
-
-        return Integer.parseInt(money.replaceAll("(?<=\\d),(?=\\d)|\\$", ""));
+        return Double.parseDouble(number.replaceAll("(?<=\\d),(?=\\d)|\\$", ""));
 
     }
 
-    public static double defortNumberOptional(String money) {
+    public static float defortFloat(String number) {
+
+        return Float.parseFloat(number.replaceAll("(?<=\\d),(?=\\d)|\\$", ""));
+
+    }
+
+    public static int defortInteger(String number) {
+
+        return Integer.parseInt(number.replaceAll("(?<=\\d),(?=\\d)|\\$", ""));
+
+    }
+
+    public static double defortNumberOptional(String number) {
         try {
-            return Double.parseDouble(money.replaceAll("(?<=\\d),(?=\\d)|\\$", ""));
+            return Double.parseDouble(number.replaceAll("(?<=\\d),(?=\\d)|\\$", ""));
         } catch (Exception e) {
             return 0;
 
