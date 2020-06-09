@@ -581,6 +581,8 @@ public class DBAccess {
         return entityList;
     }
 
+
+    
     protected List find(Class entity, String column, Object value) {
         List entityList = new ArrayList<>();
 
@@ -591,6 +593,28 @@ public class DBAccess {
             Root<DBEntity> criteria = criteriaQuery.from(entity);
 
             criteriaQuery.where(builder.and(builder.equal(criteria.get(column), value)));
+            TypedQuery<DBEntity> typedQuery = entityManager.createQuery(criteriaQuery);
+            entityList = typedQuery.getResultList();
+
+        } catch (Exception e) {
+            throw e;
+        } finally {
+            entityManager.close();
+        }
+        return entityList;
+    }
+    
+    protected List findAsc(Class entity, String column, Object value, String orderColumn) {
+        List entityList = new ArrayList<>();
+
+        try {
+            entityManager = entityManagerFactory.createEntityManager();
+            CriteriaBuilder builder = entityManager.getCriteriaBuilder();
+            CriteriaQuery<DBEntity> criteriaQuery = builder.createQuery(entity);
+            Root<DBEntity> criteria = criteriaQuery.from(entity);
+
+            criteriaQuery.where(builder.and(builder.equal(criteria.get(column), value)));
+            criteriaQuery.orderBy(builder.asc(criteria.get(orderColumn)));
             TypedQuery<DBEntity> typedQuery = entityManager.createQuery(criteriaQuery);
             entityList = typedQuery.getResultList();
 

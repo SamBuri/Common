@@ -23,8 +23,8 @@ public class CommonEnums {
         Sum, Average, Minimum, Maximum
     }
 
-    public static enum PredicateTypes {
-        AND, OR
+    public static enum NumericSearchTypes {
+        Equal, Between, Between_Inclusive, Less, Less_Or_Equal, Greater, Greater_Or_Equal
     }
 
     public static enum LogicalOperators {

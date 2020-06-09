@@ -207,7 +207,7 @@ public abstract class AbstractViewController implements Initializable {
         String searchDataType = searchColumn.getDataType().name();
         cboSearchType.setValue(searchColumn.getDefaultSearchType().name());
 
-        if (searchDataType.equalsIgnoreCase(SearchColumn.SearchDataTypes.DATE.name())) {
+        if (searchDataType.equalsIgnoreCase(SearchDataTypes.DATE.name())) {
             hbxTextFields.setVisible(false);
             hbxDatePickers.setVisible(true);
             hbxCheckBox.setVisible(false);

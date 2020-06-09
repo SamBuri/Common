@@ -43,11 +43,6 @@ public class LoginController implements Initializable {
 
     @FXML
     private Label lblStatus;
-    @FXML
-    private GridPane gpnConnectionCreditential;
-
-    @FXML
-    private TitledPane tpnConnection;
 
     @FXML
     private TextField txtServerName, txtDatabase, txtUsername, txtServerPassword;
@@ -58,7 +53,6 @@ public class LoginController implements Initializable {
     private ContextMenu cmuLogin;
     @FXML
     private MenuItem cmiUser, cmiLicence;
-    private Parent nextParent;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -91,14 +85,6 @@ public class LoginController implements Initializable {
             errorMessage(e);
         } finally {
         }
-    }
-
-    public Parent getNextParent() {
-        return nextParent;
-    }
-
-    public void setNextParent(Parent nextParent) {
-        this.nextParent = nextParent;
     }
 
     private void showMenuItems() {
@@ -174,7 +160,7 @@ public class LoginController implements Initializable {
 
                         return success;
                     } catch (Exception e) {
-                        Platform.runLater(() ->message("Error Connecting to the database.\nPlease check if your computer is connected to the network\n "));
+                        Platform.runLater(() -> message("Error Connecting to the database.\nPlease check if your computer is connected to the network\n "));
                         return 0;
                     }
                 }

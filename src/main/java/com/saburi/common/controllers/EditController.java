@@ -123,9 +123,9 @@ public abstract class EditController implements Initializable {
             CurrentUser.applyRights(btnSave, Rights.Update);
         });
         btnDelete.setOnAction(e -> {
+            this.delete();
+            this.clear();
             if (tableView != null && editSuccessful) {
-                this.delete();
-                this.clear();
                 tableView.getItems().remove(dbAccess);
             }
         });

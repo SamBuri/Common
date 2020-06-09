@@ -1216,6 +1216,8 @@ public class FXUIUtils {
             return Utilities.defortInteger(enteredString);
         }
     }
+    
+    
 
     public static int getInt(TextField field) throws Exception {
         String enteredString = field.getText().trim();
