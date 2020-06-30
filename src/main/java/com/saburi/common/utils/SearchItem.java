@@ -7,6 +7,7 @@ package com.saburi.common.utils;
 
 import com.saburi.common.dbaccess.DBAccess;
 import com.saburi.common.utils.CommonEnums.SearchItemTypes;
+import com.saburi.common.utils.CommonEnums.ViewMenuTypes;
 import java.util.List;
 import javafx.scene.control.TreeItem;
 
@@ -23,8 +24,7 @@ public class SearchItem {
     private String uiName;
     private String title;
     private boolean constrainColumns;
-    private boolean editable = true;
-    private boolean printable = false;
+    private ViewMenuTypes viewMenuType = ViewMenuTypes.All;
     private TreeItem<SearchItem> parent;
     private Class mainClass;
 
@@ -45,17 +45,6 @@ public class SearchItem {
         this.constrainColumns = constrainColumns;
     }
 
-    public SearchItem(Class mainClass, DBAccess dbAccess, String uiName, String title, boolean constrainColumns,
-            boolean editable, boolean printable) {
-        this.mainClass = mainClass;
-        this.dbAccess = dbAccess;
-        this.uiName = uiName;
-        this.title = title;
-        this.constrainColumns = constrainColumns;
-        this.editable = editable;
-        this.printable = printable;
-    }
-
     public SearchItem(Class mainClass, DBAccess dbAccess, SearchItemTypes searchItemTypes, String uiName, String title,
             boolean constrainColumns) {
         this.mainClass = mainClass;
@@ -64,30 +53,6 @@ public class SearchItem {
         this.title = title;
         this.constrainColumns = constrainColumns;
         this.searchItemTypes = searchItemTypes;
-    }
-
-    public SearchItem(Class mainClass, DBAccess dbAccess, List<DBAccess> dBAccesses, List<SearchColumn> searchColumns,
-            String uiName, String title, boolean constrainColumns) {
-        this.mainClass = mainClass;
-        this.dbAccess = dbAccess;
-        this.dBAccesses = dBAccesses;
-        this.searchColumns = searchColumns;
-        this.uiName = uiName;
-        this.title = title;
-        this.constrainColumns = constrainColumns;
-    }
-
-    public SearchItem(Class mainClass, DBAccess dbAccess, List<DBAccess> dBAccesses, List<SearchColumn> searchColumns,
-            String uiName, String title,
-            boolean constrainColumns, TreeItem<SearchItem> parent) {
-        this.mainClass = mainClass;
-        this.dbAccess = dbAccess;
-        this.dBAccesses = dBAccesses;
-        this.searchColumns = searchColumns;
-        this.uiName = uiName;
-        this.title = title;
-        this.constrainColumns = constrainColumns;
-        this.parent = parent;
     }
 
     public SearchItem(Class mainClass, DBAccess dbAccess, String uiName, String title, boolean constrainColumns,
@@ -101,15 +66,14 @@ public class SearchItem {
     }
 
     public SearchItem(Class mainClass, DBAccess dbAccess, String uiName, String title, boolean constrainColumns,
-            TreeItem<SearchItem> parent, boolean editable, boolean printable) {
+            TreeItem<SearchItem> parent, ViewMenuTypes viewMenuType) {
         this.mainClass = mainClass;
         this.dbAccess = dbAccess;
         this.uiName = uiName;
         this.title = title;
         this.constrainColumns = constrainColumns;
         this.parent = parent;
-        this.editable = editable;
-        this.printable = printable;
+        this.viewMenuType = viewMenuType;
     }
 
     public SearchItem(Class mainClass, DBAccess dbAccess, SearchItemTypes searchItemTypes, String uiName,
@@ -123,32 +87,6 @@ public class SearchItem {
         this.parent = parent;
     }
 
-    public SearchItem(Class mainClass, DBAccess dbAccess, List<DBAccess> dBAccesses,
-            List<SearchColumn> searchColumns, SearchItemTypes searchItemTypes, String uiName, String title, boolean constrainColumns, TreeItem<SearchItem> parent) {
-        this.mainClass = mainClass;
-        this.dbAccess = dbAccess;
-        this.dBAccesses = dBAccesses;
-        this.searchColumns = searchColumns;
-        this.searchItemTypes = searchItemTypes;
-        this.uiName = uiName;
-        this.title = title;
-        this.constrainColumns = constrainColumns;
-        this.parent = parent;
-    }
-
-    public SearchItem(Class mainClass, DBAccess dbAccess, List<DBAccess> dBAccesses, List<SearchColumn> searchColumns,
-            String uiName, String title, boolean constrainColumns, TreeItem<SearchItem> parent, boolean editable, boolean printable) {
-        this.mainClass = mainClass;
-        this.dbAccess = dbAccess;
-        this.dBAccesses = dBAccesses;
-        this.searchColumns = searchColumns;
-        this.uiName = uiName;
-        this.title = title;
-        this.constrainColumns = constrainColumns;
-        this.parent = parent;
-        this.editable = editable;
-        this.printable = printable;
-    }
 
     public Class getMainClass() {
         return mainClass;
@@ -222,12 +160,12 @@ public class SearchItem {
         this.parent = parent;
     }
 
-    public boolean isEditable() {
-        return editable;
+    public ViewMenuTypes getViewMenuType() {
+        return viewMenuType;
     }
 
-    public boolean isPrintable() {
-        return printable;
+    public void setViewMenuType(ViewMenuTypes viewMenuType) {
+        this.viewMenuType = viewMenuType;
     }
 
 }

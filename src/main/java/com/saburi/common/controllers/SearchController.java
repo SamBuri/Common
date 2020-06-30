@@ -6,7 +6,9 @@
 package com.saburi.common.controllers;
 
 import com.saburi.common.dbaccess.DBAccess;
+import com.saburi.common.utils.CommonEnums;
 import com.saburi.common.utils.CommonEnums.SearchItemTypes;
+import com.saburi.common.utils.CommonEnums.ViewMenuTypes;
 import com.saburi.common.utils.CommonNavigate;
 import static com.saburi.common.utils.FXUIUtils.errorMessage;
 import com.saburi.common.utils.SearchItem;
@@ -78,23 +80,20 @@ public class SearchController implements Initializable {
                         Class mainClass = searchItem.getMainClass();
                         SearchItemTypes searchItemType = searchItem.getSearchItemTypes();
                         boolean columnConstraint = searchItem.isConstrainColumns();
-                        boolean editbale = searchItem.isEditable();
-                        boolean printable = searchItem.isPrintable();
+                        ViewMenuTypes viewMenuType = searchItem.getViewMenuType();
                         DBAccess dBAccess = searchItem.getDbAccess();
                         InternalWindow window = DesktopPane.resolveInternalWindow(tvSearchItems);
 
                         if (dBAccess != null) {
                             if (searchItemType == null) {
-                                controller.setEditable(editbale);
-                                controller.setPrintable(printable);
+                                controller.setViewMenuType(viewMenuType);
                                 controller.setInitData(mainClass, dBAccess, objectName, columnConstraint);
                                 window.getTitleBar().titleProperty().set("Search Engine->" + title);
                                 controller.setTitle(title);
                             } else {
                                 switch (searchItemType) {
                                     case Entinty:
-                                        controller.setEditable(editbale);
-                                        controller.setPrintable(printable);
+                                        controller.setViewMenuType(viewMenuType);
                                         controller.setInitData(mainClass, dBAccess, objectName, columnConstraint);
                                         window.getTitleBar().titleProperty().set("Search Engine->" + title);
                                         controller.setTitle(title);

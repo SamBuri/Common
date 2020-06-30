@@ -8,6 +8,7 @@ package com.saburi.common.utils;
 import com.saburi.common.dbaccess.*;
 import com.saburi.common.main.App;
 import static com.saburi.common.utils.CommonEnums.SearchItemTypes.Revision;
+import com.saburi.common.utils.CommonEnums.ViewMenuTypes;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -60,9 +61,9 @@ public class CommonSearchTree {
             //           Security
 
             //            Customisation
-            new SearchItem(mainClass, new OptionsDA(), "Options", "Options", true, triCustomisation),
+            new SearchItem(mainClass, new OptionsDA(), "Options", "Options", true, triCustomisation, ViewMenuTypes.EditOnly),
             new SearchItem(mainClass, new OptionsDA(), Revision, "Options", "Options", true, triCustomisationRev),
-            new SearchItem(mainClass, new IDGeneratorDA(), "IDGenerator", "ID Generators", true, triCustomisation),
+            new SearchItem(mainClass, new IDGeneratorDA(), "IDGenerator", "ID Generators", true, triCustomisation, ViewMenuTypes.EditOnly),
             new SearchItem(mainClass, new IDGeneratorDA(), Revision, "IDGenerator", "ID Generators", true, triCustomisationRev)
     //            Customisation
     //            Set up

@@ -236,7 +236,7 @@ public class LookupObjectDA extends DBAccess {
     public List<LookupObject> getLookupObjects(String columName, Object value) {
         return super.find(LookupObject.class, columName, value);
     }
-
+    
     @Override
     public List<DBAccess> getRevisions() {
         try {

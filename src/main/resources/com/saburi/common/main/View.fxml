@@ -86,6 +86,7 @@
                         <MenuItem id="Create" fx:id="cmiNew" disable="true" mnemonicParsing="false" text="New" />
                         <MenuItem id="Update" fx:id="cmiUpdate" disable="true" mnemonicParsing="false" text="Edit" />
                         <MenuItem id="Print" fx:id="cmiPrint" disable="true" mnemonicParsing="false" text="Print" visible="false" />
+                        <MenuItem id="Print" fx:id="cmiPreview" disable="false" mnemonicParsing="false" text="Preview" visible="false" />
                         <MenuItem id="Delete" fx:id="cmiDelete" disable="true" mnemonicParsing="false" text="Delete" />
                         <MenuItem id="Copy" fx:id="cmiCopy" disable="false" mnemonicParsing="false" text="Copy" />
                         <MenuItem id="View" fx:id="cmiSelectAll" mnemonicParsing="false" text="Select All" />

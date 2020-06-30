@@ -12,8 +12,11 @@ import javax.persistence.OneToOne;
 import javax.persistence.Column;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
+import org.hibernate.envers.Audited;
+import org.hibernate.envers.RelationTargetAuditMode;
 
 @Entity
+@Audited(targetAuditMode = RelationTargetAuditMode.NOT_AUDITED)
 @Table(uniqueConstraints = @UniqueConstraint(columnNames = {"districtID", "countyName"}, name = "uqDistrictIDCountyNameCounty"))
 public class County extends DBEntity {
 

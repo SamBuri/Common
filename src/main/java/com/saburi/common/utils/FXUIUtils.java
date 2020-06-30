@@ -13,7 +13,8 @@ import com.saburi.common.entities.DBEntity;
 import com.saburi.common.entities.LookupData;
 import static com.saburi.common.utils.Utilities.isNullOrEmpty;
 import com.saburi.common.controllers.CaptureController;
-import com.saburi.common.utils.SearchColumn.SearchDataTypes;
+import com.saburi.common.controllers.EditController;
+import com.saburi.common.utils.Utilities.FormMode;
 import static com.saburi.common.utils.Utilities.openFile;
 import java.awt.image.BufferedImage;
 import java.io.BufferedWriter;
@@ -28,11 +29,11 @@ import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.function.Predicate;
 import javafx.scene.control.skin.TableViewSkin;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
@@ -208,7 +209,7 @@ public class FXUIUtils {
         });
 
     }
-    
+
     public static void formatValueLoat(TextField field) {
         field.focusedProperty().addListener((ov, t, t1) -> {
             if (t) {
@@ -275,6 +276,7 @@ public class FXUIUtils {
         }
     }
 
+   
     public static void setTableAUtoFill(TableView tableView) {
         Method columnToFitMethod;
         try {
@@ -909,12 +911,11 @@ public class FXUIUtils {
             return;
         }
         int last = size - 1;
-   
-            Object o = tableView.getItems().get(last);
-            DBAccess dBAccess = (DBAccess) o;
-            
 
-        if (pos.getRow() == last||dBAccess.getId() != null) {
+        Object o = tableView.getItems().get(last);
+        DBAccess dBAccess = (DBAccess) o;
+
+        if (pos.getRow() == last || dBAccess.getId() != null) {
 
             tableView.getItems().add(object);
         }
@@ -1081,6 +1082,16 @@ public class FXUIUtils {
         return box.getValue();
     }
 
+    public static Object getSelectedValue(ComboBox box, String string, boolean condition) throws Exception {
+        Object object = box.getValue();
+        if (object == null && condition) {
+            box.requestLayout();
+            throw new Exception("You must select: " + string + "!");
+
+        }
+        return object;
+    }
+
     public static DBEntity getEntity(ComboBox<DBEntity> box, String string) throws Exception {
         DBEntity object = box.getValue();
         if (object == null) {
@@ -1216,8 +1227,6 @@ public class FXUIUtils {
             return Utilities.defortInteger(enteredString);
         }
     }
-    
-    
 
     public static int getInt(TextField field) throws Exception {
         String enteredString = field.getText().trim();
@@ -1453,7 +1462,7 @@ public class FXUIUtils {
         } else {
             BufferedImage bImage = SwingFXUtils.fromFXImage(imageView.getImage(), null);
             byte[] image;
-            try ( ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream()) {
+            try (ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream()) {
                 ImageIO.write(bImage, "png", byteArrayOutputStream);
                 image = byteArrayOutputStream.toByteArray();
             }
@@ -1470,7 +1479,7 @@ public class FXUIUtils {
             return null;
         }
         BufferedImage bImage = SwingFXUtils.fromFXImage(image, null);
-        try ( ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream()) {
+        try (ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream()) {
             ImageIO.write(bImage, "png", byteArrayOutputStream);
             bytes = byteArrayOutputStream.toByteArray();
 
@@ -1888,6 +1897,33 @@ public class FXUIUtils {
         }
 
     }
+    
+      public static void showDialog(String uiName, String title, float widith, float height,
+            Node node, boolean initEvents) throws IOException {
+        try {
+
+            FXMLLoader loader = CommonNavigate.getUILoader(uiName);
+            Parent root = loader.load();
+            if(initEvents){
+                EditController controller = loader.<EditController>getController();
+                controller.init(title, FormMode.Save);
+            }
+            Scene scene = new Scene(root, widith, height);
+            Stage stage = new Stage();
+            stage.setTitle(title);
+            stage.setScene(scene);
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.initStyle(StageStyle.UTILITY);
+            stage.initOwner(node.getScene().getWindow());
+            stage.showAndWait();
+
+        } catch (IOException e) {
+            throw e;
+        } catch (Exception e) {
+            throw e;
+        }
+
+    }
 
     public static void showDialog(Parent root, String title, Node node) throws IOException {
         try {
@@ -2030,7 +2066,6 @@ public class FXUIUtils {
 
     public static void enabled(VBox vBOX, boolean enabled) {
         List<Node> nodes = vBOX.getChildren();
-
         nodes.forEach((node) -> {
             if (node instanceof GridPane) {
                 GridPane gridPane = (GridPane) node;
@@ -2042,6 +2077,8 @@ public class FXUIUtils {
                 TableView tableView = (TableView) node;
                 tableView.setEditable(enabled);
             }
+            
+            
         });
     }
 

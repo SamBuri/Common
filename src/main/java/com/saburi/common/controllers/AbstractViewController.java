@@ -11,6 +11,7 @@ import com.saburi.common.dbaccess.DBAccess;
 import com.saburi.common.entities.DBEntity;
 import com.saburi.common.utils.CommonEnums.AggregateFunctions;
 import com.saburi.common.utils.CommonEnums.LogicalOperators;
+import com.saburi.common.utils.CommonEnums.ViewMenuTypes;
 import com.saburi.common.utils.CommonNavigate;
 import static com.saburi.common.utils.CurrentUser.applyRights;
 import com.saburi.common.utils.FXUIUtils;
@@ -101,7 +102,7 @@ public abstract class AbstractViewController implements Initializable {
     @FXML
     protected Label lblReturnedRecords;
     @FXML
-    private MenuItem cmiNew, cmiUpdate, cmiPrint, cmiDelete, cmiSelectAll, mnuCSV, mnuPDF, mnuExcel, mnuText, cmiCopy;
+    private MenuItem cmiNew, cmiUpdate, cmiPrint, cmiPreview, cmiDelete, cmiSelectAll, mnuCSV, mnuPDF, mnuExcel, mnuText, cmiCopy;
     @FXML
     private ComboBox<SearchColumn> cboSearchColumn, cboAggregateColumn;
     @FXML
@@ -128,8 +129,9 @@ public abstract class AbstractViewController implements Initializable {
     List<SearchColumn> defaultSearchColumns = new ArrayList<>();
     protected ObservableList selectedItems;
     protected Node editNode;
-    protected boolean editable = true;
-    protected boolean printable = false;
+//    protected boolean editable = true;
+//    protected boolean printable = false;
+    protected ViewMenuTypes viewMenuType;
     protected List<SearchCriteria> searchCriterias;
 
     public void setPopUp(boolean popUp) {
@@ -181,16 +183,16 @@ public abstract class AbstractViewController implements Initializable {
         this.editUIWidth = editUIWidth;
     }
 
-    public void setEditable(boolean editable) {
-        this.editable = editable;
-    }
-
-    public void setPrintable(boolean printable) {
-        this.printable = printable;
-    }
-
     public void setConstrainColumns(boolean constrainColumns) {
         this.constrainColumns = constrainColumns;
+    }
+
+    public ViewMenuTypes getViewMenuType() {
+        return viewMenuType;
+    }
+
+    public void setViewMenuType(ViewMenuTypes viewMenuType) {
+        this.viewMenuType = viewMenuType;
     }
 
     private void searchColumnSelected() {
@@ -236,6 +238,7 @@ public abstract class AbstractViewController implements Initializable {
         cmiNew.setOnAction(e -> setUpdate(this.mainClass, this.uiEdit, FormMode.Save));
         cmiUpdate.setOnAction(e -> setUpdate(this.mainClass, this.uiEdit, FormMode.Update));
         cmiPrint.setOnAction(e -> setUpdate(this.mainClass, this.uiEdit, FormMode.Print));
+        cmiPreview.setOnAction(e -> setUpdate(this.mainClass, this.uiEdit, FormMode.Preview));
         cmiCopy.setOnAction(e -> copySelectionToClipboard(tableView));
         cmiDelete.setOnAction(e -> this.delete());
         cmiSelectAll.setOnAction(e -> tableView.getSelectionModel().selectAll());
@@ -270,13 +273,13 @@ public abstract class AbstractViewController implements Initializable {
         this.dtpFirst.setOnKeyPressed(e -> {
 
             if (e.getCode() == KeyCode.ENTER) {
-                  dtpFirst.setValue(dtpFirst.getConverter().fromString(dtpFirst.getEditor().getText()));
+                dtpFirst.setValue(dtpFirst.getConverter().fromString(dtpFirst.getEditor().getText()));
                 setSearchCriteria();
             }
         });
         this.dtpSecond.setOnKeyPressed(e -> {
             if (e.getCode() == KeyCode.ENTER) {
-                  dtpSecond.setValue(dtpSecond.getConverter().fromString(dtpSecond.getEditor().getText()));
+                dtpSecond.setValue(dtpSecond.getConverter().fromString(dtpSecond.getEditor().getText()));
                 setSearchCriteria();
             }
         });
@@ -342,7 +345,7 @@ public abstract class AbstractViewController implements Initializable {
                 this.searchColumns.removeAll(this.oDBAccess.getDefaultSearchColumns());
             }
 
-            if (this.list==null) {
+            if (this.list == null) {
                 this.list = oDBAccess.get();
             }
 
@@ -572,6 +575,13 @@ public abstract class AbstractViewController implements Initializable {
                     Navigation.loadEditUI(type, ui, title, recordID, tableView, Utilities.FormMode.Print, isPopUp());
                     break;
                 }
+                
+                case Preview: {
+                    DBAccess dBAccess = (DBAccess) tableView.getSelectionModel().getSelectedItem();
+                    Object recordID = dBAccess.getId();
+                    Navigation.loadEditUI(type, ui, title, recordID, tableView, Utilities.FormMode.Preview, isPopUp());
+                    break;
+                }
                 default:
                     break;
             }
@@ -606,7 +616,6 @@ public abstract class AbstractViewController implements Initializable {
         this.uiEdit = objectName;
         this.mainClass = type;
         this.title = objectName;
-        this.editable = true;
         loadTable();
 
     }
@@ -625,6 +634,7 @@ public abstract class AbstractViewController implements Initializable {
             this.cmuView.hide();
             loadTable();
             this.cmiNew.setVisible(false);
+            this.cmiPrint.setVisible(false);
             this.cmiUpdate.setVisible(false);
             this.cmiDelete.setVisible(false);
         } catch (Exception e) {
@@ -650,8 +660,7 @@ public abstract class AbstractViewController implements Initializable {
             cmiPrint.disableProperty().set(true);
         }
         applyRights(objectName, cmiNew);
-        this.cmiUpdate.setVisible(this.editable);
-        this.cmiPrint.setVisible(this.printable);
+        this.showMenuOptions();
     }
 
     private void showDialog(String uiName, String title,
@@ -688,6 +697,40 @@ public abstract class AbstractViewController implements Initializable {
             throw e;
         } catch (Exception e) {
             throw e;
+        }
+
+    }
+
+    private void showMenuOptions() {
+        boolean visible = false;
+        switch (this.viewMenuType) {
+            case None:
+                this.cmiDelete.setVisible(false);
+                this.cmiNew.setVisible(visible);
+                this.cmiUpdate.setVisible(visible);
+                this.cmiPrint.setVisible(visible);
+                break;
+            case PrintNew:
+                this.cmiDelete.setVisible(false);
+                this.cmiNew.setVisible(true);
+                this.cmiUpdate.setVisible(false);
+                this.cmiPrint.setVisible(false);
+                break;
+                case Preview:
+                this.cmiDelete.setVisible(false);
+                this.cmiNew.setVisible(false);
+                this.cmiUpdate.setVisible(false);
+                this.cmiPrint.setVisible(false);
+                this.cmiPreview.setVisible(true);
+                break;
+            case EditOnly:
+                this.cmiDelete.setVisible(false);
+                this.cmiNew.setVisible(false);
+                this.cmiUpdate.setVisible(true);
+                this.cmiPrint.setVisible(visible);
+                break;
+            default:
+                break;
         }
 
     }

@@ -34,6 +34,7 @@ public class CommonEnums {
     public enum Rights {
         Create, Read, Update, Delete, Print
     }
+    public enum ViewMenuTypes{All, EditOnly, Print, PrintNew, Preview, None}
 
     public enum ObjectTypes {
         Table, View, Form

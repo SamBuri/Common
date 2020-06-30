@@ -20,6 +20,7 @@ import org.kordamp.desktoppanefx.scene.layout.InternalWindow;
 import com.saburi.common.controllers.EditController;
 import com.saburi.common.controllers.SearchController;
 import com.saburi.common.dbaccess.DBAccess;
+import com.saburi.common.utils.CommonEnums.ViewMenuTypes;
 import de.jensd.fx.glyphs.GlyphsDude;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
@@ -132,7 +133,7 @@ public class Navigation {
             controller.setFormMode(formMode);
             controller.init(title, formMode);
             controller.setTableView(tableView);
-            if (formMode.equals(FormMode.Update) || formMode.equals(FormMode.Print)) {
+            if (formMode.equals(FormMode.Update) || formMode.equals(FormMode.Print)|| formMode.equals(FormMode.Preview)) {
                 controller.setEdit(objectValue, formMode);
             }
             if (isPopup) {
@@ -377,13 +378,13 @@ public class Navigation {
     }
 
     public static void viewMenuItemClick(Class type, MenuItem menuItem, DBAccess oDBAccess, String objectName,
-            String uiCaption, boolean restrainColumns, boolean maximised, boolean editable, boolean printable) {
+            String uiCaption, boolean restrainColumns, boolean maximised, ViewMenuTypes viewMenuType) {
         menuItem.setGraphic(GlyphsDude.createIcon(FontAwesomeIcon.TABLE));
         CurrentUser.applyRights(objectName, menuItem);
         menuItem.setOnAction((event) -> {
             try {
 
-                view(type, oDBAccess, objectName, "View", uiCaption, restrainColumns, maximised, editable, printable);
+                view(type, oDBAccess, objectName, "View", uiCaption, restrainColumns, maximised,viewMenuType);
             } catch (IOException ex) {
                 errorMessage(ex);
             }
@@ -406,6 +407,7 @@ public class Navigation {
         });
 
     }
+    
 
     public static void viewMenuItemClickIgnoreParent(Class type, MenuItem menuItem, DBAccess oDBAccess, String objectName,
             String uiCaption, boolean restrainColumns, boolean maximised) {
@@ -489,14 +491,13 @@ public class Navigation {
     }
 
     public static void view(Class mainClass, DBAccess oDBAccess, String ObjectName, String uiName, String title,
-            boolean constrainColumns, boolean maximised, boolean editable, boolean printable) throws IOException {
+            boolean constrainColumns, boolean maximised, ViewMenuTypes viewMenuType) throws IOException {
         try {
             String windowID = ObjectName.concat(uiName);
             FXMLLoader loader = CommonNavigate.getUILoader(uiName);
             Parent root = loader.load();
             AbstractViewController controller = loader.<AbstractViewController>getController();
-            controller.setEditable(editable);
-            controller.setPrintable(printable);
+            controller.setViewMenuType(viewMenuType);
             controller.setInitData(mainClass, oDBAccess, ObjectName, constrainColumns);
             desktopPane.removeInternalWindow(windowID);
             InternalWindow window = new InternalWindow(windowID, GlyphsDude.createIcon(FontAwesomeIcon.BOOK), title, root);

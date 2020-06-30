@@ -19,32 +19,34 @@ import org.apache.logging.log4j.Logger;
  * @author CLINICMASTER13
  */
 public class EntityManagerLoader {
-    
-     private static EntityManagerFactory entityManagerFactory;
-    private static final Logger LOGGER = LogManager.getLogger();
-   
+
+    private static EntityManagerFactory entityManagerFactory;
+    private static final Logger LOG = LogManager.getLogger();
+
     static {
+        LOG.info("Initialising Persistence Unit");
         try {
             Map<String, String> properties = new HashMap<>();
-        properties.put("javax.persistence.jdbc.url", "jdbc:mysql://"+DBConnection.getCurrentDBConnection().getUrl()+"/"+DBConnection.getCurrentDBConnection().getDbName());
-        properties.put("javax.persistence.jdbc.user", DBConnection.getCurrentDBConnection().getUsername());
-        properties.put("javax.persistence.jdbc.password", DBConnection.getCurrentDBConnection().getPassword());
-      
-             entityManagerFactory = Persistence.createEntityManagerFactory(Navigation.persistenceUnit, properties);
+            properties.put("javax.persistence.jdbc.url", "jdbc:mysql://" + DBConnection.getCurrentDBConnection().getUrl() + "/" + DBConnection.getCurrentDBConnection().getDbName());
+            properties.put("javax.persistence.jdbc.user", DBConnection.getCurrentDBConnection().getUsername());
+            properties.put("javax.persistence.jdbc.password", DBConnection.getCurrentDBConnection().getPassword());
+            LOG.info("Finished Initialising Persistence Unit");
+            entityManagerFactory = Persistence.createEntityManagerFactory(Navigation.persistenceUnit, properties);
+            LOG.info("Finishing creating persitence unit");
         } catch (Exception e) {
             try {
-                LOGGER.error(e,e);
-                throw new Exception("Failed to connect to the database. Please check if your computer is connected to the network"+e.getLocalizedMessage());
+                LOG.error(e, e);
+                throw new Exception("Failed to connect to the database. Please check if your computer is connected to the network" + e.getLocalizedMessage());
             } catch (Exception ex) {
-                LOGGER.error(ex,ex);
+                LOG.error(ex, ex);
             }
-           
+
         }
-       
+
     }
-    
-      public static EntityManagerFactory getInstance() {
+
+    public static EntityManagerFactory getInstance() {
         return entityManagerFactory;
     }
-    
+
 }

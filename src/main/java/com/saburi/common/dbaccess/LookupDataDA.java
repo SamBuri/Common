@@ -362,6 +362,10 @@ public class LookupDataDA extends DBAccess {
     }
 
     private boolean validateLookupData() throws Exception {
+        if (this.getLookupObject().isReadOnly()) {
+            throw new Exception("The Lookup object: " + lookupData.getLookupObject().getDisplayKey() + ". is readonly and can't be modified");
+        }
+
         List<LookupData> defaultLookupDatas = getDefaultLookupDatas(this.lookupData.getLookupObject());
         defaultLookupDatas.remove(this.lookupData);
         if (!defaultLookupDatas.isEmpty() && this.lookupData.isIsDefault()) {

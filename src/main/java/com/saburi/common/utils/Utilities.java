@@ -43,7 +43,7 @@ import org.hibernate.Session;
 public class Utilities {
 
     public static enum FormMode {
-        Save, Update, Print
+        Save, Update, Print, Preview
     }
 
     public static String getHostName() {
@@ -104,7 +104,7 @@ public class Utilities {
         }
     }
 
-    public static int getInt(Object o) {
+    public static int getInteger(Object o) {
         if (isInteger(o)) {
             return Integer.parseInt(o.toString());
         } else {
@@ -234,12 +234,13 @@ public class Utilities {
         DecimalFormat formatter = new DecimalFormat("#,###.00");
         return formatter.format(number);
     }
-    
-     public static String formatNumber(float number) {
+
+    public static String formatNumber(float number) {
         DecimalFormat formatter = new DecimalFormat("#,###.0");
         return formatter.format(number);
     }
-      public static String formatNumber(int number) {
+
+    public static String formatNumber(int number) {
         DecimalFormat formatter = new DecimalFormat("#,###");
         return formatter.format(number);
     }

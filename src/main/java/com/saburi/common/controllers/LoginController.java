@@ -17,7 +17,6 @@ import javafx.beans.binding.Bindings;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
@@ -26,9 +25,9 @@ import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.TextField;
-import javafx.scene.control.TitledPane;
-import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class LoginController implements Initializable {
 
@@ -53,6 +52,7 @@ public class LoginController implements Initializable {
     private ContextMenu cmuLogin;
     @FXML
     private MenuItem cmiUser, cmiLicence;
+    private static final Logger LOG = LogManager.getLogger();
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -66,7 +66,7 @@ public class LoginController implements Initializable {
             cmiUser.setOnAction(e -> {
                 try {
 
-                    showDialog("AppUser", "User", 400, 450, btnClose);
+                    showDialog("AppUser", "User", 400, 450, btnClose, true);
                 } catch (IOException ex) {
                     errorMessage(ex);
                 }
@@ -75,7 +75,7 @@ public class LoginController implements Initializable {
             cmiLicence.setOnAction(e -> {
                 try {
 
-                    showDialog("Licence", "Licence", 400, 450, btnClose);
+                    showDialog("Licence", "Licence", 400, 450, btnClose, true);
                 } catch (IOException ex) {
                     errorMessage(ex);
                 }
@@ -123,10 +123,12 @@ public class LoginController implements Initializable {
     }
 
     private void login() {
+        LOG.info("Login Started");
         try {
             String loginID = getText(txtLoginID, "Login ID");
             String password = getText(txtPassword, "Password");
             setCurrentDBConnection();
+            LOG.info("Iniating the login task");
             Task<Integer> task = new Task<Integer>() {
 
                 private int success = 0;
@@ -134,7 +136,7 @@ public class LoginController implements Initializable {
                 @Override
                 protected Integer call() {
                     try {
-
+                        LOG.info("Preparing session");
                         AppUserDA appUserDA = new AppUserDA();
 
                         if (LicenceDA.noUploadedLicences()) {
@@ -160,7 +162,10 @@ public class LoginController implements Initializable {
 
                         return success;
                     } catch (Exception e) {
-                        Platform.runLater(() -> message("Error Connecting to the database.\nPlease check if your computer is connected to the network\n "));
+                        Platform.runLater(() -> errorMessage("Error Connecting to the database.\n"
+                                + "Please check if your computer is connected to the network\n ", e));
+                        LOG.error("Login Failed: " + e.getMessage());
+                        LOG.error(e, e);
                         return 0;
                     }
                 }
@@ -174,7 +179,7 @@ public class LoginController implements Initializable {
                     try {
                         super.succeeded(); //To change body of generated methods, choose Tools | Templates.
 //                        Parent nextParent = FXMLLoader.load(getClass().getResource("/fxml/Scene.fxml"));
-
+                        LOG.info("Login succedded");
                         Scene scene = new Scene(Navigation.loadFXML(Navigation.parentScene, Navigation.parentFXMl));
                         scene.getStylesheets().add(Navigation.mainStyleSheet);
                         Stage stage = new Stage();
@@ -249,12 +254,14 @@ public class LoginController implements Initializable {
 
     private void loadDBConnection() {
         try {
+            LOG.info("Loading DB Connection Properties");
             DBConnection dBConnection = new DBConnection();
             dBConnection = dBConnection.xmlDecode();
             txtServerName.setText(dBConnection.getUrl());
             txtDatabase.setText(dBConnection.getDbName());
             txtUsername.setText(dBConnection.getUsername());
             txtServerPassword.setText(SaburiEncryptor.decrypt(dBConnection.getPassword()));
+            LOG.info("Done Loading DB Connection Properties");
         } catch (IOException ex) {
             errorMessage(ex);
         }

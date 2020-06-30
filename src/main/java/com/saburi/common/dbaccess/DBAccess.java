@@ -8,7 +8,6 @@ package com.saburi.common.dbaccess;
 import com.saburi.common.entities.AppRevisionEntity;
 import com.saburi.common.entities.DBEntity;
 import com.saburi.common.utils.CommonEnums;
-import com.saburi.common.utils.FXUIUtils;
 import com.saburi.common.utils.HQLBuilder;
 import com.saburi.common.utils.SearchColumn;
 import com.saburi.common.utils.SearchColumn.SearchDataTypes;
@@ -24,6 +23,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Stream;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -45,6 +45,8 @@ import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
 import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.hibernate.Session;
 import org.hibernate.envers.AuditReader;
 import org.hibernate.envers.AuditReaderFactory;
@@ -86,7 +88,9 @@ public class DBAccess {
     protected SimpleStringProperty revClientMachine = new SimpleStringProperty(this, "revClientMachine");
     protected SimpleObjectProperty revDateTime = new SimpleObjectProperty(this, "revDateTime");
     protected SimpleStringProperty revDateTimeDisplay = new SimpleStringProperty(this, "revDateTimeDisplay");
-
+    protected SimpleBooleanProperty saved = new SimpleBooleanProperty(this, "saved");
+    protected SimpleBooleanProperty include = new SimpleBooleanProperty(this, "include");
+   private static final Logger LOGGER = LogManager.getLogger();
     public DBAccess() {
 
     }
@@ -101,7 +105,7 @@ public class DBAccess {
             DBAccess.entityManagerFactory = Persistence.createEntityManagerFactory(persistenceUnit);
 
         } catch (Exception e) {
-            FXUIUtils.errorMessage("Connection problem", e);
+            LOGGER.error(e,e);
         }
 
     }
@@ -157,7 +161,7 @@ public class DBAccess {
 
         entityManager = entityManagerFactory.createEntityManager();
 
-        boolean saved = false;
+        boolean savedi = false;
         try {
             entityManager.getTransaction().begin();
             if (entityManager.find(entity.getClass(), entity.getId()) != null) {
@@ -168,7 +172,7 @@ public class DBAccess {
                 entityManager.persist(entity);
                 entityManager.getTransaction().commit();
             }
-            saved = true;
+            savedi = true;
         } catch (Exception e) {
 
             entityManager.getTransaction().rollback();
@@ -176,7 +180,7 @@ public class DBAccess {
         } finally {
             entityManager.close();
         }
-        return saved;
+        return savedi;
     }
 
     protected int persist(List<DBEntity> entities) throws Exception {
@@ -581,8 +585,6 @@ public class DBAccess {
         return entityList;
     }
 
-
-    
     protected List find(Class entity, String column, Object value) {
         List entityList = new ArrayList<>();
 
@@ -603,7 +605,7 @@ public class DBAccess {
         }
         return entityList;
     }
-    
+
     protected List findAsc(Class entity, String column, Object value, String orderColumn) {
         List entityList = new ArrayList<>();
 
@@ -1632,7 +1634,7 @@ public class DBAccess {
         }
 
     }
-    
+
     protected double getSum(Class className, String columnName, String compColumn, Object compValue) {
         entityManager = entityManagerFactory.createEntityManager();
         try {
@@ -1908,6 +1910,8 @@ public class DBAccess {
             return new Pair(this.dBEntity.getDisplayKey(), this.dBEntity.getId());
         }
     }
+    
+    
 
 //    @Override
 //    public boolean equals(Object o) {
@@ -1926,4 +1930,30 @@ public class DBAccess {
 //    public int hashCode() {
 //        return id.hashCode();
 //    }
+
+    public boolean IsSaved() {
+        return saved.get();
+    }
+
+    public void setSaved(boolean saved) {
+        this.saved.set(saved);
+    }
+
+    public boolean isInclude() {
+        return include.get();
+    }
+
+    public void setInclude(boolean include) {
+        this.include.set(include);
+    }
+
+    public SimpleBooleanProperty getSavedProperty() {
+        return saved;
+    }
+
+    public SimpleBooleanProperty getIncludeProperty() {
+        return include;
+    }
+    
+    
 }

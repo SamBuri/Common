@@ -7,6 +7,7 @@ package com.saburi.common.utils;
 
 import com.saburi.common.dbaccess.DBAccess;
 import com.saburi.common.main.App;
+import com.saburi.common.utils.CommonEnums.ViewMenuTypes;
 import com.saburi.common.utils.Utilities.FormMode;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import java.io.IOException;
@@ -77,8 +78,8 @@ public class CommonNavigate {
     }
     
     public static void viewMenuItemClick(MenuItem menuItem, DBAccess oDBAccess, String objectName,
-            String uiCaption, boolean restrainColumns, boolean maximised, boolean editable, boolean printable) {
-        Navigation.viewMenuItemClick(MAIN_CLASS, menuItem, oDBAccess, objectName, uiCaption, restrainColumns, maximised, editable, printable);
+            String uiCaption, boolean restrainColumns, boolean maximised, ViewMenuTypes viewMenuType) {
+        Navigation.viewMenuItemClick(MAIN_CLASS, menuItem, oDBAccess, objectName, uiCaption, restrainColumns, maximised, viewMenuType);
 
     }
 

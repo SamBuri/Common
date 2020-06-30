@@ -11,7 +11,6 @@ import java.util.List;
 import javafx.util.Pair;
 import com.saburi.common.utils.SearchColumn;
 import com.saburi.common.utils.SearchColumn.SearchDataTypes;
-import com.saburi.common.utils.Utilities;
 import com.saburi.common.entities.UserRole;
 import java.time.LocalDateTime;
 import com.saburi.common.utils.CurrentUser;

@@ -64,15 +64,19 @@ public abstract class EditController implements Initializable {
         this.formMode = formMode;
         btnSave.setText(formMode.name());
         boolean editMode = formMode.equals(FormMode.Update);
+
         btnSearch.setVisible(editMode);
         btnDelete.setVisible(editMode);
+        btnSave.setVisible(!formMode.equals(FormMode.Preview));
 
-        if (primaryKeyControl instanceof TextField) {
-            TextField textField = (TextField) primaryKeyControl;
-            textField.setText(primaryKeyValue.toString());
-        } else if (primaryKeyControl instanceof ComboBox) {
-            ComboBox textField = (ComboBox) primaryKeyControl;
-            textField.setValue(primaryKeyValue);
+        if (formMode.equals(FormMode.Update)||formMode.equals(FormMode.Print)||formMode.equals(FormMode.Preview)) {
+            if (primaryKeyControl instanceof TextField) {
+                TextField textField = (TextField) primaryKeyControl;
+                textField.setText(primaryKeyValue.toString());
+            } else if (primaryKeyControl instanceof ComboBox) {
+                ComboBox textField = (ComboBox) primaryKeyControl;
+                textField.setValue(primaryKeyValue);
+            }
         }
         btnSearch.fire();
     }
@@ -95,13 +99,22 @@ public abstract class EditController implements Initializable {
         CurrentUser.applyRights(btnSave, Rights.Create);
         CurrentUser.applyRights(btnDelete, Rights.Delete);
         CurrentUser.applyRights(cmiLoad, Rights.Read);
-        if (formMode.equals(FormMode.Update)) {
-            CurrentUser.applyRights(btnSave, Rights.Update);
-            clearPrimaryKey();
-        } else if (formMode.equals(FormMode.Print)) {
-            CurrentUser.applyRights(btnSave, Rights.Print);
-            clearPrimaryKey();
-            disable();
+        switch (formMode) {
+            case Update:
+                CurrentUser.applyRights(btnSave, Rights.Update);
+                clearPrimaryKey();
+                break;
+            case Print:
+                CurrentUser.applyRights(btnSave, Rights.Print);
+                clearPrimaryKey();
+                disable();
+                break;
+            case Preview:
+                clearPrimaryKey();
+                disable();
+                break;
+            default:
+                break;
         }
 
         btnSave.setOnAction(e -> {
