@@ -12,8 +12,11 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ForeignKey;
 import javax.persistence.Lob;
 import javax.persistence.OneToOne;
+import org.hibernate.envers.Audited;
+import org.hibernate.envers.RelationTargetAuditMode;
 
 @Entity
+@Audited(targetAuditMode = RelationTargetAuditMode.NOT_AUDITED)
 public class AppUser extends DBEntity {
 
     @Id

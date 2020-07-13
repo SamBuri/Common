@@ -305,7 +305,7 @@ public class VillageDA extends DBAccess {
     @Override
     public List<DBAccess> get() {
         List<DBAccess> list = new ArrayList<>();
-        selectQuery(Village.class).forEach(o -> list.add(new VillageDA((Village) o)));
+        selectQuery(Village.class, true).forEach(o -> list.add(new VillageDA((Village) o)));
         if (entityManager != null) {
             entityManager.close();
         }

@@ -250,7 +250,7 @@ public class LookupDataDA extends DBAccess {
     @Override
     public List<DBAccess> get() {
         List<DBAccess> list = new ArrayList<>();
-        selectQuery(LookupData.class).forEach(o -> list.add(new LookupDataDA((LookupData) o)));
+        selectQuery(LookupData.class, true).forEach(o -> list.add(new LookupDataDA((LookupData) o)));
         if (entityManager != null) {
             entityManager.close();
         }

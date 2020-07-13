@@ -90,7 +90,8 @@ public class DBAccess {
     protected SimpleStringProperty revDateTimeDisplay = new SimpleStringProperty(this, "revDateTimeDisplay");
     protected SimpleBooleanProperty saved = new SimpleBooleanProperty(this, "saved");
     protected SimpleBooleanProperty include = new SimpleBooleanProperty(this, "include");
-   private static final Logger LOGGER = LogManager.getLogger();
+    private static final Logger LOGGER = LogManager.getLogger();
+
     public DBAccess() {
 
     }
@@ -105,7 +106,7 @@ public class DBAccess {
             DBAccess.entityManagerFactory = Persistence.createEntityManagerFactory(persistenceUnit);
 
         } catch (Exception e) {
-            LOGGER.error(e,e);
+            LOGGER.error(e, e);
         }
 
     }
@@ -1420,6 +1421,21 @@ public class DBAccess {
         }
     }
 
+    protected Stream<?> selectQuery(Class className, boolean cacheable) {
+
+        try {
+            entityManager = entityManagerFactory.createEntityManager();
+            String query = "from " + className.getSimpleName() + " order by recordDateTime desc";
+            var q = entityManager.unwrap(Session.class).createQuery(query);
+            if (cacheable) {
+                q.setHint("org.hibernate.cacheable", true);
+            }
+            return q.stream();
+        } catch (Exception e) {
+            throw e;
+        }
+    }
+
     protected Stream<?> selectQueryOrdered(Class className, String orderColumn) {
 
         try {
@@ -1910,8 +1926,6 @@ public class DBAccess {
             return new Pair(this.dBEntity.getDisplayKey(), this.dBEntity.getId());
         }
     }
-    
-    
 
 //    @Override
 //    public boolean equals(Object o) {
@@ -1930,7 +1944,6 @@ public class DBAccess {
 //    public int hashCode() {
 //        return id.hashCode();
 //    }
-
     public boolean IsSaved() {
         return saved.get();
     }
@@ -1954,6 +1967,5 @@ public class DBAccess {
     public SimpleBooleanProperty getIncludeProperty() {
         return include;
     }
-    
-    
+
 }

@@ -95,7 +95,7 @@
             <AppenderRef ref="Console"/>
         </Logger>-->
                  
-        <Root level="all">
+        <Root level="debug">
             <AppenderRef ref="Console"/>
         </Root>
  

@@ -23,6 +23,9 @@ open module com.saburi.Common {
     requires java.xml.bind;
     requires java.persistence;
     requires org.hibernate.orm.envers;
+    requires org.hibernate.orm.ehcache;
+    requires ehcache;
+    requires slf4j.api;
     requires org.hibernate.validator;
     requires java.validation;
     requires javax.el;

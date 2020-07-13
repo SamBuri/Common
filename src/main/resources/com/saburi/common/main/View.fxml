@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.ComboBox?>
@@ -8,6 +7,7 @@
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.ProgressIndicator?>
 <?import javafx.scene.control.SplitMenuButton?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
@@ -17,7 +17,7 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox id="View" fx:id="mVBox" prefHeight="511.0" spacing="2" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.saburi.common.controllers.ViewController">
+<VBox id="View" fx:id="mVBox" prefHeight="511.0" spacing="2" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.saburi.common.controllers.ViewController">
     <children>
         <BorderPane fx:id="bpnUpper" prefHeight="38.0">
             <left>
@@ -78,22 +78,27 @@
                 </VBox>
             </left>
         </BorderPane>
-        <TableView id="View" fx:id="tblDBAccess" prefHeight ="300" minHeight ="300" VBox.vgrow="ALWAYS">
-           
-            <contextMenu>
-                <ContextMenu id="View" fx:id="cmuView">
-                    <items>
-                        <MenuItem id="Create" fx:id="cmiNew" disable="true" mnemonicParsing="false" text="New" />
-                        <MenuItem id="Update" fx:id="cmiUpdate" disable="true" mnemonicParsing="false" text="Edit" />
-                        <MenuItem id="Print" fx:id="cmiPrint" disable="true" mnemonicParsing="false" text="Print" visible="false" />
-                        <MenuItem id="Print" fx:id="cmiPreview" disable="false" mnemonicParsing="false" text="Preview" visible="false" />
-                        <MenuItem id="Delete" fx:id="cmiDelete" disable="true" mnemonicParsing="false" text="Delete" />
-                        <MenuItem id="Copy" fx:id="cmiCopy" disable="false" mnemonicParsing="false" text="Copy" />
-                        <MenuItem id="View" fx:id="cmiSelectAll" mnemonicParsing="false" text="Select All" />
-                    </items>
-                </ContextMenu>
-            </contextMenu>
-        </TableView>
+      <StackPane VBox.vgrow="ALWAYS">
+         <children>
+              <TableView id="View" fx:id="tblDBAccess" minHeight="300" prefHeight="300">
+                 
+                  <contextMenu>
+                      <ContextMenu id="View" fx:id="cmuView">
+                          <items>
+                              <MenuItem id="Create" fx:id="cmiNew" disable="true" mnemonicParsing="false" text="New" />
+                              <MenuItem id="Update" fx:id="cmiUpdate" disable="true" mnemonicParsing="false" text="Edit" />
+                              <MenuItem id="Print" fx:id="cmiPrint" disable="true" mnemonicParsing="false" text="Print" visible="false" />
+                              <MenuItem id="Print" fx:id="cmiPreview" disable="false" mnemonicParsing="false" text="Preview" visible="false" />
+                              <MenuItem id="Delete" fx:id="cmiDelete" disable="true" mnemonicParsing="false" text="Delete" />
+                              <MenuItem id="Copy" fx:id="cmiCopy" disable="false" mnemonicParsing="false" text="Copy" />
+                              <MenuItem id="View" fx:id="cmiSelectAll" mnemonicParsing="false" text="Select All" />
+                          </items>
+                      </ContextMenu>
+                  </contextMenu>
+              </TableView>
+            <ProgressIndicator fx:id="pgiView" minHeight="-Infinity" minWidth="-Infinity" prefHeight="190.0" prefWidth="138.0" progress="0.0" />
+         </children>
+      </StackPane>
         
 
     </children>

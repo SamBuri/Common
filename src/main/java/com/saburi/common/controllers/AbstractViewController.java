@@ -58,8 +58,10 @@ import com.saburi.common.utils.Utilities.FormMode;
 import java.util.Comparator;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
+import javafx.application.Platform;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.value.ObservableValue;
+import javafx.concurrent.Task;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -67,6 +69,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
+import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.cell.CheckBoxTableCell;
 import javafx.scene.layout.HBox;
@@ -125,14 +128,17 @@ public abstract class AbstractViewController implements Initializable {
     protected ContextMenu cmuView;
     @FXML
     protected Button btnClearFilters, btnMultipleFilters;
+    @FXML
+    ProgressIndicator pgiView;
     private List<SearchColumn> searchColumns;
     List<SearchColumn> defaultSearchColumns = new ArrayList<>();
     protected ObservableList selectedItems;
     protected Node editNode;
 //    protected boolean editable = true;
 //    protected boolean printable = false;
-    protected ViewMenuTypes viewMenuType;
+    protected ViewMenuTypes viewMenuType = ViewMenuTypes.AddOnly;
     protected List<SearchCriteria> searchCriterias;
+    protected boolean revision;
 
     public void setPopUp(boolean popUp) {
         this.popUp = popUp;
@@ -193,6 +199,14 @@ public abstract class AbstractViewController implements Initializable {
 
     public void setViewMenuType(ViewMenuTypes viewMenuType) {
         this.viewMenuType = viewMenuType;
+    }
+
+    public boolean isRevision() {
+        return revision;
+    }
+
+    public void setRevision(boolean revision) {
+        this.revision = revision;
     }
 
     private void searchColumnSelected() {
@@ -336,89 +350,125 @@ public abstract class AbstractViewController implements Initializable {
 
     public void loadTable() {
 
-        try {
-            if (this.searchColumns == null) {
-                this.searchColumns = this.oDBAccess.getSearchColumns();
-            }
-            this.defaultSearchColumns = this.oDBAccess.getDefaultSearchColumns();
-            if (isPopUp()) {
-                this.searchColumns.removeAll(this.oDBAccess.getDefaultSearchColumns());
-            }
+        Task<Integer> task = new Task<Integer>() {
 
-            if (this.list == null) {
-                this.list = oDBAccess.get();
-            }
+            @Override
+            protected Integer call() throws Exception {
+                try {
+                    updateMessage("Setting Search Columns");
+                    Thread.sleep(500);
+                    if (searchColumns == null) {
+                        searchColumns = oDBAccess.getSearchColumns();
+                    }
+//                    defaultSearchColumns = oDBAccess.getDefaultSearchColumns();
+                    if (isPopUp()) {
+                        searchColumns.removeAll(oDBAccess.getDefaultSearchColumns());
+                    }
+                    updateMessage("Loading Data");
+                    updateProgress(10, 100);
+                    Thread.sleep(500);
 
-            this.data = FXCollections.observableArrayList(this.list);
-            filteredList = new FilteredList<>(data, e -> true);
+                    if (isRevision()) {
+                        searchColumns = oDBAccess.getSearchColumns();
+                        searchColumns.removeAll(oDBAccess.getDefaultSearchColumns());
+                        var revSearchColumns = oDBAccess.getRevSearchColumns();
+                        if (!searchColumns.containsAll(revSearchColumns)) {
+                            searchColumns.addAll(revSearchColumns);
+                        }
+                        list = oDBAccess.getRevisions();
 
-            FilteredList<SearchColumn> filteredSearchColumns = new FilteredList<>(FXCollections.observableArrayList(searchColumns), e -> true);
-            filteredSearchColumns.setPredicate((P) -> P.isVisible());
-            for (int i = 0; i < filteredSearchColumns.size(); i++) {
-                final int x = i;
-                SearchColumn sc = filteredSearchColumns.get(x);
+                    } else if (list == null) {
+                        list = oDBAccess.get();
+                    }
 
-                if (sc.getDataType().equals(SearchColumn.SearchDataTypes.BOOLEAN)) {
-                    TableColumn<DBAccess, Boolean> tableColumn = new TableColumn(sc.getCaption());
+                    data = FXCollections.observableArrayList(list);
+                    filteredList = new FilteredList<>(data, e -> true);
 
-                    tableColumn.setCellValueFactory((TableColumn.CellDataFeatures<DBAccess, Boolean> param) -> {
+                    FilteredList<SearchColumn> filteredSearchColumns = new FilteredList<>(FXCollections.observableArrayList(searchColumns), e -> true);
+                    filteredSearchColumns.setPredicate((P) -> P.isVisible());
+                    for (int i = 0; i < filteredSearchColumns.size(); i++) {
+                        final int x = i;
+                        SearchColumn sc = filteredSearchColumns.get(x);
 
-                        Object value = param.getValue().getSearchColumns().get(param.getValue().getSearchColumns().lastIndexOf(sc)).getValue();
-                        SimpleBooleanProperty valueBooleanProperty = new SimpleBooleanProperty(value == null ? false : Boolean.valueOf(value.toString()));
-                        valueBooleanProperty.addListener((ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) -> {
-                            valueBooleanProperty.set(newValue);
-                        });
-                        return valueBooleanProperty;
+                        if (sc.getDataType().equals(SearchColumn.SearchDataTypes.BOOLEAN)) {
+                            TableColumn<DBAccess, Boolean> tableColumn = new TableColumn(sc.getCaption());
+
+                            tableColumn.setCellValueFactory((TableColumn.CellDataFeatures<DBAccess, Boolean> param) -> {
+
+                                Object value = param.getValue().getSearchColumns().get(param.getValue().getSearchColumns().lastIndexOf(sc)).getValue();
+                                SimpleBooleanProperty valueBooleanProperty = new SimpleBooleanProperty(value == null ? false : Boolean.valueOf(value.toString()));
+                                valueBooleanProperty.addListener((ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) -> {
+                                    valueBooleanProperty.set(newValue);
+                                });
+                                return valueBooleanProperty;
+                            });
+                            tableView.getColumns().add(tableColumn);
+                            final Callback<TableColumn<DBAccess, Boolean>, TableCell<DBAccess, Boolean>> cellFCallback = CheckBoxTableCell.forTableColumn(tableColumn);
+                            tableColumn.setCellFactory(cellFCallback);
+
+                        } else {
+                            TableColumn<DBAccess, Object> tableColumn = new TableColumn(sc.getCaption());
+                            tableColumn.setCellValueFactory(param
+                                    -> new ReadOnlyObjectWrapper<>(param.getValue().getSearchColumns()
+                                            .get(param.getValue().getSearchColumns().lastIndexOf(sc)).getDispValue() != null
+                                            ? param.getValue().getSearchColumns().get(param.getValue().getSearchColumns().lastIndexOf(sc)).getDispValue()
+                                            : param.getValue().getSearchColumns().get(param.getValue().getSearchColumns().lastIndexOf(sc)).getValue())
+                            );
+                            tableView.getColumns().add(tableColumn);
+                        }
+
+                    }
+                    updateMessage("Applying Data");
+                    updateProgress(80, 100);
+                    Thread.sleep(500);
+                    tableView.setItems(FXCollections.observableArrayList(data));
+
+                    Platform.runLater(() -> lblReturnedRecords.setText(data.size() + ": records"));
+                    if (constrainColumns) {
+                        tableView.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+                    }
+                    updateMessage("Setting Aggregate Columns");
+                    updateProgress(90, 100);
+                    Thread.sleep(500);
+                    if (!data.isEmpty()) {
+
+                        loadSearchColumnCombo(FXCollections.observableArrayList(filteredSearchColumns), cboSearchColumn);
+                        cboAggregate.setItems(FXCollections.observableArrayList(AggregateFunctions.values()));
+                        ObservableList aggreateColumn = filteredSearchColumns
+                                .filtered((p) -> p.getDataType().name().equalsIgnoreCase(SearchDataTypes.NUMBER.name())
+                                || p.getDataType().name().equalsIgnoreCase(SearchDataTypes.MONEY.name())
+                                || p.getDataType().name().equalsIgnoreCase(SearchDataTypes.INTEGER.name()));
+                        hbxAggregates.setVisible(aggreateColumn.size() > 0);
+                        loadSearchColumnCombo(aggreateColumn, cboAggregateColumn);
+                    }
+
+                    selectedItems = tableView.getSelectionModel().getSelectedItems();
+                    cmiSelectAll.disableProperty().bind(Bindings.size(tableView.getItems()).lessThan(1));
+
+                    cmuView.setOnShowing((event) -> {
+                        viewContextMenuShowing();
                     });
-                    tableView.getColumns().add(tableColumn);
-                    final Callback<TableColumn<DBAccess, Boolean>, TableCell<DBAccess, Boolean>> cellFCallback = CheckBoxTableCell.forTableColumn(tableColumn);
-                    tableColumn.setCellFactory(cellFCallback);
 
-                } else {
-                    TableColumn<DBAccess, Object> tableColumn = new TableColumn(sc.getCaption());
-                    tableColumn.setCellValueFactory(param
-                            -> new ReadOnlyObjectWrapper<>(param.getValue().getSearchColumns()
-                                    .get(param.getValue().getSearchColumns().lastIndexOf(sc)).getDispValue() != null
-                                    ? param.getValue().getSearchColumns().get(param.getValue().getSearchColumns().lastIndexOf(sc)).getDispValue()
-                                    : param.getValue().getSearchColumns().get(param.getValue().getSearchColumns().lastIndexOf(sc)).getValue())
-                    );
-                    tableView.getColumns().add(tableColumn);
+                    updateProgress(100, 100);
+                    Thread.sleep(500);
+                } catch (InterruptedException e) {
+                    Platform.runLater(() -> errorMessage(e));
                 }
-
+                return 1;
             }
 
-            tableView.setItems(FXCollections.observableArrayList(data));
-
-            lblReturnedRecords.setText(data.size() + ": records");
-            if (constrainColumns) {
-                tableView.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+            @Override
+            protected void failed() {
+                super.failed();
+                Platform.runLater(() -> FXUIUtils.message("Error Loading Data: " + super.exceptionProperty().get().getMessage()));
             }
 
-            if (!data.isEmpty()) {
+        };
 
-                loadSearchColumnCombo(FXCollections.observableArrayList(filteredSearchColumns), cboSearchColumn);
-                cboAggregate.setItems(FXCollections.observableArrayList(AggregateFunctions.values()));
-                ObservableList aggreateColumn = filteredSearchColumns
-                        .filtered((p) -> p.getDataType().name().equalsIgnoreCase(SearchDataTypes.NUMBER.name())
-                        || p.getDataType().name().equalsIgnoreCase(SearchDataTypes.MONEY.name())
-                        || p.getDataType().name().equalsIgnoreCase(SearchDataTypes.INTEGER.name()));
-                hbxAggregates.setVisible(aggreateColumn.size() > 0);
-                loadSearchColumnCombo(aggreateColumn, cboAggregateColumn);
-            }
+        new Thread(task).start();
+        pgiView.visibleProperty().bind(task.runningProperty());
+        pgiView.progressProperty().bind(task.progressProperty());
 
-            this.selectedItems = tableView.getSelectionModel().getSelectedItems();
-//        cmiDelete.disableProperty().bind(Bindings.size(selectedItems).lessThan(1));
-//        cmiUpdate.disableProperty().bind(Bindings.size(selectedItems).isNotEqualTo(1));
-//           cmiCopy.disableProperty().bind(Bindings.size(selectedItems).isNotEqualTo(1));
-            cmiSelectAll.disableProperty().bind(Bindings.size(tableView.getItems()).lessThan(1));
-
-            cmuView.setOnShowing((event) -> {
-                this.viewContextMenuShowing();
-            });
-
-        } catch (Exception e) {
-            errorMessage(e);
-        }
     }
 
     private void setSearchCriteria() {
@@ -575,7 +625,7 @@ public abstract class AbstractViewController implements Initializable {
                     Navigation.loadEditUI(type, ui, title, recordID, tableView, Utilities.FormMode.Print, isPopUp());
                     break;
                 }
-                
+
                 case Preview: {
                     DBAccess dBAccess = (DBAccess) tableView.getSelectionModel().getSelectedItem();
                     Object recordID = dBAccess.getId();
@@ -616,7 +666,7 @@ public abstract class AbstractViewController implements Initializable {
         this.uiEdit = objectName;
         this.mainClass = type;
         this.title = objectName;
-        loadTable();
+        Platform.runLater(() -> loadTable());
 
     }
 
@@ -624,15 +674,11 @@ public abstract class AbstractViewController implements Initializable {
         try {
             this.constrainColumns = constrainColumns;
             this.oDBAccess = oDBAccess;
-            this.list = oDBAccess.getRevisions();
-            this.searchColumns = oDBAccess.getSearchColumns();
-            this.searchColumns.removeAll(oDBAccess.getDefaultSearchColumns());
-            this.searchColumns.addAll(oDBAccess.getRevSearchColumns());
             this.objectName = objectName;
             this.uiEdit = objectName;
             this.title = objectName;
             this.cmuView.hide();
-            loadTable();
+            Platform.runLater(() -> loadTable());
             this.cmiNew.setVisible(false);
             this.cmiPrint.setVisible(false);
             this.cmiUpdate.setVisible(false);
@@ -703,6 +749,7 @@ public abstract class AbstractViewController implements Initializable {
 
     private void showMenuOptions() {
         boolean visible = false;
+
         switch (this.viewMenuType) {
             case None:
                 this.cmiDelete.setVisible(false);
@@ -716,7 +763,7 @@ public abstract class AbstractViewController implements Initializable {
                 this.cmiUpdate.setVisible(false);
                 this.cmiPrint.setVisible(false);
                 break;
-                case Preview:
+            case Preview:
                 this.cmiDelete.setVisible(false);
                 this.cmiNew.setVisible(false);
                 this.cmiUpdate.setVisible(false);
@@ -727,6 +774,12 @@ public abstract class AbstractViewController implements Initializable {
                 this.cmiDelete.setVisible(false);
                 this.cmiNew.setVisible(false);
                 this.cmiUpdate.setVisible(true);
+                this.cmiPrint.setVisible(visible);
+                break;
+            case AddOnly:
+                this.cmiDelete.setVisible(false);
+                this.cmiNew.setVisible(true);
+                this.cmiUpdate.setVisible(false);
                 this.cmiPrint.setVisible(visible);
                 break;
             default:

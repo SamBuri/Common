@@ -276,7 +276,6 @@ public class FXUIUtils {
         }
     }
 
-   
     public static void setTableAUtoFill(TableView tableView) {
         Method columnToFitMethod;
         try {
@@ -368,6 +367,7 @@ public class FXUIUtils {
         Alert alert = new Alert(Alert.AlertType.ERROR, e.getMessage());
         alert.setTitle(title);
 //        alert.setHeaderText(null);
+        alert.getDialogPane().setMaxHeight(Region.USE_PREF_SIZE);
         alert.setContentText(e.getMessage());
         e.printStackTrace();
         alert.show();
@@ -1897,14 +1897,14 @@ public class FXUIUtils {
         }
 
     }
-    
-      public static void showDialog(String uiName, String title, float widith, float height,
+
+    public static void showDialog(String uiName, String title, float widith, float height,
             Node node, boolean initEvents) throws IOException {
         try {
 
             FXMLLoader loader = CommonNavigate.getUILoader(uiName);
             Parent root = loader.load();
-            if(initEvents){
+            if (initEvents) {
                 EditController controller = loader.<EditController>getController();
                 controller.init(title, FormMode.Save);
             }
@@ -2077,8 +2077,7 @@ public class FXUIUtils {
                 TableView tableView = (TableView) node;
                 tableView.setEditable(enabled);
             }
-            
-            
+
         });
     }
 
