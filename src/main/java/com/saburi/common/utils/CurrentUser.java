@@ -39,11 +39,11 @@ public class CurrentUser {
     }
 
     public static String getLoginID() {
-        return appUser.getLoginID();
+        return appUser == null ? "" : appUser.getLoginID();
     }
 
     public static String getFullName() {
-        return appUser.getDisplayKey();
+        return appUser == null ? "" : appUser.getDisplayKey();
     }
 
     public static LocalDateTime getLoginDateTime() {
@@ -69,23 +69,18 @@ public class CurrentUser {
         } else {
             boolean action = false;
             switch (right) {
-                case Create:
+                case Create ->
                     action = userRoleDetail.isCanCreate();
-                    break;
-                case Read:
+                case Read ->
                     action = userRoleDetail.isCanRead();
-                    break;
-                case Update:
+                case Update ->
                     action = userRoleDetail.isCanUpdate();
-                    break;
-                case Delete:
+                case Delete ->
                     action = userRoleDetail.isCanDelete();
-                    break;
-                case Print:
+                case Print ->
                     action = userRoleDetail.isCanPrint();
-                    break;
-                default:
-                    break;
+                default -> {
+                }
             }
 
             node.disableProperty().set(!action);
@@ -106,23 +101,18 @@ public class CurrentUser {
             } else {
                 boolean action = false;
                 switch (right) {
-                    case "Create":
+                    case "Create" ->
                         action = userRoleDetail.isCanCreate();
-                        break;
-                    case "Read":
+                    case "Read" ->
                         action = userRoleDetail.isCanRead();
-                        break;
-                    case "Update":
+                    case "Update" ->
                         action = userRoleDetail.isCanUpdate();
-                        break;
-                    case "Delete":
+                    case "Delete" ->
                         action = userRoleDetail.isCanDelete();
-                        break;
-                    case "Print":
+                    case "Print" ->
                         action = userRoleDetail.isCanPrint();
-                        break;
-                    default:
-                        break;
+                    default -> {
+                    }
                 }
 
                 node.disableProperty().set(!action);
@@ -145,23 +135,18 @@ public class CurrentUser {
                     boolean action = false;
 
                     switch (right) {
-                        case "Create":
+                        case "Create" ->
                             action = userRoleDetail.isCanCreate();
-                            break;
-                        case "Read":
+                        case "Read" ->
                             action = userRoleDetail.isCanRead();
-                            break;
-                        case "Update":
+                        case "Update" ->
                             action = userRoleDetail.isCanUpdate();
-                            break;
-                        case "Delete":
+                        case "Delete" ->
                             action = userRoleDetail.isCanDelete();
-                            break;
-                        case "Print":
+                        case "Print" ->
                             action = userRoleDetail.isCanPrint();
-                            break;
-                        default:
-                            break;
+                        default -> {
+                        }
                     }
 
                     menuItem.disableProperty().set(!action);
@@ -186,23 +171,18 @@ public class CurrentUser {
             } else {
                 boolean action = false;
                 switch (right) {
-                    case "Create":
+                    case "Create" ->
                         action = userRoleDetail.isCanCreate();
-                        break;
-                    case "Read":
+                    case "Read" ->
                         action = userRoleDetail.isCanRead();
-                        break;
-                    case "Update":
+                    case "Update" ->
                         action = userRoleDetail.isCanUpdate();
-                        break;
-                    case "Delete":
+                    case "Delete" ->
                         action = userRoleDetail.isCanDelete();
-                        break;
-                    case "Print":
+                    case "Print" ->
                         action = userRoleDetail.isCanPrint();
-                        break;
-                    default:
-                        break;
+                    default -> {
+                    }
                 }
 
                 menuItem.disableProperty().set(!action);
@@ -233,23 +213,18 @@ public class CurrentUser {
                 boolean action = false;
 
                 switch (right) {
-                    case Create:
+                    case Create ->
                         action = userRoleDetail.isCanCreate();
-                        break;
-                    case Read:
+                    case Read ->
                         action = userRoleDetail.isCanRead();
-                        break;
-                    case Update:
+                    case Update ->
                         action = userRoleDetail.isCanUpdate();
-                        break;
-                    case Delete:
+                    case Delete ->
                         action = userRoleDetail.isCanDelete();
-                        break;
-                    case Print:
+                    case Print ->
                         action = userRoleDetail.isCanPrint();
-                        break;
-                    default:
-                        break;
+                    default -> {
+                    }
                 }
 
                 menuItem.disableProperty().set(!action);
@@ -276,23 +251,18 @@ public class CurrentUser {
             boolean action = false;
 
             switch (right) {
-                case Create:
+                case Create ->
                     action = userRoleDetail.isCanCreate();
-                    break;
-                case Read:
+                case Read ->
                     action = userRoleDetail.isCanRead();
-                    break;
-                case Update:
+                case Update ->
                     action = userRoleDetail.isCanUpdate();
-                    break;
-                case Delete:
+                case Delete ->
                     action = userRoleDetail.isCanDelete();
-                    break;
-                case Print:
+                case Print ->
                     action = userRoleDetail.isCanPrint();
-                    break;
-                default:
-                    break;
+                default -> {
+                }
             }
 
             return action;

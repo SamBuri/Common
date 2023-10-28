@@ -42,59 +42,34 @@
             <DefaultRolloverStrategy max="10"/>
         </RollingFile>
          
-        <!--        <RollingFile name="springLog" fileName="${sys:APP_LOG_ROOT}/spring.log"
-                     filePattern="logs/spring-%d{yyyy-MM-dd}-%i.log" >
-            <PatternLayout pattern="${LOG_PATTERN}"/>
-            <Policies>
-                <SizeBasedTriggeringPolicy size="19500KB" />
-            </Policies>
-            <DefaultRolloverStrategy max="1"/>
-        </RollingFile>
-         
-        <RollingFile name="aopLog" fileName="${sys:APP_LOG_ROOT}/application-aop.log"
-                     filePattern="${sys:APP_LOG_ROOT}/application-aop-%d{yyyy-MM-dd}-%i.log" >
-            <PatternLayout pattern="${LOG_PATTERN}"/>
-            <Policies>
-                <SizeBasedTriggeringPolicy size="19500KB" />
-            </Policies>
-            <DefaultRolloverStrategy max="1"/>
-        </RollingFile>-->
+        
          
     </Appenders>
  
     <Loggers>
      
-        <!--        <Logger name="com.saburi.common.utils" additivity="false">
-            <AppenderRef ref="aopLog" />
-            <AppenderRef ref="Console" />
-        </Logger>-->
          
         <Logger name="com.saburi.common.utils" additivity="false">
-            <AppenderRef ref="debugLog" />
+            <!--<AppenderRef ref="debugLog" />-->
             <AppenderRef ref="infoLog"  />
             <AppenderRef ref="errorLog" />
             <!--<AppenderRef ref="Console"  />-->
         </Logger>
         
         <Logger name="com.saburi.common.dbaccess" additivity="false">
-            <AppenderRef ref="debugLog" />
+            <!--<AppenderRef ref="debugLog" />-->
             <AppenderRef ref="infoLog"  />
             <AppenderRef ref="errorLog" />
             <!--<AppenderRef ref="Console"  />-->
         </Logger>
         
         <Logger name="com.saburi.common.controllers" additivity="false">
-            <AppenderRef ref="debugLog" />
+            <!--<AppenderRef ref="debugLog" />-->
             <AppenderRef ref="infoLog"  />
             <AppenderRef ref="errorLog" />
             <!--<AppenderRef ref="Console"  />-->
         </Logger>
-         
-        <!--        <Logger name="org.springframework" additivity="false">
-            <AppenderRef ref="springLog" />
-            <AppenderRef ref="Console"/>
-        </Logger>-->
-                 
+        
         <Root level="debug">
             <AppenderRef ref="Console"/>
         </Root>

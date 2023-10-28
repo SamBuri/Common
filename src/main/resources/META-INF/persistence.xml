@@ -1,19 +1,43 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<persistence version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
+<persistence xmlns="http://xmlns.jcp.org/xml/ns/persistence"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="2.2"
+             xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_2.xsd">
+    <!-- Define persistence unit -->
     <persistence-unit name="com.saburi.mysql.common" transaction-type="RESOURCE_LOCAL">
         <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
+        <class>com.saburi.common.entities.AccessObject</class>
+        <class>com.saburi.common.entities.IDGenerator</class>
+        <class>com.saburi.common.entities.LookupObject</class>
+        <class>com.saburi.common.entities.LookupData</class>
+        <class>com.saburi.common.entities.AppUser</class>
+        <class>com.saburi.common.entities.Company</class>
+        <class>com.saburi.common.entities.County</class>
+        <class>com.saburi.common.entities.SubCounty</class>
+        <class>com.saburi.common.entities.Parish</class>
+        <class>com.saburi.common.entities.Village</class>
+        <class>com.saburi.common.entities.Options</class>
+        <class>com.saburi.common.entities.UserRole</class>
+        <class>com.saburi.common.entities.UserRoleDetail</class>
+        <class>com.saburi.common.entities.Staff</class>
+        <class>com.saburi.common.entities.RevisionEntity</class>
+        <class>com.saburi.common.entities.AppRevisionEntity</class>
+        <class>com.saburi.common.entities.Licence</class>
+    
         <properties>
-            <property name="hibernate.dialect" value="org.hibernate.dialect.MySQL5Dialect"/>
+            <property name="hibernate.dialect" value="org.hibernate.dialect.MySQL5InnoDBDialect"/>
             <!--"org.hibernate.dialect.MySQL5InnoDBDialect-->
             <property name="hibernate.cache.provider_class" value="org.hibernate.cache.NoCacheProvider"/>
             <property name="hibernate.hbm2ddl.auto" value="update"/>
             <property name="hibernate.show_sql" value="true"/>
             <property name="hibernate.format_sql" value="true"/>
             <property name="org.hibernate.envers.audit_table_suffix" value="Log"/>
+            <!-- Scan for annotated classes and Hibernate mapping XML files -->
+            <property name="hibernate.archive.autodetection" value="class, hbm"/>
+            
             <!--Second Level Caching-->
             <property name="hibernate.cache.use_second_level_cache" value="true"/>
             <property name="hibernate.cache.region.factory_class"
                       value="org.hibernate.cache.ehcache.EhCacheRegionFactory"/>
         </properties>
+        
     </persistence-unit>
 </persistence>

@@ -4,7 +4,6 @@ import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import static com.saburi.common.utils.FXUIUtils.*;
-import com.saburi.common.utils.Utilities.FormMode;
 import static com.saburi.common.utils.FXUIUtils.warningOk;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
@@ -44,30 +43,29 @@ public class LicenceController extends EditController {
     @FXML
     private TextArea txaLicence;
 
-    private final LicenceDA oLicence = new LicenceDA();
+    private final LicenceDA oLicenceDA = new LicenceDA();
 
-    public void setButtonText(String text) {
-        btnSave.setText(text);
-        btnSearch.setVisible(true);
-        btnDelete.setVisible(true);
-    }
-
-    public void setEdit(String text) {
-        btnSave.setText(FormMode.Update.name());
-        btnSearch.setVisible(true);
-        btnDelete.setVisible(true);
-        this.txtLicenceNo.setText(text);
-        btnSearch.fire();
-    }
-
+//    public void setButtonText(String text) {
+//        btnSave.setText(text);
+//        btnSearch.setVisible(true);
+//        btnDelete.setVisible(true);
+//    }
+//
+//    public void setEdit(String text) {
+//        btnSave.setText(FormMode.Update.name());
+//        btnSearch.setVisible(true);
+//        btnDelete.setVisible(true);
+//        this.txtLicenceNo.setText(text);
+//        btnSearch.fire();
+//    }
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         try {
             validateIteger(txtUserLimit);
             validateIteger(txtRecordLimit);
             cboLicenceType.setItems(FXCollections.observableArrayList(LicenseTypes.values()));
-            btnSearch.setOnAction(e -> this.loadData());
-            btnDelete.setOnAction(e -> this.delete());
+//            btnSearch.setOnAction(e -> this.loadData());
+//            btnDelete.setOnAction(e -> this.delete());
 
             btnBrowse.setOnAction(e -> {
                 browse(txtFileName);
@@ -78,6 +76,11 @@ public class LicenceController extends EditController {
                     loadData();
                 }
             });
+            this.primaryKeyControl = txtLicenceNo;
+            this.dbAccess = oLicenceDA;
+            
+            btnSave.setOnAction(e->this.save());
+            btnClose.setOnAction(e->close(btnClose));
 
         } catch (Exception e) {
             errorMessage(e);
@@ -88,7 +91,7 @@ public class LicenceController extends EditController {
     @Override
     protected void save() {
         try {
-            this.editSuccessful =false;
+            this.editSuccessful = false;
             String licenceText = getText(txaLicence, "Licence");
             String[] licences = licenceText.split("\n");
 
@@ -99,15 +102,10 @@ public class LicenceController extends EditController {
 
             LicenceDA licenceDA = new LicenceDA(licences[0], licences[1], licences[2], licences[3], licences[4], licences[5], licences[6], licences[7]);
 
-            String buttonText = btnSave.getText();
-            if (buttonText.equalsIgnoreCase(FormMode.Save.name())) {
-                licenceDA.save();
-                message("Saved Successfully");
-                clear();
-            } else if (buttonText.equalsIgnoreCase(FormMode.Update.name())) {
-                licenceDA.update();
-                message("Updated Successfully");
-            }
+            licenceDA.save();
+            message("Saved Successfully");
+            clear();
+
             this.dbAccess = licenceDA;
             this.editSuccessful = true;
 
@@ -116,8 +114,6 @@ public class LicenceController extends EditController {
         } finally {
         }
     }
-
-   
 
     @Override
     public void loadData() {
@@ -151,7 +147,7 @@ public class LicenceController extends EditController {
         try {
             String licenceNo = getText(txtLicenceNo, "Licence No");
 
-            LicenceDA licenceDA = oLicence.get(licenceNo);
+            LicenceDA licenceDA = oLicenceDA.get(licenceNo);
             if (!warningOk("Confirm Delete", "You are about to delete a record with ID: " + licenceNo + " Are you sure you want to continue?", "Remember this action cannot be un done")) {
                 return;
             }

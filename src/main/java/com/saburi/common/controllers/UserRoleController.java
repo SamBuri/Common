@@ -183,7 +183,7 @@ public class UserRoleController extends EditController {
             String roleName = getText(txtRoleName, "Role Name");
 
             UserRoleDA userRoleDA = oUserRoleDA.get(roleName);
-            txtRoleName.setText(userRoleDA.getRoleName());
+//            txtRoleName.setText(userRoleDA.getRoleName());
             txaDescription.setText(userRoleDA.getDescription());
             tblUserRoleDetails.setItems(FXCollections.observableArrayList(userRoleDA.getUserRoleDetailsDAs()));
             addRow(tblUserRoleDetails, new UserRoleDetailDA());

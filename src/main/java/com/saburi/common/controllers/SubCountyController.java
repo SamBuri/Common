@@ -44,7 +44,6 @@ public class SubCountyController extends EditController {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         try {
-            this.primaryKeyControl = txtSubCountyID;
             this.dbAccess = oSubCountyDA;
             this.restrainColumnConstraint = false;
             this.primaryKeyControl = txtSubCountyID;

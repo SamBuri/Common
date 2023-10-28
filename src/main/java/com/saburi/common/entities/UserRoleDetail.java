@@ -41,7 +41,7 @@ public class UserRoleDetail extends DBEntity {
     public UserRoleDetail() {
     }
 
-    public UserRoleDetail(UserRole userRole, AccessObject accessObject, String userRoleDetailID, boolean canCreate, boolean canUpdate, boolean canRead, boolean canDelete, boolean canPrint) {
+    public UserRoleDetail(UserRole userRole, AccessObject accessObject, boolean canCreate, boolean canUpdate, boolean canRead, boolean canDelete, boolean canPrint) {
         this.userRole = userRole;
         this.accessObject = accessObject;
         setUserRoleDetailID();

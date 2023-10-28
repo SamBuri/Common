@@ -21,8 +21,8 @@
             </padding>
             <Label id="AppUser" fx:id="lblLoginID" minWidth="100" text="Login ID" GridPane.columnIndex="0" GridPane.rowIndex="0" />
             <TextField fx:id = "txtLoginID" id = "AppUser"  GridPane.rowIndex = "0" GridPane.columnIndex = "1" minWidth="100" promptText = "Enter Login ID"> 
-            <contextMenu>
-                    <ContextMenu fx:id ="cmuSelectLoginID" id = "Student">
+                <contextMenu>
+                    <ContextMenu fx:id ="cmuSelectLoginID" id = "AppUser">
                         <items>
                             <MenuItem mnemonicParsing="false" fx:id ="cmiLoad" id = "Student" text="Load" />   
                         </items>
@@ -40,7 +40,16 @@
             <Label id="AppUser" fx:id="lblConfirmPassword" minWidth="100" text="Confirm Password" GridPane.columnIndex="0" GridPane.rowIndex="5" />
             <PasswordField fx:id = "txtConfirmPassword" id = "AppUser"  GridPane.rowIndex = "5" GridPane.columnIndex = "1" minWidth="100" promptText = "Enter Confirm Password"/> 
             <Label id="AppUser" fx:id="lblRole" minWidth="100" text="Role" GridPane.columnIndex="0" GridPane.rowIndex="6" />
-            <ComboBox fx:id = "cboRole" id = "AppUser"  GridPane.rowIndex = "6" GridPane.columnIndex = "1" minWidth="100" promptText = "Select Role" prefWidth="185.0"/>
+            <ComboBox fx:id = "cboRole" id = "AppUser"  GridPane.rowIndex = "6" GridPane.columnIndex = "1" minWidth="100" promptText = "Select Role" prefWidth="185.0">
+            
+            <contextMenu>
+                    <ContextMenu fx:id ="cmuSelectUserRole" id = "AppUser">
+                        <items>
+                            <MenuItem mnemonicParsing="false" fx:id ="cmiSelectRole" id = "AppUser" text="Select" />   
+                        </items>
+                    </ContextMenu>
+                </contextMenu>
+            </ComboBox>
         </GridPane>
         <AnchorPane>
             <VBox spacing="2" AnchorPane.bottomAnchor="27.0" AnchorPane.leftAnchor="7.0">

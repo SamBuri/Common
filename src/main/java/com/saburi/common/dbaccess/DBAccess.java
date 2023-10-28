@@ -8,7 +8,9 @@ package com.saburi.common.dbaccess;
 import com.saburi.common.entities.AppRevisionEntity;
 import com.saburi.common.entities.DBEntity;
 import com.saburi.common.utils.CommonEnums;
+import com.saburi.common.utils.FXUIUtils;
 import com.saburi.common.utils.HQLBuilder;
+import com.saburi.common.utils.Navigation;
 import com.saburi.common.utils.SearchColumn;
 import com.saburi.common.utils.SearchColumn.SearchDataTypes;
 import com.saburi.common.utils.SearchOrder.SearchOrders;
@@ -93,7 +95,6 @@ public class DBAccess {
     private static final Logger LOGGER = LogManager.getLogger();
 
     public DBAccess() {
-
     }
 
     public DBAccess(DBEntity entity) {

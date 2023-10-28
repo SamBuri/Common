@@ -1,4 +1,4 @@
-
+use TestDB;
 DROP PROCEDURE IF EXISTS uspEditLookupObject;
 
 DELIMITER $$
@@ -98,3 +98,41 @@ END $$
 
 
 --- select * from LookupObject
+
+DROP PROCEDURE IF EXISTS uspEditUserRoles;
+
+DELIMITER $$
+CREATE PROCEDURE uspEditUserRoles(varRoleName varchar(40), varDescription varchar(100))
+BEGIN
+IF EXISTS (SELECT roleName FROM UserRole where roleName = varRoleName) THEN
+BEGIN 
+END;
+ELSE
+BEGIN
+INSERT INTO UserRole
+	( roleName, description, lastUpdateDateTime, recordDateTime) 
+VALUES ( varRoleName, varDescription, now(), now());
+END;
+END IF;
+END $$
+
+DROP PROCEDURE IF EXISTS uspEditUserRoleDetails;
+
+DELIMITER $$
+CREATE PROCEDURE uspEditUserRoleDetails(varRoleName varchar(40), varObjectName varchar(100))
+BEGIN
+IF EXISTS (SELECT userRoleID FROM UserRoleDetail where userRoleID = varRoleName and accessObjectID = varObjectName) THEN
+BEGIN 
+END;
+ELSE
+BEGIN
+INSERT INTO UserRoleDetail
+	(userRoleDetailID, userRoleID, accessObjectID, canCreate, CanRead, canUpdate, canDelete, canPrint,  lastUpdateDateTime, recordDateTime) 
+VALUES (concat(varRoleName, varObjectName), varRoleName, varObjectName, true, true, true, true, true, now(), now());
+END;
+END IF;
+END $$
+
+call uspEditUserRoles('Administrator', 'Administors the systems');
+call uspEditUserRoleDetails('Administrator', 'UserRole');
+call uspEditUserRoleDetails('Administrator', 'UserRoleDetail');

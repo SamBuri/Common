@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<java version="13.0.1" class="java.beans.XMLDecoder">
+<java version="16.0.2" class="java.beans.XMLDecoder">
  <object class="com.saburi.common.utils.DBConnection">
   <void property="dbName">
-   <string>Schoolsoft</string>
+   <string>TestDB</string>
   </void>
   <void property="password">
-   <string>QH08AniStuZZSXLUDnJMVSaAVMNCBC@3NDAcxK14</string>
+   <string>2w@3%#&amp;3ASp1VOMPbrcODA77JMOPp1KM@3DGMP@3dxVMDAacDAcOSTrAU6</string>
   </void>
   <void property="url">
-   <string>localhost:3308</string>
+   <string>localhost:3306</string>
   </void>
   <void property="username">
    <string>root</string>

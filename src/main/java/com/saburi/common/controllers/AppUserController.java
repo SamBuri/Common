@@ -15,6 +15,8 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.ComboBox;
 import com.saburi.common.dbaccess.UserRoleDA;
 import com.saburi.common.entities.UserRole;
+import com.saburi.common.utils.CommonNavigate;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.PasswordField;
 
 public class AppUserController extends EditController {
@@ -34,6 +36,9 @@ public class AppUserController extends EditController {
     private PasswordField txtConfirmPassword;
     @FXML
     private ComboBox cboRole;
+    private UserRoleDA oUserRoleDA =  new UserRoleDA();
+    @FXML
+    private MenuItem cmiSelectRole;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -41,6 +46,9 @@ public class AppUserController extends EditController {
 
             this.prefSize = 300;
             loadDBEntities(new UserRoleDA().getUserRoles(), cboRole);
+            selectItem(CommonNavigate.MAIN_CLASS, cmiSelectRole, oUserRoleDA, "UserRole", "User Roles", cboRole, true);
+            btnSave.setOnAction(e -> this.save());
+            btnClose.setOnAction(e -> close(btnClose));
 
         } catch (Exception e) {
             errorMessage(e);
@@ -108,6 +116,7 @@ public class AppUserController extends EditController {
         }
     }
 
+    @Override
     public void loadData() {
         try {
             String loginID = getText(txtLoginID, "Login ID");
@@ -126,6 +135,7 @@ public class AppUserController extends EditController {
 
     }
 
+    @Override
     public void clear() {
         txtLoginID.clear();
         txtFirstName.clear();

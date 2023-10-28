@@ -6,6 +6,7 @@
 package com.saburi.common.dbaccess;
 
 import com.saburi.common.utils.DBConnection;
+import com.saburi.common.utils.FXUIUtils;
 import com.saburi.common.utils.Navigation;
 import java.util.HashMap;
 import java.util.Map;
@@ -23,30 +24,33 @@ public class EntityManagerLoader {
     private static EntityManagerFactory entityManagerFactory;
     private static final Logger LOG = LogManager.getLogger();
 
-    static {
-        LOG.info("Initialising Persistence Unit");
+
+    public static EntityManagerFactory getInstance() {
+       LOG.info("Initialising Persistence Unit");
         try {
             Map<String, String> properties = new HashMap<>();
             properties.put("javax.persistence.jdbc.url", "jdbc:mysql://" + DBConnection.getCurrentDBConnection().getUrl() + "/" + DBConnection.getCurrentDBConnection().getDbName());
             properties.put("javax.persistence.jdbc.user", DBConnection.getCurrentDBConnection().getUsername());
             properties.put("javax.persistence.jdbc.password", DBConnection.getCurrentDBConnection().getPassword());
-            LOG.info("Finished Initialising Persistence Unit");
+            LOG.info("Finished Initialising Persistence Unit ", Navigation.persistenceUnit);
             entityManagerFactory = Persistence.createEntityManagerFactory(Navigation.persistenceUnit, properties);
             LOG.info("Finishing creating persitence unit");
         } catch (Exception e) {
             try {
-                LOG.error(e, e);
+               LOG.error(e, e);
                 throw new Exception("Failed to connect to the database. Please check if your computer is connected to the network" + e.getLocalizedMessage());
             } catch (Exception ex) {
                 LOG.error(ex, ex);
+               
             }
 
         }
-
-    }
-
-    public static EntityManagerFactory getInstance() {
         return entityManagerFactory;
     }
 
 }
+
+
+
+
+

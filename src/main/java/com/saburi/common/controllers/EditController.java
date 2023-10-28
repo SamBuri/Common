@@ -70,12 +70,10 @@ public abstract class EditController implements Initializable {
         btnSave.setVisible(!formMode.equals(FormMode.Preview));
 
         if (formMode.equals(FormMode.Update)||formMode.equals(FormMode.Print)||formMode.equals(FormMode.Preview)) {
-            if (primaryKeyControl instanceof TextField) {
-                TextField textField = (TextField) primaryKeyControl;
+            if (primaryKeyControl instanceof TextField textField) {
                 textField.setText(primaryKeyValue.toString());
-            } else if (primaryKeyControl instanceof ComboBox) {
-                ComboBox textField = (ComboBox) primaryKeyControl;
-                textField.setValue(primaryKeyValue);
+            } else if (primaryKeyControl instanceof ComboBox comboBox) {
+                comboBox.setValue(primaryKeyValue);
             }
         }
         btnSearch.fire();
@@ -100,21 +98,21 @@ public abstract class EditController implements Initializable {
         CurrentUser.applyRights(btnDelete, Rights.Delete);
         CurrentUser.applyRights(cmiLoad, Rights.Read);
         switch (formMode) {
-            case Update:
+            case Update -> {
                 CurrentUser.applyRights(btnSave, Rights.Update);
                 clearPrimaryKey();
-                break;
-            case Print:
+            }
+            case Print -> {
                 CurrentUser.applyRights(btnSave, Rights.Print);
                 clearPrimaryKey();
                 disable();
-                break;
-            case Preview:
+            }
+            case Preview -> {
                 clearPrimaryKey();
                 disable();
-                break;
-            default:
-                break;
+            }
+            default -> {
+            }
         }
 
         btnSave.setOnAction(e -> {

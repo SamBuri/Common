@@ -19,9 +19,6 @@ import com.saburi.common.utils.FXUIUtils;
 import com.saburi.common.utils.Navigation;
 import com.saburi.common.utils.Utilities.FormMode;
 import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javafx.application.Platform;
 
 /**
  *
@@ -84,7 +81,8 @@ public abstract class CommonSceneController implements Initializable {
                 
                 editMenuItemClick(mnuIDGeneratorUpdate, "IDGenerator", "ID Generator", FormMode.Update);
                 viewMenuItemClick(mnuGeneratorView, new IDGeneratorDA(), "IDGenerator", "ID Generator", true, true);
-                loadUI(mnuLicenceUpdate, "Licence", "Licence", 360, false);
+//                loadUI(mnuLicenceUpdate, "Licence", "Licence", 360, false);
+                editMenuItemClick(mnuLicenceUpdate, "Licence", "Licence", FormMode.Save);
                 
                 editMenuItemClick(mnuStaffAdd, "Staff", "Staff", FormMode.Save);
                 editMenuItemClick(mnuStaffUpdate, "Staff", "Staff", FormMode.Update);
@@ -120,7 +118,7 @@ public abstract class CommonSceneController implements Initializable {
                 
                 editMenuItemClick(mnuOptionsUpdate, "Options", "Options", FormMode.Update);
                 viewMenuItemClick(mnuOptionsView, new OptionsDA(), "Options", "Options", true, true);
-            } catch (IOException ex) {
+            } catch (Exception ex) {
                 FXUIUtils.errorMessage(ex);
             }
         

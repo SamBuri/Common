@@ -16,8 +16,8 @@ public class LookupObject extends DBEntity {
 
     @Id
     @NotNull(message = "The field: Lookup Object ID cannot be null")
-    @Size(max = 100, message = "The field: Lookup Object ID size cannot be greater than 100")
-    @Column(length = 100, updatable = false)
+    @Size(max = 4, message = "The field: Lookup Object ID size cannot be greater than 100")
+    @Column(length = 4, updatable = false)
     private int lookupObjectID;
     @Size(max = 40, message = "The field: Lookup Object Name size cannot be greater than 40")
     @NotNull(message = "The field: Lookup Object Name cannot be null")

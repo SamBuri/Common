@@ -66,7 +66,7 @@
                     <Label id="ConnectionCreditential" fx:id="lblServerName" minWidth="100" text="Server Name" GridPane.columnIndex="0" GridPane.rowIndex="0" />
                     <TextField id="ConnectionCreditential" fx:id="txtServerName" minWidth="100" promptText="Enter Server Name" GridPane.columnIndex="1" GridPane.rowIndex="0" />
                     <Label id="ConnectionCreditential" fx:id="lblDatabase" minWidth="100" text="Database" GridPane.columnIndex="0" GridPane.rowIndex="1" />
-                    <TextField id="ConnectionCreditential" fx:id="txtDatabase" minWidth="100" promptText="Enter Database" GridPane.columnIndex="1" GridPane.rowIndex="1" text="LoanSoft"/>
+                    <TextField id="ConnectionCreditential" fx:id="txtDatabase" minWidth="100" promptText="Enter Database" GridPane.columnIndex="1" GridPane.rowIndex="1" text="Schoolsoft"/>
                     <Label id="ConnectionCreditential" fx:id="lblUsername" minWidth="100" text="Username" GridPane.columnIndex="0" GridPane.rowIndex="2" />
                     <TextField id="ConnectionCreditential" fx:id="txtUsername" minWidth="100" promptText="Enter Username" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                     <Label id="ConnectionCreditential" fx:id="lblServerPassword" minWidth="100" text="Password" GridPane.columnIndex="0" GridPane.rowIndex="3" />

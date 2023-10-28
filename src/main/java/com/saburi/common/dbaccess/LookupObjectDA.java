@@ -174,7 +174,7 @@ public class LookupObjectDA extends DBAccess {
 
     }
 
-    public LookupObject getLookupObject(String lookupObjectID) {
+    public LookupObject getLookupObject(int lookupObjectID) {
         return (LookupObject) super.find(LookupObject.class, lookupObjectID);
     }
 
@@ -196,7 +196,7 @@ public class LookupObjectDA extends DBAccess {
         return list;
     }
 
-    public LookupObjectDA get(String lookupObjectID) throws Exception {
+    public LookupObjectDA get(int lookupObjectID) throws Exception {
         LookupObject oLookupObject = getLookupObject(lookupObjectID);
         if (oLookupObject == null) {
             throw new Exception("No Record with id: " + lookupObjectID);

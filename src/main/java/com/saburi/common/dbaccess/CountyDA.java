@@ -58,6 +58,8 @@ public class CountyDA extends DBAccess {
         initialseProprties();
         createSearchColumns();
     }
+    
+
 
     public int getIdHelper() {
         return idHelper.get();

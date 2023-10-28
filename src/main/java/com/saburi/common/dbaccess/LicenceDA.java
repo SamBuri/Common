@@ -209,15 +209,9 @@ public class LicenceDA extends DBAccess {
     }
 
     public boolean save() throws Exception {
-        return super.persist(this.licence);
-
-    }
-
-    public boolean update() throws Exception {
         return super.merge(this.licence);
 
     }
-
     public boolean delete() {
         return super.remove(this.licence);
 

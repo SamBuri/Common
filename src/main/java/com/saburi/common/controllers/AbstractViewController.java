@@ -402,7 +402,7 @@ public abstract class AbstractViewController implements Initializable {
                                 });
                                 return valueBooleanProperty;
                             });
-                            tableView.getColumns().add(tableColumn);
+                            Platform.runLater(()->tableView.getColumns().add(tableColumn));
                             final Callback<TableColumn<DBAccess, Boolean>, TableCell<DBAccess, Boolean>> cellFCallback = CheckBoxTableCell.forTableColumn(tableColumn);
                             tableColumn.setCellFactory(cellFCallback);
 
@@ -414,7 +414,8 @@ public abstract class AbstractViewController implements Initializable {
                                             ? param.getValue().getSearchColumns().get(param.getValue().getSearchColumns().lastIndexOf(sc)).getDispValue()
                                             : param.getValue().getSearchColumns().get(param.getValue().getSearchColumns().lastIndexOf(sc)).getValue())
                             );
-                            tableView.getColumns().add(tableColumn);
+                         
+                            Platform.runLater(()->tableView.getColumns().add(tableColumn));
                         }
 
                     }
@@ -425,21 +426,21 @@ public abstract class AbstractViewController implements Initializable {
 
                     Platform.runLater(() -> lblReturnedRecords.setText(data.size() + ": records"));
                     if (constrainColumns) {
-                        tableView.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+                         Platform.runLater(() ->tableView.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY));
                     }
                     updateMessage("Setting Aggregate Columns");
                     updateProgress(90, 100);
                     Thread.sleep(500);
                     if (!data.isEmpty()) {
 
-                        loadSearchColumnCombo(FXCollections.observableArrayList(filteredSearchColumns), cboSearchColumn);
+                         Platform.runLater(() ->loadSearchColumnCombo(FXCollections.observableArrayList(filteredSearchColumns), cboSearchColumn));
                         cboAggregate.setItems(FXCollections.observableArrayList(AggregateFunctions.values()));
                         ObservableList aggreateColumn = filteredSearchColumns
                                 .filtered((p) -> p.getDataType().name().equalsIgnoreCase(SearchDataTypes.NUMBER.name())
                                 || p.getDataType().name().equalsIgnoreCase(SearchDataTypes.MONEY.name())
                                 || p.getDataType().name().equalsIgnoreCase(SearchDataTypes.INTEGER.name()));
-                        hbxAggregates.setVisible(aggreateColumn.size() > 0);
-                        loadSearchColumnCombo(aggreateColumn, cboAggregateColumn);
+                         Platform.runLater(() ->hbxAggregates.setVisible(aggreateColumn.size() > 0));
+                         Platform.runLater(() ->loadSearchColumnCombo(aggreateColumn, cboAggregateColumn));
                     }
 
                     selectedItems = tableView.getSelectionModel().getSelectedItems();
@@ -491,30 +492,30 @@ public abstract class AbstractViewController implements Initializable {
                 Object value;
                 Object secondValue;
                 switch (searchDateType) {
-                    case DATE:
+                    case DATE -> {
                         value = getDate(dtpFirst, "First Date");
                         secondValue = getDate(dtpSecond, "Second Date", enforceSecondValue);
-                        break;
-                    case BOOLEAN:
+                    }
+                    case BOOLEAN -> {
                         value = chkValue.isSelected();
                         secondValue = null;
-                        break;
-                    case NUMBER:
+                    }
+                    case NUMBER -> {
                         value = getDouble(txtSearch, "Value");
                         secondValue = getDouble(txtSecondValue, "Second Value", enforceSecondValue);
-                        break;
-                    case MONEY:
+                    }
+                    case MONEY -> {
                         value = getDouble(txtSearch, "Value");
                         secondValue = getDouble(txtSecondValue, "Second Value", enforceSecondValue);
-                        break;
-                    case INTEGER:
+                    }
+                    case INTEGER -> {
                         value = getDouble(txtSearch, "Value");
                         secondValue = getDouble(txtSecondValue, "Second Value", enforceSecondValue);
-                        break;
-                    default:
+                    }
+                    default -> {
                         value = getText(txtSearch, "Value");
                         secondValue = getText(txtSecondValue, "Second Value", enforceSecondValue);
-                        break;
+                    }
                 }
 
                 SearchCriteria searchCriteria = new SearchCriteria(operator, searchColumn, searchType, value, secondValue, false);
@@ -564,18 +565,16 @@ public abstract class AbstractViewController implements Initializable {
             }
             double number;
             switch (aggregateFunction) {
-                case Sum:
+                case Sum -> {
                     number = sum;
                     if (searchDataType.equals(SearchDataTypes.INTEGER)) {
                         txtggregate.setText(Utilities.formatInteger(number));
                     } else {
                         txtggregate.setText(Utilities.formatNumber(number));
                     }
-                    break;
-                case Average:
-                    txtggregate.setText(Utilities.formatNumber(numbers.stream().collect(Collectors.averagingDouble(Double::doubleValue))));
-                    break;
-                case Minimum:
+                }
+                case Average -> txtggregate.setText(Utilities.formatNumber(numbers.stream().collect(Collectors.averagingDouble(Double::doubleValue))));
+                case Minimum -> {
                     number = numbers.parallelStream()
                             .sorted()
                             .findFirst().get();
@@ -584,8 +583,8 @@ public abstract class AbstractViewController implements Initializable {
                     } else {
                         txtggregate.setText(Utilities.formatNumber(number));
                     }
-                    break;
-                case Maximum:
+                }
+                case Maximum -> {
                     number = numbers.parallelStream()
                             .sorted(Comparator.reverseOrder())
                             .findFirst().get();
@@ -595,9 +594,9 @@ public abstract class AbstractViewController implements Initializable {
                     } else {
                         txtggregate.setText(Utilities.formatNumber(number));
                     }
-                    break;
-                default:
-                    break;
+                }
+                default -> {
+                }
             }
 
         } catch (Exception e) {
@@ -610,30 +609,25 @@ public abstract class AbstractViewController implements Initializable {
         try {
 
             switch (formMode) {
-                case Save:
-                    Navigation.loadEditUI(type, ui, this.title, "", tableView, Utilities.FormMode.Save, isPopUp());
-                    break;
-                case Update: {
+                case Save -> Navigation.loadEditUI(type, ui, this.title, "", tableView, Utilities.FormMode.Save, isPopUp());
+                case Update ->  {
                     DBAccess dBAccess = (DBAccess) tableView.getSelectionModel().getSelectedItem();
                     Object recordID = dBAccess.getId();
                     Navigation.loadEditUI(type, ui, this.title, recordID, tableView, Utilities.FormMode.Update, isPopUp());
-                    break;
                 }
-                case Print: {
+                case Print ->  {
                     DBAccess dBAccess = (DBAccess) tableView.getSelectionModel().getSelectedItem();
                     Object recordID = dBAccess.getId();
                     Navigation.loadEditUI(type, ui, title, recordID, tableView, Utilities.FormMode.Print, isPopUp());
-                    break;
                 }
 
-                case Preview: {
+                case Preview ->  {
                     DBAccess dBAccess = (DBAccess) tableView.getSelectionModel().getSelectedItem();
                     Object recordID = dBAccess.getId();
                     Navigation.loadEditUI(type, ui, title, recordID, tableView, Utilities.FormMode.Preview, isPopUp());
-                    break;
                 }
-                default:
-                    break;
+                default -> {
+                }
             }
 
         } catch (IOException ex) {
@@ -751,39 +745,39 @@ public abstract class AbstractViewController implements Initializable {
         boolean visible = false;
 
         switch (this.viewMenuType) {
-            case None:
+            case None -> {
                 this.cmiDelete.setVisible(false);
                 this.cmiNew.setVisible(visible);
                 this.cmiUpdate.setVisible(visible);
                 this.cmiPrint.setVisible(visible);
-                break;
-            case PrintNew:
+            }
+            case PrintNew -> {
                 this.cmiDelete.setVisible(false);
                 this.cmiNew.setVisible(true);
                 this.cmiUpdate.setVisible(false);
                 this.cmiPrint.setVisible(false);
-                break;
-            case Preview:
+            }
+            case Preview -> {
                 this.cmiDelete.setVisible(false);
                 this.cmiNew.setVisible(false);
                 this.cmiUpdate.setVisible(false);
                 this.cmiPrint.setVisible(false);
                 this.cmiPreview.setVisible(true);
-                break;
-            case EditOnly:
+            }
+            case EditOnly -> {
                 this.cmiDelete.setVisible(false);
                 this.cmiNew.setVisible(false);
                 this.cmiUpdate.setVisible(true);
                 this.cmiPrint.setVisible(visible);
-                break;
-            case AddOnly:
+            }
+            case AddOnly -> {
                 this.cmiDelete.setVisible(false);
                 this.cmiNew.setVisible(true);
                 this.cmiUpdate.setVisible(false);
                 this.cmiPrint.setVisible(visible);
-                break;
-            default:
-                break;
+            }
+            default -> {
+            }
         }
 
     }

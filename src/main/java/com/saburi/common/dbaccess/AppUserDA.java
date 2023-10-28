@@ -257,9 +257,11 @@ public class AppUserDA extends DBAccess {
 
     public boolean login(String loginID, String password) throws Exception {
         try {
+           
             AppUser aUser = getAppUser(loginID);
             if (aUser == null) {
                 return false;
+                
             } else {
                 if (aUser.getPassword().equals(password)) {
                     CurrentUser.setAppUser(aUser);

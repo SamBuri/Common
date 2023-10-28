@@ -18,7 +18,7 @@ import javax.persistence.MappedSuperclass;
  */
 @MappedSuperclass
 //@Audited
-public abstract class DBEntity implements Serializable {
+public abstract class DBEntity implements Serializable{
 
 //    @Column(columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP", updatable = false)
     @Column(updatable = false)

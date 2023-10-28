@@ -60,6 +60,16 @@ public class LookupDataDA extends DBAccess {
         initialseProprties();
         createSearchColumns();
     }
+    
+    
+//    Save Specific Constructor. Call in setting up default data
+     public LookupDataDA(int lookupObjectID, String lookupDataName, boolean readOnly, boolean hidden, boolean isDefault) {
+         lookupObject = new LookupObjectDA().getLookupObject(lookupObjectID);
+         int idhelper =  getNextIdHelper(lookupObject);
+         String lookupDataId = getNextLookupDataID(idhelper, lookupObject.getLookupObjectID());
+        this.lookupData = new LookupData(getNextIdHelper(lookupObject), lookupObject, lookupDataId, lookupDataName, readOnly, hidden, isDefault);
+         
+    }
 
     public int getIdHelper() {
         return idHelper.get();
@@ -298,7 +308,7 @@ public class LookupDataDA extends DBAccess {
         return this.getMax("idHelper", "lookupObject", lookupObject) + 1;
     }
 
-    public String getNextLookupDataID(int idHelper, int lookupObject) {
+    public final String getNextLookupDataID(int idHelper, int lookupObject) {
         return new IDGeneratorDA().getToAppendString(LookupData.class.getSimpleName(), lookupObject, idHelper);
     }
 

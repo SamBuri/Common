@@ -52,15 +52,15 @@ public class UserRoleDetailDA extends DBAccess {
         createSearchColumns();
     }
 
-    public UserRoleDetailDA(UserRole userRole, AccessObject accessObject, String userRoleDetailID, boolean canCreate, boolean canUpdate, boolean canRead, boolean canDelete, boolean canPrint) {
-        this.userRoleDetail = new UserRoleDetail(userRole, accessObject, userRoleDetailID, canCreate, canUpdate, canRead, canDelete, canPrint);
+    public UserRoleDetailDA(UserRole userRole, AccessObject accessObject, boolean canCreate, boolean canUpdate, boolean canRead, boolean canDelete, boolean canPrint) {
+        this.userRoleDetail = new UserRoleDetail(userRole, accessObject, canCreate, canUpdate, canRead, canDelete, canPrint);
         initialseProprties();
         createSearchColumns();
     }
 
-    public UserRoleDetailDA(String persistenceUnit, UserRole userRole, AccessObject accessObject, String userRoleDetailID, boolean canCreate, boolean canUpdate, boolean canRead, boolean canDelete, boolean canPrint) {
+    public UserRoleDetailDA(String persistenceUnit, UserRole userRole, AccessObject accessObject,boolean canCreate, boolean canUpdate, boolean canRead, boolean canDelete, boolean canPrint) {
         super(persistenceUnit);
-        this.userRoleDetail = new UserRoleDetail(userRole, accessObject, userRoleDetailID, canCreate, canUpdate, canRead, canDelete, canPrint);
+        this.userRoleDetail = new UserRoleDetail(userRole, accessObject, canCreate, canUpdate, canRead, canDelete, canPrint);
         initialseProprties();
         createSearchColumns();
     }
